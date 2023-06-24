@@ -1,0 +1,19 @@
+Host orfeas-imac
+    HostName 10.147.18.115
+    User orfeas35
+    SetEnv TERM=xterm
+
+Host orfeas-m1
+    HostName 10.147.18.33
+    User orfeasmoraitis
+    SetEnv TERM=xterm
+
+Host dreadbox-left
+    HostName 10.147.18.95
+    User dreadbox-fx
+    SetEnv TERM=xterm
+
+Host dreadbox-right
+    HostName 10.147.18.151
+    User dreadbox
+    SetEnv TERM=xterm
