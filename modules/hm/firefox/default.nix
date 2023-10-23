@@ -17,6 +17,7 @@
                     urls = [{
                       template = "https://search.nixos.org/packages";
                       params = [
+                        { name = "channel"; value = "unstable"; }
                         { name = "type"; value = "packages"; }
                         { name = "query"; value = "{searchTerms}"; }
                       ];
@@ -28,9 +29,10 @@
 
                   "Nixos Options" = {
                     urls = [{
-                      template = "https://search.nixos.org/packages";
+                      template = "https://search.nixos.org/options";
                       params = [
-                        { name = "type"; value = "options"; }
+                        { name = "channel"; value = "unstable"; }
+                        { name = "type"; value = "packages"; }
                         { name = "query"; value = "{searchTerms}"; }
                       ];
                     }];
