@@ -20,7 +20,7 @@ let
     , alsa-lib
     , nss
     , gst_all_1
-    , stdenv
+    , stdenvNoCC
     , xorg
     , lcms
     , libwebp
@@ -32,14 +32,14 @@ let
     , libtiff
     , tslib
     , libopus
-    , systemd
+    , libudev0-shim
     , mtdev
     , libxslt
     , pciutils
     , libpulseaudio
     }:
 
-    stdenv.mkDerivation {
+    stdenvNoCC.mkDerivation {
 
       inherit pname version meta;
 
@@ -52,7 +52,7 @@ let
       # These are needed due to failing dlopen calls.
       # Not all of these may be strictly required.
       appendRunpaths = [
-        "${systemd}/lib"
+        "${libudev0-shim}/lib"
         "${libpulseaudio}/lib"
         "${pciutils}/lib"
       ];
