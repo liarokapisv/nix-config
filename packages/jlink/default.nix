@@ -1,7 +1,9 @@
-{ system
+{ acceptLicense ? false
+, system
 , lib
 , stdenvNoCC
 , requireFile
+, fetchurl
 , autoPatchelfHook
 , patchelf
 , dpkg
@@ -15,7 +17,25 @@ let
     homepage = "https://www.segger.com/";
     description = "Segger JLink software & documentation pack for Linux";
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-    license = lib.licenses.unfree;
+    license = [
+      {
+        shortName = "segger-sfl";
+        fullName = "SEGGER's Friendly License";
+        url = "https://www.segger.com/purchase/licensing/license-sfl/";
+        free = false;
+        redistributable = false;
+        deprecated = false;
+
+      }
+      {
+        shortName = "segger-cul";
+        fullName = "SEGGER's Commercial-use License";
+        url = "https://www.segger.com/purchase/licensing/license-cul/";
+        free = false;
+        redistributable = false;
+        deprecated = false;
+      }
+    ];
     platforms = [ "x86_64-linux" ];
     maintainers = with lib.maintainers; [ liarokapisv ];
   };
@@ -23,30 +43,30 @@ let
   version = "V7.92k";
   versionNoDots = lib.strings.replaceStrings [ "." ] [ "" ] version;
 
-  variants = {
+  platformSpecific = {
     x86_64-linux = {
-      name = "JLink_Linux_${versionNoDots}_x86_64.deb";
+      fileName = "JLink_Linux_${versionNoDots}_x86_64.deb";
       sha256 = "sha256-MTPG0HeAcwOTHEHtqR/uOjuEu13UrTxQyX6zvwrDAoA=";
     };
   };
 
   src =
     let
-      variant = variants.${system};
-      name = variant.name;
-      sha256 = variant.sha256;
-      url = " https://www.segger.com/downloads/jlink/${name}";
+      fileName = platformSpecific.${system}.fileName;
+      sha256 = platformSpecific.${system}.sha256;
+      url = " https://www.segger.com/downloads/jlink/${fileName}";
     in
-    (requireFile {
-      inherit name;
-      inherit sha256;
-      inherit url;
-    }).overrideAttrs (super: {
-      passthru = (super.passthru or { }) // {
+    if acceptLicense then
+      (fetchurl {
         inherit sha256;
         inherit url;
-      };
-    });
+        curlOpts = "-d accept_license_agreement=accepted";
+      }) else
+      (requireFile {
+        name = fileName;
+        inherit sha256;
+        inherit url;
+      });
 in
 stdenvNoCC.mkDerivation
 {
@@ -96,25 +116,24 @@ stdenvNoCC.mkDerivation
   installPhase = ''
     dpkg-deb -x $src $out
 
-    mkdir -p $out/bin
-
-    # Soothe nix-build "suspicions"
+    # Soothe nix-build suspicions
     chmod -R g-w $out
 
-    # Remove global symlinks
+    # Remove and recreate symlinks
     rm -R $out/usr
-
-    mkdir -p $out/share/applications
-    mkdir -p $out/share/pixmaps
-
-    ln -s ${./JLink.svg} $out/share/pixmaps/JLink.svg
-
+    mkdir -p $out/bin
     for path in $out/opt/SEGGER/JLink_${versionNoDots}/J*
     do
       name=$(basename "$path")
       ln -s "$out/opt/SEGGER/JLink_${versionNoDots}/$name" "$out/bin/$name"
     done
 
+    # Add desktop entries icon
+    mkdir -p $out/share/pixmaps
+    ln -s ${./JLink.svg} $out/share/pixmaps/JLink.svg
+
+    # Create desktop entries
+    mkdir -p $out/share/applications
     for name in $desktopApps
     do
         cat << EOF > "$out/share/applications/$name.desktop"

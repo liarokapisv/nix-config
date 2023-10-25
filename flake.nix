@@ -50,16 +50,9 @@
         {
           tslib = callPackage ./packages/tslib.nix { };
           viber = callPackage ./packages/viber.nix { };
-          # required to avoid requireFile
-          jlink = (callPackage ./packages/jlink { }).overrideAttrs
-            (old: {
-              src = pkgs.fetchurl {
-                inherit (old.src) url;
-                inherit (old.src) sha256;
-                # accept license automatically
-                curlOpts = "-d accept_license_agreement=accepted";
-              };
-            });
+          jlink = (callPackage ./packages/jlink { }).override {
+            acceptLicense = true;
+          };
         };
 
     in
