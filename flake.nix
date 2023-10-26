@@ -49,7 +49,7 @@
       packages = p: with p.extend self.overlays.default;
         {
           tslib = callPackage ./packages/tslib.nix { };
-          viber = callPackage ./packages/viber.nix { };
+          viber = callPackage ./packages/viber { };
           jlink-software-tools = (callPackage ./packages/jlink-software-tools { }).override {
             acceptLicense = true;
           };

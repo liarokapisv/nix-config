@@ -1,5 +1,4 @@
 { acceptLicense ? false
-, system
 , lib
 , stdenvNoCC
 , requireFile
@@ -52,6 +51,7 @@ let
 
   src =
     let
+      system = stdenvNoCC.hostPlatform.system;
       fileName = platformSpecific.${system}.fileName;
       sha256 = platformSpecific.${system}.sha256;
       url = " https://www.segger.com/downloads/jlink/${fileName}";
