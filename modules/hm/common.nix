@@ -43,7 +43,7 @@
     reaper
     discord
     viber
-    jlink
+    jlink-software-tools
   ];
 
   systemd.user.startServices = true;

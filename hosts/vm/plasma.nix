@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ./common.nix
@@ -8,6 +9,10 @@
     displayManager.sddm.enable = true;
     desktopManager.plasma5.enable = true;
   };
+
+  services.udev.packages = [
+    pkgs.jlink-software-tools
+  ];
 
   programs.dconf.enable = true;
 

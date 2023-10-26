@@ -14,8 +14,8 @@
 
 let
   meta = {
-    homepage = "https://www.segger.com/";
-    description = "Segger JLink software & documentation pack for Linux";
+    homepage = "https://www.segger.com/downloads/jlink/";
+    description = "Segger JLink Software and Documentation pack";
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
     license = [
       {
@@ -70,7 +70,7 @@ let
 in
 stdenvNoCC.mkDerivation
 {
-  pname = "jlink";
+  pname = "jlink-software-tools";
 
   inherit version;
   inherit src;
