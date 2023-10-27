@@ -7,4 +7,5 @@ with (self.lib final).glwrap;
   firefox = wrapIntel super.firefox "firefox";
   stremio = wrapIntel super.stremio "stremio";
   viber = wrapIntel super.viber "Viber";
+  eagle = wrapIntel super.eagle "eagle";
 })

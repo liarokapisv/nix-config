@@ -44,6 +44,8 @@
     discord
     viber
     jlink-software-tools
+    eagle
+    stm32cubemx
   ];
 
   systemd.user.startServices = true;
