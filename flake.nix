@@ -50,7 +50,7 @@
         {
           tslib = callPackage ./packages/tslib.nix { };
           viber = callPackage ./packages/viber { };
-          jlink-software-tools = (callPackage ./packages/jlink-software-tools { }).override {
+          segger-jlink = (callPackage ./packages/segger-jlink { }).override {
             acceptLicense = true;
           };
         };

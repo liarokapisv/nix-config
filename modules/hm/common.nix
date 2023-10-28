@@ -43,7 +43,7 @@
     reaper
     discord
     viber
-    jlink-software-tools
+    segger-jlink
     eagle
     stm32cubemx
   ];
