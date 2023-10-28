@@ -4,12 +4,11 @@ let
 in
 buildFHSEnv
 {
-  name = unwrapped.name;
-  meta = unwrapped.meta;
+  inherit (unwrapped) name meta;
 
-  targetPkgs = p: with p;
+  targetPkgs = pkgs: with pkgs;
     [
-      (p.callPackage ./unwrapped.nix { })
+      unwrapped
       # needed because of hard-coded lookup to /usr/share/X11/xkb
       xorg.xkeyboardconfig
       # needed because of hard-coded lookup to /usr/share/fonts

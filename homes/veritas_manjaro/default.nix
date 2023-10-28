@@ -25,9 +25,8 @@
   targets.genericLinux.enable = true;
 
   home = {
+    stateVersion = "23.05";
     username = "veritas";
     homeDirectory = "/home/veritas";
   };
-
-  home.stateVersion = "23.05";
 }

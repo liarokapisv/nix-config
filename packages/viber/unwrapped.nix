@@ -19,7 +19,7 @@
 , libtiff
 , tslib
 , libopus
-, libudev0-shim
+, udev
 , mtdev
 , libxslt
 , pciutils
@@ -48,7 +48,7 @@ stdenvNoCC.mkDerivation {
   # These are needed due to failing dlopen calls.
   # Not all of these may be strictly required.
   appendRunpaths = [
-    "${libudev0-shim}/lib"
+    "${udev}/lib"
     "${libpulseaudio}/lib"
     "${pciutils}/lib"
   ];
