@@ -2,7 +2,6 @@
 , fetchurl
 , makeBinaryWrapper
 , autoPatchelfHook
-, libz
 , dpkg
 , alsa-lib
 , nss
@@ -18,18 +17,30 @@
 , pango
 , libtiff
 , tslib
-, libopus
-, udev
 , mtdev
 , libxslt
-, pciutils
 , libpulseaudio
+, mesa
+, xcb-util-cursor
+, libxkbcommon
+, libglvnd
+, brotli
+, cups
+, libevent
+, fontconfig
+, freetype
+, libkrb5
+, harfbuzz
+, nspr
+, python311Packages
+, zstd
+, udev
 }:
 
 stdenvNoCC.mkDerivation {
 
   pname = "viber";
-  version = "20.3.0.1";
+  version = "21.0.0.1";
   meta = {
     homepage = "https://www.viber.com";
     description = "An instant messaging and Voice over IP (VoIP) app";
@@ -41,16 +52,13 @@ stdenvNoCC.mkDerivation {
 
   src = fetchurl {
     # Official link: https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
-    url = "https://web.archive.org/web/20230906015353/https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb";
-    sha256 = "sha256-YDh6YZCBa6aS2SlzZjOxNtPwGkcfcT5bu8/SssaZCA4=";
+    url = "https://web.archive.org/web/20231030150355/https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb";
+    sha256 = "sha256-47E6emeIYyG0jid7Oqrn2CEKtb9nQhOckFtEMBevZGA=";
   };
 
-  # These are needed due to failing dlopen calls.
-  # Not all of these may be strictly required.
+  # Needed due to failing dlopen calls.
   appendRunpaths = [
     "${udev}/lib"
-    "${libpulseaudio}/lib"
-    "${pciutils}/lib"
   ];
 
   nativeBuildInputs = [
@@ -60,35 +68,46 @@ stdenvNoCC.mkDerivation {
   ];
 
   buildInputs = [
-    libopus
     alsa-lib
-    nss
+    brotli.lib
+    cups.lib
+    libevent
+    fontconfig.lib
+    freetype
+    gtk3
+    gdk-pixbuf
+    libkrb5
     gst_all_1.gst-plugins-bad
-    xorg.libXScrnSaver
-    xorg.libX11
-    xorg.xkeyboardconfig
-    xorg.libXext
-    xorg.libxshmfence
+    gst_all_1.gst-plugins-base
+    gst_all_1.gstreamer
+    gtk3
+    harfbuzz
+    xorg.libICE
+    lcms
+    libmng
+    mtdev
+    nspr
+    nss
+    pango
+    xorg.libSM
+    snappy
+    libtiff
+    libwebp
+    xorg.xcbutilwm
+    xorg.xcbutilkeysyms
     xorg.libxkbfile
     xorg.libXrandr
-    xorg.libxcb
-    xorg.xcbutilwm
-    xorg.xcbutilimage
-    xorg.xcbutilkeysyms
-    xorg.xcbutilrenderutil
-    xorg.libXtst
-    libwebp
-    snappy
-    gdk-pixbuf
-    libmng
-    gtk3
-    libtiff
-    pango
-    lcms
-    libz
-    tslib
-    mtdev
     libxslt
+    python311Packages.libxslt
+    xorg.libXScrnSaver
+    xorg.libXtst
+    zstd
+    libxkbcommon
+    libglvnd
+    libpulseaudio
+    mesa
+    xcb-util-cursor
+    tslib
   ];
 
   installPhase =
