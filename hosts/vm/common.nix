@@ -31,5 +31,12 @@
 
   time.timeZone = "Europe/Athens";
 
-  services.openssh.enable = true;
+  security.rtkit.enable = true;
+  services = {
+    pipewire = {
+      enable = true;
+      audio.enable = true;
+      wireplumber.enable = true;
+    };
+  };
 }
