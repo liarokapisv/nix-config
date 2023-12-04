@@ -58,7 +58,11 @@
   programs = {
     home-manager.enable = true;
     ssh.enable = true;
-    direnv.enable = true;
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
     fzf.enable = true;
     kitty = {
       enable = true;
