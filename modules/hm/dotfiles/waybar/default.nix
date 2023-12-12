@@ -11,6 +11,9 @@
       settings.options = {
         height = 30;
         spacing = 4;
+        modules-left = [
+          "hyprland/workspaces"
+        ];
         modules-right = [
           "idle_inhibitor"
           "pulseaudio"
