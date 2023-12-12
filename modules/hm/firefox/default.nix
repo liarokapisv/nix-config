@@ -71,6 +71,7 @@
               bitwarden
               i-dont-care-about-cookies
               vimium
+              languagetool
             ];
 
             bookmarks = [
@@ -151,6 +152,8 @@
               "extensions.pocket.enabled" = false;
               # We use bitwarden, disable embedded password manager
               "signon.rememberSignons" = true;
+              # Enable toolbar by default
+              "browser.toolbars.bookmarks.visibility" = "always";
             };
           };
       };

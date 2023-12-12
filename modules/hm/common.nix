@@ -33,21 +33,6 @@
     };
   };
 
-  home.stateVersion = "23.05";
-
-  home.packages = with pkgs; [
-    tree
-    vmpk
-    stremio
-    spotify
-    reaper
-    discord
-    viber
-    segger-jlink
-    eagle
-    stm32cubemx
-  ];
-
   systemd.user.startServices = true;
 
   fonts = {
@@ -93,5 +78,14 @@
     };
     ssh.enable = true;
     firefox.enable = true;
+
+    packages = with pkgs; [
+      tree
+      vmpk
+      stremio
+      reaper
+      segger-jlink
+      stm32cubemx
+    ];
   };
 }

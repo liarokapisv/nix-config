@@ -8,7 +8,12 @@
     experimental-features = [ "nix-command" "flakes" ];
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    config.allowUnfree = true;
+    overlays = [
+      self.overlays.default
+    ];
+  };
 
   home-manager = {
     useGlobalPkgs = true;
@@ -27,6 +32,29 @@
       defaultEditor = true;
     };
     fuse.userAllowOther = true;
+  };
+
+  networking = {
+    wireless.iwd = {
+      enable = true;
+      settings.General.EnableNetworkConfiguration = true;
+    };
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
+    };
+  };
+
+  time.timeZone = "Europe/Athens";
+
+  security.rtkit.enable = true;
+
+  services = {
+    openssh.enable = true;
+  };
+
+  fonts = {
+    fontconfig.enable = true;
   };
 
   environment.systemPackages = with pkgs; [

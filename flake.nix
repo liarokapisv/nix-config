@@ -32,13 +32,19 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    apple-silicon = {
+      url = "github:tpwrules/nixos-apple-silicon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }:
     let
-      system = "x86_64-linux";
-
-      pkgs = nixpkgs.legacyPackages.${system};
+      forAllSystems = f: nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-linux"
+      ]
+        (s: f nixpkgs.legacyPackages.${s});
 
       args = {
         self = self // {
@@ -59,36 +65,26 @@
     {
       homeConfigurations = {
         "veritas@manjaro" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
           modules = [
-            ./homes/veritas_manjaro
+            ./homes/veritas-manjaro
           ];
           extraSpecialArgs = args;
         };
       };
 
       nixosConfigurations = {
-        "veritas-hypr@qemu-vm" = nixpkgs.lib.nixosSystem {
+        "veritas@m1-pro" = nixpkgs.lib.nixosSystem {
           modules = [
-            ./hosts/vm/hyprland.nix
+            ./hosts/veritas-m1-pro
           ];
-          specialArgs = args;
-        };
-        "veritas-plasma@qemu-vm" = nixpkgs.lib.nixosSystem {
-          modules = [
-            ./hosts/vm/plasma.nix
-          ];
-          specialArgs = args;
+          specialArgs = args // { x64-pkgs = nixpkgs.legacyPackages.x86_64-linux; };
         };
       };
 
-      formatter.${system} = pkgs.nixpkgs-fmt;
+      formatter = forAllSystems (pkgs: pkgs.nixpkgs-fmt);
 
-      devShells.${system} = {
-        cpp = pkgs.callPackage ./shells/cpp.nix { };
-      };
-
-      packages.${system} = packages pkgs;
+      packages = forAllSystems (pkgs: packages pkgs);
 
       overlays.default =
         final: _: removeAttrs (packages final) [ "default" ];
