@@ -54,13 +54,17 @@
       ../../modules/hm/common.nix
     ];
 
-    home = {
+    dotfiles = {
       hyprland.enable = true;
       waybar.enable = true;
       fuzzel.enable = true;
-
-      stateVersion = "23.11";
     };
+
+    programs = {
+      swww.enable = true;
+    };
+
+    home.stateVersion = "23.11";
   };
 
   programs = {

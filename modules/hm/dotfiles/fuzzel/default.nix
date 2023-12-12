@@ -1,9 +1,9 @@
 { config, lib, ... }: {
-  options.home.fuzzel = {
+  options.dotfiles.fuzzel = {
     enable = lib.mkEnableOption "fuzzel";
   };
 
-  config = lib.mkIf (config.home.fuzzel.enable) {
+  config = lib.mkIf (config.dotfiles.fuzzel.enable) {
     programs.fuzzel = {
       enable = true;
 

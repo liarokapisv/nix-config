@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }: {
 
   options = {
-    home.waybar.enable = lib.mkEnableOption "waybar";
+    dotfiles.waybar.enable = lib.mkEnableOption "waybar";
   };
 
-  config = lib.mkIf (config.home.waybar.enable) {
+  config = lib.mkIf (config.dotfiles.waybar.enable) {
     programs.waybar = {
       enable = true;
       systemd.enable = true;

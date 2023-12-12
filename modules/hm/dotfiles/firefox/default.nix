@@ -1,8 +1,12 @@
-{ config, pkgs, lib, ... }: {
+{ self, config, pkgs, lib, ... }: {
 
-  options.home.firefox.enable = lib.mkEnableOption "firefox";
+  imports = [
+    self.inputs.nur.hmModules.nur
+  ];
 
-  config = lib.mkIf config.home.firefox.enable {
+  options.dotfiles.firefox.enable = lib.mkEnableOption "firefox";
+
+  config = lib.mkIf config.dotfiles.firefox.enable {
     programs.firefox =
       {
         enable = true;

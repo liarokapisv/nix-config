@@ -2,18 +2,18 @@
 
   imports = [
     self.inputs.stylix.homeManagerModules.stylix
-    self.inputs.nur.hmModules.nur
-    ./nvim
-    ./zsh
-    ./development
-    ./hyprland
-    ./waybar
-    ./fuzzel
-    ./ssh
-    ./firefox
+    ./dotfiles
+    ./programs
   ];
 
   nixpkgs.config.allowUnfree = true;
+
+  systemd.user.startServices = true;
+
+  fonts = {
+    # enables font autodiscovery
+    fontconfig.enable = true;
+  };
 
   stylix = {
     image = ./images/asian-neon-night.jpg;
@@ -33,11 +33,14 @@
     };
   };
 
-  systemd.user.startServices = true;
-
-  fonts = {
-    # enables font autodiscovery
-    fontconfig.enable = true;
+  dotfiles = {
+    nvim.enable = true;
+    zsh.enable = true;
+    development = {
+      nix.enable = true;
+    };
+    ssh.enable = true;
+    firefox.enable = true;
   };
 
   programs = {
@@ -68,17 +71,17 @@
         };
       };
     };
+
+    swww = {
+      systemd = {
+        enable = true;
+        imgOptions = "${config.stylix.image}";
+      };
+    };
+
   };
 
   home = {
-    nvim.enable = true;
-    zsh.enable = true;
-    development = {
-      nix.enable = true;
-    };
-    ssh.enable = true;
-    firefox.enable = true;
-
     packages = with pkgs; [
       tree
       vmpk

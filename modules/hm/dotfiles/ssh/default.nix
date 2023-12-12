@@ -1,10 +1,10 @@
 { config, lib, ... }: {
 
   options = {
-    home.ssh.enable = lib.mkEnableOption "ssh";
+    dotfiles.ssh.enable = lib.mkEnableOption "ssh";
   };
 
-  config = lib.mkIf (config.home.ssh.enable) {
+  config = lib.mkIf (config.dotfiles.ssh.enable) {
     programs = {
       ssh = {
         enable = true;

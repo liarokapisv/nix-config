@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }: {
 
   options = {
-    home.zsh.enable = lib.mkEnableOption "zsh";
+    dotfiles.zsh.enable = lib.mkEnableOption "zsh";
   };
 
-  config = lib.mkIf (config.home.zsh.enable) {
+  config = lib.mkIf (config.dotfiles.zsh.enable) {
     programs = {
       zsh = {
         enable = true;

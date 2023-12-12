@@ -23,7 +23,7 @@
 
   networking.useDHCP = false;
 
-  users.mutableUsers = false;
+  users.mutableUsers = true;
 
   programs = {
     zsh.enable = true;

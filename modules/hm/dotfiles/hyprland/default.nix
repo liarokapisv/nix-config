@@ -1,10 +1,10 @@
 { config, lib, ... }: {
 
   options = {
-    home.hyprland.enable = lib.mkEnableOption "hyprland";
+    dotfiles.hyprland.enable = lib.mkEnableOption "hyprland";
   };
 
-  config = lib.mkIf (config.home.hyprland.enable) {
+  config = lib.mkIf (config.dotfiles.hyprland.enable) {
     wayland.windowManager.hyprland = {
       enable = true;
       extraConfig = builtins.readFile ./config/hyprland.conf;

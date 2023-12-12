@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }: {
 
   options = {
-    home.nvim.enable = lib.mkEnableOption "nvim";
+    dotfiles.nvim.enable = lib.mkEnableOption "nvim";
   };
 
-  config = lib.mkIf (config.home.nvim.enable)
+  config = lib.mkIf (config.dotfiles.nvim.enable)
 
     {
       programs.neovim = {
