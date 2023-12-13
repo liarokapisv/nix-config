@@ -16,7 +16,6 @@
   };
 
   stylix = {
-    image = ./images/asian-neon-night.jpg;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa.yaml";
     polarity = "dark";
     fonts = {
@@ -83,6 +82,7 @@
 
   home = {
     packages = with pkgs; [
+      ripgrep
       tree
       vmpk
       stremio

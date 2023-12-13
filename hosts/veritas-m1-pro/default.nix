@@ -35,7 +35,7 @@
     };
   };
 
-  networking.hostName = "veritas-m1-pro";
+  networking.hostName = "m1-pro";
 
   users.users.veritas = {
     isNormalUser = true;
@@ -54,6 +54,8 @@
       ../../modules/hm/common.nix
     ];
 
+    stylix.image = ../../images/mountain-music.gif;
+
     dotfiles = {
       hyprland.enable = true;
       waybar.enable = true;
@@ -64,7 +66,14 @@
       swww.enable = true;
     };
 
-    home.stateVersion = "23.11";
+    home = {
+      packages = with pkgs; [
+        qbittorrent
+        vlc
+      ];
+
+      stateVersion = "23.11";
+    };
   };
 
   programs = {

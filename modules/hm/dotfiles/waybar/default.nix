@@ -86,6 +86,9 @@
           format-alt = "{ifname}= {ipaddr}/{cidr}";
         };
       };
+      style = ''
+        
+      '';
     };
 
     home.packages = with pkgs; [
