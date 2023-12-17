@@ -10,44 +10,31 @@
           Swww package to use. Set to `null` to use the default package.
         '';
       };
-      systemd =
-        {
-          enable = lib.mkEnableOption "swww systemd integration";
-          targets =
-            {
-              PartOf = lib.mkOption {
-                type = lib.types.listOf (lib.types.str);
-                default = [ "graphical-session.target" ];
-                description = ''
-                  The systemd units that the swww service belongs to.
-                  When setting this value make sure to also enable the appropriate units.
-                '';
-              };
-              After = lib.mkOption {
-                type = lib.types.listOf (lib.types.str);
-                default = [ "graphical-session-pre.target" ];
-                description = ''
-                  The systemd units that must precede the swww service.
-                  When setting this value make sure to also enable the appropriate units.
-                '';
-              };
-              WantedBy = lib.mkOption {
-                type = lib.types.listOf (lib.types.str);
-                default = [ "graphical-session.target" ];
-                description = ''
-                  The systemd units that depend on the swww service.
-                  When setting this value make sure to also enable the appropriate units.
-                '';
-              };
-            };
-          imgOptions = lib.mkOption {
-            type = lib.types.str;
-            example = "<path/to/img> -o <output> --transition-step <1 to 255> --transition-fps <1 to 255>";
-            description = ''
-              The options of the optional swww img cmd to run after the swww service is started.
-            '';
-          };
+      systemd = {
+        enable = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+          example = "true";
+          description = "Whether to enable swww systemd integration.";
         };
+
+        target = lib.mkOption {
+          type = lib.types.str;
+          default = "graphical-session.target";
+          description = ''
+            The systemd units that the swww service belongs to.
+            When setting this value make sure to also enable the appropriate units.
+          '';
+        };
+
+        exec-img = lib.mkOption {
+          type = lib.types.str;
+          example = "<path/to/img> -o <output> --transition-step <1 to 255> --transition-fps <1 to 255>";
+          description = ''
+            The options of the optional swww img cmd to run after the swww service is started.
+          '';
+        };
+      };
     };
   };
 
@@ -67,8 +54,8 @@
           {
             systemd.user.services.swww = {
               Unit = {
-                PartOf = cfg.systemd.targets.PartOf;
-                After = cfg.systemd.targets.After;
+                PartOf = [ cfg.systemd.target ];
+                After = [ cfg.systemd.target ];
               };
 
               Service = {
@@ -82,24 +69,28 @@
               };
 
               Install = {
-                WantedBy = cfg.systemd.targets.WantedBy;
+                WantedBy = [ cfg.systemd.target ];
               };
             };
           }
 
           (lib.mkIf
-            (cfg.systemd.imgOptions != null)
+            (cfg.systemd.exec-img != null)
             {
               systemd.user.services."swww.img" = {
                 Unit = {
-                  PartOf = "swww.service";
-                  After = "swww.service";
+                  PartOf = [ "swww.service" ];
+                  After = [ "swww.service" ];
                 };
 
                 Service = {
                   Type = "oneshot";
-                  RemainAfterExit = "yes";
-                  ExecStart = "${cfg.package}/bin/swww img ${cfg.systemd.imgOptions}";
+                  Restart = "on-failure";
+                  ExecStart = "${cfg.package}/bin/swww img ${cfg.systemd.exec-img}";
+                };
+
+                Install = {
+                  WantedBy = [ "swww.service" ];
                 };
               };
             })

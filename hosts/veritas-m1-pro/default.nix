@@ -1,10 +1,10 @@
 { self, pkgs, ... }:
 {
-
   imports = [
     ./hardware.nix
     self.inputs.apple-silicon.nixosModules.default
-    ../../modules/nixos/common.nix
+    ../profiles/common.nix
+    ../profiles/pipewire.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -23,23 +23,11 @@
     };
   };
 
-  sound.enable = true;
-
-  services = {
-    mpd.enable = true;
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      jack.enable = true;
-      pulse.enable = true;
-    };
-  };
-
   networking.hostName = "m1-pro";
 
-  users.users.veritas = {
+  users.users.${self.user} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "input" ];
     initialHashedPassword = "$6$JwTimdf683A1QxN.$aorlpRJPWrcsl0pR1nlELJhdy8traiVPBXnwXU5IfEbWBD5PusIrkjRZDA76OJECmJdR9PLiUyxJeQUzjX6Nv0";
 
     shell = pkgs.zsh;
@@ -49,21 +37,22 @@
     ];
   };
 
-  home-manager.users.veritas = {
+  home-manager.users.${self.user} = {
     imports = [
       ../../modules/hm/common.nix
     ];
-
     stylix.image = ../../images/mountain-music.gif;
 
-    dotfiles = {
-      hyprland.enable = true;
+    programs = {
       waybar.enable = true;
       fuzzel.enable = true;
-    };
-
-    programs = {
       swww.enable = true;
+      swww.systemd = {
+        enable = true;
+      };
+      waybar.systemd = {
+        target = "hyprland-session.target";
+      };
     };
 
     home = {
@@ -73,6 +62,13 @@
       ];
 
       stateVersion = "23.11";
+    };
+
+    wayland.windowManager.hyprland = {
+      enable = true;
+      extraConfig = ''
+        exec-once="amixer -c 0 set 'Jack DAC' 100%"
+      '';
     };
   };
 

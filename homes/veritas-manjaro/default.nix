@@ -21,8 +21,8 @@
       eagle
     ];
 
-    username = "veritas";
-    homeDirectory = "/home/veritas";
+    username = self.user;
+    homeDirectory = "/home/${self.user}";
 
     stateVersion = "23.05";
   };

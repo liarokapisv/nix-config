@@ -69,7 +69,9 @@
           modules = [
             ./homes/veritas-manjaro
           ];
-          extraSpecialArgs = args;
+          extraSpecialArgs = args // {
+            self = self // { user = "veritas"; };
+          };
         };
       };
 
@@ -78,7 +80,9 @@
           modules = [
             ./hosts/veritas-m1-pro
           ];
-          specialArgs = args // { x64-pkgs = nixpkgs.legacyPackages.x86_64-linux; };
+          specialArgs = args // {
+            self = self // { user = "veritas"; };
+          };
         };
       };
 

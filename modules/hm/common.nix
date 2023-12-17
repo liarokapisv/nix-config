@@ -32,23 +32,19 @@
     };
   };
 
-  dotfiles = {
-    nvim.enable = true;
-    zsh.enable = true;
-    development = {
-      nix.enable = true;
-    };
-    ssh.enable = true;
-    firefox.enable = true;
-  };
-
   programs = {
     home-manager.enable = true;
+    neovim.enable = true;
+    zsh.enable = true;
     ssh.enable = true;
+    firefox.enable = true;
     direnv = {
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
+      config = {
+        warn_timeout = "1m";
+      };
     };
     fzf.enable = true;
     kitty = {
@@ -57,7 +53,6 @@
         enable_audio_bell = false;
       };
     };
-
     git = {
       enable = true;
       extraConfig = {
@@ -68,13 +63,14 @@
           name = "Alexandros Liarokapis";
           email = "liarokapis.v@gmail.com";
         };
+        http = {
+          postBuffer = 52428800;
+        };
       };
     };
-
     swww = {
       systemd = {
-        enable = true;
-        imgOptions = "${config.stylix.image}";
+        exec-img = "${config.stylix.image}";
       };
     };
 

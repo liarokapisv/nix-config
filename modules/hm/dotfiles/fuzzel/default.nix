@@ -1,14 +1,8 @@
 { config, lib, ... }: {
-  options.dotfiles.fuzzel = {
-    enable = lib.mkEnableOption "fuzzel";
-  };
-
-  config = lib.mkIf (config.dotfiles.fuzzel.enable) {
+  config = lib.mkIf (config.programs.fuzzel.enable) {
     programs.fuzzel = {
-      enable = true;
-
       settings = {
-        main = {
+        main = lib.mkIf (config.programs.kitty.enable) {
           terminal = "kitty";
         };
       };
