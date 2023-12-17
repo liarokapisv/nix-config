@@ -23,13 +23,13 @@
     ];
   };
 
+  boot.tmp.cleanOnBoot = true;
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit self; };
   };
-
-  networking.useDHCP = false;
 
   users.mutableUsers = true;
 
@@ -42,20 +42,7 @@
     fuse.userAllowOther = true;
   };
 
-  networking = {
-    wireless.iwd = {
-      enable = true;
-      settings.General.EnableNetworkConfiguration = true;
-    };
-    networkmanager = {
-      enable = true;
-      wifi.backend = "iwd";
-    };
-  };
-
   time.timeZone = "Europe/Athens";
-
-  security.rtkit.enable = true;
 
   services = {
     openssh.enable = true;

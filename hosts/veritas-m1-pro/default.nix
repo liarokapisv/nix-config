@@ -1,33 +1,27 @@
 { self, pkgs, ... }:
 {
   imports = [
+    ./asahi.nix
     ./hardware.nix
-    self.inputs.apple-silicon.nixosModules.default
     ../profiles/common.nix
     ../profiles/pipewire.nix
+    ../profiles/hyprland.nix
+    ../profiles/iwd.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
 
-  hardware = {
-    asahi = {
-      peripheralFirmwareDirectory = ./firmware;
-      useExperimentalGPUDriver = true;
-      experimentalGPUInstallMode = "overlay";
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 16 * 1024;
+  }];
 
-    };
-    opengl = {
-      enable = true;
-      driSupport = true;
-    };
-  };
-
-  networking.hostName = "m1-pro";
+  networking.hostName = "veritas-m1-pro";
 
   users.users.${self.user} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "input" ];
+    extraGroups = [ "wheel" ];
     initialHashedPassword = "$6$JwTimdf683A1QxN.$aorlpRJPWrcsl0pR1nlELJhdy8traiVPBXnwXU5IfEbWBD5PusIrkjRZDA76OJECmJdR9PLiUyxJeQUzjX6Nv0";
 
     shell = pkgs.zsh;
@@ -39,21 +33,10 @@
 
   home-manager.users.${self.user} = {
     imports = [
-      ../../modules/hm/common.nix
+      ../../homes/profiles/common.nix
     ];
-    stylix.image = ../../images/mountain-music.gif;
 
-    programs = {
-      waybar.enable = true;
-      fuzzel.enable = true;
-      swww.enable = true;
-      swww.systemd = {
-        enable = true;
-      };
-      waybar.systemd = {
-        target = "hyprland-session.target";
-      };
-    };
+    stylix.image = ../../images/mountain-music.gif;
 
     home = {
       packages = with pkgs; [
@@ -63,17 +46,6 @@
 
       stateVersion = "23.11";
     };
-
-    wayland.windowManager.hyprland = {
-      enable = true;
-      extraConfig = ''
-        exec-once="amixer -c 0 set 'Jack DAC' 100%"
-      '';
-    };
-  };
-
-  programs = {
-    hyprland.enable = true;
   };
 
   fonts = {

@@ -1,7 +1,7 @@
 { self, pkgs, ... }:
 {
   imports = [
-    ../../modules/hm/common.nix
+    ../profiles/common.nix
   ];
 
   nixpkgs.overlays = [

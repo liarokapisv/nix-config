@@ -1,7 +1,10 @@
 {
   inputs = {
+    apple-silicon = {
+      url = "github:tpwrules/nixos-apple-silicon";
+    };
     nixpkgs = {
-      url = "github:NixOs/nixpkgs/nixos-unstable";
+      follows = "apple-silicon/nixpkgs";
     };
     nixgl = {
       url = "github:guibou/nixGL";
@@ -30,10 +33,6 @@
     };
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    apple-silicon = {
-      url = "github:tpwrules/nixos-apple-silicon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

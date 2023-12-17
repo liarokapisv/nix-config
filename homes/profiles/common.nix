@@ -1,9 +1,9 @@
 { self, config, pkgs, ... }: {
 
   imports = [
+    ../../modules/home-manager
+    ../../configs/home-manager
     self.inputs.stylix.homeManagerModules.stylix
-    ./dotfiles
-    ./programs
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -43,7 +43,7 @@
       enableZshIntegration = true;
       nix-direnv.enable = true;
       config = {
-        warn_timeout = "1m";
+        warn_timeout = "1000h";
       };
     };
     fzf.enable = true;
@@ -51,6 +51,7 @@
       enable = true;
       settings = {
         enable_audio_bell = false;
+        confirm_on_os_window_close = true;
       };
     };
     git = {
@@ -74,6 +75,13 @@
       };
     };
 
+    zathura = {
+      enable = true;
+      mappings = {
+        "<Space>" = "navigate next";
+        "<S-Space>" = "navigate previous";
+      };
+    };
   };
 
   home = {
@@ -85,6 +93,7 @@
       reaper
       segger-jlink
       stm32cubemx
+      conan
     ];
   };
 }

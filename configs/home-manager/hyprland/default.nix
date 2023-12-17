@@ -20,7 +20,9 @@
         ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
       ] ++
       lib.optionals (cfg.ext.keybinds.wireplumber.enable) [
-        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
+        ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+        ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
         ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
       ];
 
@@ -34,6 +36,13 @@
         };
         waybar.systemd = {
           target = "hyprland-session.target";
+        };
+      };
+
+      gtk = {
+        iconTheme = {
+          package = pkgs.gnome.adwaita-icon-theme;
+          name = "Adwaita";
         };
       };
     };

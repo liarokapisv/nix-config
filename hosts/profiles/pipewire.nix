@@ -1,6 +1,8 @@
-{ self, pkgs, ... }: {
+{ self, ... }: {
 
   sound.enable = true;
+
+  security.rtkit.enable = true;
 
   services = {
     pipewire = {
@@ -11,15 +13,13 @@
     };
   };
 
+  users.users.${self.user} = {
+    extraGroups = [ "pipewire" ];
+  };
+
   home-manager.users.${self.user} = {
-
-    wayland.windowManager.hyprland.ext.keybinds.wireplumber.enable = true;
-    programs.waybar.ext.wireplumber.on-click = "${pkgs.helvum}/bin/helvum";
-
-    home.packages = with pkgs; [
-      alsa-utils
-      pavucontrol
-      helvum
+    imports = [
+      ../../homes/profiles/pipewire.nix
     ];
   };
 }
