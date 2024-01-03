@@ -12,12 +12,6 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
     stylix = {
       url = "github:danth/stylix";
       inputs = {
@@ -29,10 +23,6 @@
     };
     home-manager = {
       url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    disko = {
-      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -87,7 +77,7 @@
 
       formatter = forAllSystems (pkgs: pkgs.nixpkgs-fmt);
 
-      packages = forAllSystems (pkgs: packages pkgs);
+      packages = forAllSystems packages;
 
       overlays.default =
         final: _: removeAttrs (packages final) [ "default" ];

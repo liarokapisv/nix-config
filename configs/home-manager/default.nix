@@ -7,5 +7,9 @@
     ./fuzzel
     ./ssh
     ./firefox
+    ./git
+    ./direnv
+    ./kitty
+    ./zathura
   ];
 }

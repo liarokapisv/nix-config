@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-lib.mkIf (config.programs.neovim.enable) {
+{ pkgs, ... }: {
 
   programs.neovim = {
     viAlias = true;
@@ -9,8 +7,8 @@ lib.mkIf (config.programs.neovim.enable) {
     withPython3 = true;
 
     extraPackages = with pkgs; [
-        nil
-        nixpkgs-fmt
+      nil
+      nixpkgs-fmt
     ];
 
     plugins = with pkgs.vimPlugins;
@@ -29,13 +27,6 @@ lib.mkIf (config.programs.neovim.enable) {
           plugin = nvim-treesitter.withAllGrammars;
           type = "lua";
           config = builtins.readFile ./treesitter.lua;
-        }
-        {
-          plugin = kanagawa-nvim;
-          type = "lua";
-          config = ''
-            vim.cmd.colorscheme "kanagawa"
-          '';
         }
         {
           plugin = nvim-lspconfig;

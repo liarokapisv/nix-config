@@ -2,6 +2,7 @@
 {
   imports = [
     ../profiles/common.nix
+    ../profiles/styling.nix
   ];
 
   nixpkgs.overlays = [
