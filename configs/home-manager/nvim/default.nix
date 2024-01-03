@@ -23,12 +23,12 @@ lib.mkIf (config.programs.neovim.enable) {
         {
           plugin = nvim-compe;
           type = "lua";
-          config = builtins.readFile ./config/compe.lua;
+          config = builtins.readFile ./compe.lua;
         }
         {
           plugin = nvim-treesitter.withAllGrammars;
           type = "lua";
-          config = builtins.readFile ./config/treesitter.lua;
+          config = builtins.readFile ./treesitter.lua;
         }
         {
           plugin = kanagawa-nvim;
@@ -40,11 +40,11 @@ lib.mkIf (config.programs.neovim.enable) {
         {
           plugin = nvim-lspconfig;
           type = "lua";
-          config = builtins.readFile ./config/lsp.lua;
+          config = builtins.readFile ./lsp.lua;
           runtime = {
-            "lua/lsp_key_mappings.lua".source = ./config/lua/lsp_key_mappings.lua;
-            "lua/cursor_hint.lua".source = ./config/lua/cursor_hint.lua;
-            "lua/table_merge.lua".source = ./config/lua/table_merge.lua;
+            "lua/lsp_key_mappings.lua".source = ./lua/lsp_key_mappings.lua;
+            "lua/cursor_hint.lua".source = ./lua/cursor_hint.lua;
+            "lua/table_merge.lua".source = ./lua/table_merge.lua;
           };
         }
       ];
@@ -52,6 +52,6 @@ lib.mkIf (config.programs.neovim.enable) {
     # Used for aesthetic purposes - adds newline after automatic import of viml config"
     extraLuaConfig = "\n\n";
 
-    extraConfig = builtins.readFile ./config/init.vim;
+    extraConfig = builtins.readFile ./init.vim;
   };
 }

@@ -3,7 +3,7 @@
 lib.mkIf (config.programs.ssh.enable) {
   programs = {
     ssh = {
-      extraConfig = builtins.readFile ./config/config;
+      extraConfig = builtins.readFile ./config;
     };
   };
 }

@@ -27,7 +27,7 @@
       ];
 
       wayland.windowManager.hyprland = {
-        extraConfig = builtins.readFile ./config/hyprland.conf;
+        extraConfig = builtins.readFile ./hyprland.conf;
       };
 
       programs = {
