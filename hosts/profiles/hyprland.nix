@@ -4,6 +4,12 @@
     hyprland.enable = true;
   };
 
+  # xdg-desktop-portal-hyprland does not provide a FileChooser
+
+  xdg.portal.extraPortals = with pkgs; [
+    xdg-desktop-portal-gtk
+  ];
+
   # polkit is required by various programs like gparted
 
   security.polkit.enable = true;

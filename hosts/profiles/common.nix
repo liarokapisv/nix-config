@@ -6,7 +6,7 @@
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [ "nix-command" "flakes" "repl-flake" ];
       auto-optimise-store = true;
     };
     gc = {
@@ -31,7 +31,12 @@
     extraSpecialArgs = { inherit self; };
   };
 
-  users.mutableUsers = true;
+  users = {
+    mutableUsers = true;
+    groups = {
+      plocate = { };
+    };
+  };
 
   programs = {
     zsh.enable = true;
@@ -42,17 +47,27 @@
     fuse.userAllowOther = true;
   };
 
+
   time.timeZone = "Europe/Athens";
 
   services = {
     openssh.enable = true;
+    flatpak.enable = true;
+    udev.packages = with pkgs; [
+      segger-jlink
+    ];
   };
 
   fonts = {
     fontconfig.enable = true;
   };
 
+  users.users.${self.user} = {
+    extraGroups = [ "plocate" ];
+  };
+
   environment.systemPackages = with pkgs; [
     wget
+    plocate
   ];
 }
