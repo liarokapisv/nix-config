@@ -45,6 +45,7 @@
       defaultEditor = true;
     };
     fuse.userAllowOther = true;
+    htop.enable = true;
   };
 
 
@@ -55,6 +56,7 @@
     flatpak.enable = true;
     udev.packages = with pkgs; [
       segger-jlink
+      openocd
     ];
   };
 
