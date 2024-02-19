@@ -7,6 +7,11 @@
         default = null;
         description = "The action to execute when clicking the wireplumber group";
       };
+      bluetooth.on-click = lib.mkOption {
+        type = lib.types.str;
+        default = null;
+        description = "The action to execute when clicking the bluetooth group";
+      };
       network.on-click = lib.mkOption {
         type = lib.types.str;
         default = null;
@@ -31,6 +36,7 @@
           ];
           modules-right = [
             "network"
+            "tray"
             "temperature"
             "backlight"
             "wireplumber"
@@ -58,6 +64,10 @@
             format-muted = "";
             format-icons = [ "" "" " " ];
             on-click = cfg.ext.wireplumber.on-click;
+          };
+          bluetooth = {
+            format = "";
+            on-click = cfg.ext.bluetooth.on-click;
           };
           network = {
             interval = 1;

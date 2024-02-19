@@ -36,6 +36,8 @@
       cachix
       kicad
       pcmanfm
+      xarchiver
+      p7zip
     ];
   };
 }
