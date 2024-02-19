@@ -51,6 +51,8 @@
 
   time.timeZone = "Europe/Athens";
 
+  virtualisation.docker.enable = true;
+
   services = {
     openssh.enable = true;
     flatpak.enable = true;
@@ -58,6 +60,12 @@
       segger-jlink
       openocd
     ];
+    zerotierone = {
+      enable = true;
+      joinNetworks = [
+        "db64858fed5b04bb"
+      ];
+    };
   };
 
   fonts = {
@@ -65,7 +73,7 @@
   };
 
   users.users.${self.user} = {
-    extraGroups = [ "plocate" ];
+    extraGroups = [ "plocate" "docker" ];
   };
 
   environment.systemPackages = with pkgs; [

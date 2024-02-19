@@ -33,7 +33,7 @@
       # helper to change direnv devShells
       direnv-set () {
           local CONFIG_NAME="$1";
-          local TARGET_ENVRC="$${2:-.envrc}";
+          local TARGET_ENVRC="''${2:-.envrc}";
           sed -i "s/\(use[[:space:]]\+flake[[:space:]]\+[^#]*\)\(#[[:space:]]*[^[:space:]]*\)\?/\1#$CONFIG_NAME/g" "$TARGET_ENVRC"
       }
     '';

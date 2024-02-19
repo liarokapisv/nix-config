@@ -33,7 +33,9 @@
       segger-jlink
       stm32cubemx
       conan
-      #kicad
+      cachix
+      kicad
+      pcmanfm
     ];
   };
 }

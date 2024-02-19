@@ -7,6 +7,7 @@
     ../profiles/pipewire.nix
     ../profiles/hyprland.nix
     ../profiles/iwd.nix
+    ../profiles/usb-automount.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
