@@ -48,6 +48,7 @@
           segger-jlink = (callPackage ./packages/segger-jlink { }).override {
             acceptLicense = true;
           };
+          widevinecdm-aarch64 = callPackage ./packages/widevinecdm-aarch64 { };
         };
 
     in
