@@ -4,6 +4,20 @@
     self.inputs.apple-silicon.nixosModules.default
   ];
 
+  nixpkgs.overlays = [
+    # overriding some apple-silicon packages since the modules do
+    # not provide package options
+
+    (final: super: {
+      asahi-audio = super.asahi-audio.overrideAttrs (old: {
+        src = old.src.override {
+          rev = "839c671e256256ecc194198c134ec4f026595ecd";
+          hash = "sha256-PKfyG0WKZN0KrhKNzye1gEcKMvfkNjOBMhvvHjs8BLI=";
+        };
+      });
+    })
+  ];
+
   # These do not work on asahi yet:
 
   # This needs to be explicitly set when not using partitions
