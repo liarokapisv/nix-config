@@ -46,6 +46,10 @@ add_lsp("rust_analyzer")
 add_lsp("clangd")
 add_lsp("pyright")
 add_lsp("jdtls")
+add_lsp("terraformls", {
+    executable = "terraform-ls",
+    filetypes = { "tf", "terraform", }
+})
 
 add_lsp("standardrb", {
     filetypes = { "ruby", "eruby" }

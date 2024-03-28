@@ -3,7 +3,10 @@
     enableZshIntegration = true;
     nix-direnv.enable = true;
     config = {
-      warn_timeout = "1000h";
+      global = {
+        warn_timeout = "1000h";
+        load_dotenv = true;
+      };
     };
   };
 }

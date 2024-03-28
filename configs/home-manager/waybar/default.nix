@@ -4,17 +4,17 @@
     programs.waybar.ext = {
       wireplumber.on-click = lib.mkOption {
         type = lib.types.str;
-        default = null;
+        default = "";
         description = "The action to execute when clicking the wireplumber group";
       };
       bluetooth.on-click = lib.mkOption {
         type = lib.types.str;
-        default = null;
+        default = "";
         description = "The action to execute when clicking the bluetooth group";
       };
       network.on-click = lib.mkOption {
         type = lib.types.str;
-        default = null;
+        default = "";
         description = "The action to execute when clicking the network group";
       };
     };
