@@ -27,14 +27,9 @@
     packages = with pkgs; [
       ripgrep
       tree
-      vmpk
       stremio
       reaper
-      segger-jlink
-      stm32cubemx
-      conan
       cachix
-      kicad
       pcmanfm
       xarchiver
       p7zip

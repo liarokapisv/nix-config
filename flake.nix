@@ -81,6 +81,7 @@
       packages = forAllSystems packages;
 
       overlays.default =
-        final: _: removeAttrs (packages final) [ "default" ];
+        final: super: removeAttrs (packages final) [ "default" ] // {
+        };
     };
 }

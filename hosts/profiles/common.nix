@@ -39,6 +39,7 @@
   };
 
   programs = {
+    nix-ld.enable = true;
     zsh.enable = true;
     neovim = {
       enable = true;

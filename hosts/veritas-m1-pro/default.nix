@@ -8,20 +8,21 @@
     ../profiles/hyprland.nix
     ../profiles/iwd.nix
     ../profiles/usb-automount.nix
-    ../profiles/bluetooth.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
 
-  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
+  boot.binfmt.emulatedSystems = [ ];
 
   swapDevices = [{
     device = "/var/lib/swapfile";
     size = 32 * 1024;
   }];
 
-  networking.hostName = "veritas-m1-pro";
+  networking = {
+    hostName = "veritas-m1-pro";
+  };
 
   users.users.${self.user} = {
     isNormalUser = true;
@@ -38,6 +39,7 @@
   home-manager.users.${self.user} = {
     imports = [
       ../../homes/profiles/common.nix
+      ../../homes/profiles/embedded.nix
     ];
 
     stylix.image = ../../images/mountain-music.gif;

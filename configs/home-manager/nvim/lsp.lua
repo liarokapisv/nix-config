@@ -13,7 +13,6 @@ function add_lsp(server, options)
             set_lsp_key_mappings(bufnr)
             set_cursor_hint()
         end,
-        root_dir = nvim_lsp.util.root_pattern(".git"),
         flags = {
             debounce_text_changes = 150,
         },
@@ -42,8 +41,31 @@ add_lsp("nil_ls", table_merge(
             executable = "nil"
         }))
 
-add_lsp("rust_analyzer")
-add_lsp("clangd")
+
+function get_project_rustanalyzer_settings()
+    local handle = io.open(vim.fn.resolve(vim.fn.getcwd() .. '/./.rust-analyzer.json'))
+    if not handle then
+        return {}
+    end
+    local out = handle:read("*a")
+    handle:close()
+    local config = vim.json.decode(out)
+    if type(config) == "table" then
+        return config
+    end
+    return {}
+end
+
+add_lsp("rust_analyzer", {
+    executable = "rust-analyzer",
+    settings = {
+        ['rust-analyzer'] = get_project_rustanalyzer_settings(),
+    }
+})
+
+add_lsp("clangd", {
+    root_dir = nvim_lsp.util.root_pattern(".git"),
+})
 add_lsp("pyright")
 add_lsp("jdtls")
 add_lsp("terraformls", {

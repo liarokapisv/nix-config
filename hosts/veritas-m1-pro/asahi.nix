@@ -1,4 +1,4 @@
-{ self, lib, ... }:
+{ self, ... }:
 {
   imports = [
     self.inputs.apple-silicon.nixosModules.default
@@ -54,19 +54,6 @@
       driSupport = true;
     };
   };
-
-  # TODO! Remove when added in nixos-apple-silicon 
-  boot.kernelPatches = [
-    {
-      name = "Add UCLAMP_TASK options discussed in Asahi Fedora Remix blog post.";
-      patch = null;
-      extraStructuredConfig = {
-        UCLAMP_TASK = lib.kernel.yes;
-        UCLAMP_BUCKETS_COUNT = lib.kernel.freeform "5";
-        UCLAMP_TASK_GROUP = lib.kernel.yes;
-      };
-    }
-  ];
 
   services.udev.extraRules =
     ''
