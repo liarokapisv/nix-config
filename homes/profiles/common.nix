@@ -33,6 +33,7 @@
       pcmanfm
       xarchiver
       p7zip
+      file
     ];
   };
 }

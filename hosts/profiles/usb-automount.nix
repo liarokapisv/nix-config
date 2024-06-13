@@ -1,8 +1,7 @@
 {
   services = {
-    udisks2 = {
+    devmon = {
       enable = true;
-      mountOnMedia = true;
     };
   };
 }

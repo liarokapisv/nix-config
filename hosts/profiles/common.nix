@@ -12,7 +12,7 @@
     gc = {
       automatic = true;
       dates = "daily";
-      options = "--delete-older-than +10";
+      options = "--delete-older-than 30d";
     };
   };
 
@@ -80,5 +80,6 @@
   environment.systemPackages = with pkgs; [
     wget
     plocate
+    ltrace
   ];
 }

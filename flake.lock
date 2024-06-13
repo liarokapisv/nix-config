@@ -3,15 +3,17 @@
     "apple-silicon": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1716006448,
-        "narHash": "sha256-IjqkCdRLwQtGtxTdgm8oZcUyi71PPCK0QNFVpamth5E=",
+        "lastModified": 1716699938,
+        "narHash": "sha256-AzTYm22tTDJy0tSqMDf95rmCxxoGTPClu0paGPeh5a0=",
         "owner": "tpwrules",
         "repo": "nixos-apple-silicon",
-        "rev": "1b16e4290a5e4a59c75ef53617d597e02078791e",
+        "rev": "842306255856d7f5677c113e699101eb253e2e3f",
         "type": "github"
       },
       "original": {
@@ -220,11 +222,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715930644,
-        "narHash": "sha256-W9pyM3/vePxrffHtzlJI6lDS3seANQ+Nqp+i58O46LI=",
+        "lastModified": 1717483170,
+        "narHash": "sha256-Xr/oYk3vmyv2a/nY8o/Wd0MdLsI5vaC38Kris7CWunM=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e3ad5108f54177e6520535768ddbf1e6af54b59d",
+        "rev": "2cacdd6a27477f1fa46b7026dd806de30f164d3b",
         "type": "github"
       },
       "original": {
@@ -278,27 +280,27 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1715787315,
-        "narHash": "sha256-cYApT0NXJfqBkKcci7D9Kr4CBYZKOQKDYA23q8XNuWg=",
-        "owner": "nixos",
+        "lastModified": 1717399147,
+        "narHash": "sha256-eCWaE/q1VItpFAxxLVt171MdtDcjEnwi6QB/yuF73JU=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "33d1e753c82ffc557b4a585c77de43d4c922ebb5",
+        "rev": "4a4ecb0ab415c9fccfb005567a215e6a9564cdf5",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
-        "rev": "33d1e753c82ffc557b4a585c77de43d4c922ebb5",
         "type": "github"
       }
     },
     "nur": {
       "locked": {
-        "lastModified": 1716288499,
-        "narHash": "sha256-tM7PAmC3kvyeDmglI0bHXSqyVbtnjzVPc4NmwP/GaK8=",
+        "lastModified": 1717504708,
+        "narHash": "sha256-Gys2zgCYe2XGkb25hM46Oa3TAUPkay+XWUph28ciYVM=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "6999ce1f23a503fd6aaefd875db6b7c0ab7d3637",
+        "rev": "4e7a2f26c246f795ee386acbdd45353c22417e89",
         "type": "github"
       },
       "original": {
@@ -312,10 +314,7 @@
         "apple-silicon": "apple-silicon",
         "home-manager": "home-manager",
         "nixgl": "nixgl",
-        "nixpkgs": [
-          "apple-silicon",
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs",
         "nur": "nur",
         "stylix": "stylix"
       }
@@ -353,11 +352,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716206302,
-        "narHash": "sha256-5Qc3aQGVyPEOuN82zVamStaV81HebHvLjk3fGfpyCPY=",
+        "lastModified": 1717419189,
+        "narHash": "sha256-3J6GHIbA0f/bkHc7qxe1JlpgHJFawuC2ZNepYAjToQM=",
         "owner": "danth",
         "repo": "stylix",
-        "rev": "81df8443556335016d6f0bc22630a95776a56d8b",
+        "rev": "c760f63a44a98b2324fdebaee32831b1297172a1",
         "type": "github"
       },
       "original": {

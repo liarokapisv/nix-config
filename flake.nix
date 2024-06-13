@@ -1,22 +1,19 @@
 {
   inputs = {
+    nixpkgs = {
+      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    };
     apple-silicon = {
       url = "github:tpwrules/nixos-apple-silicon";
-    };
-    nixpkgs = {
-      follows = "apple-silicon/nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixgl = {
       url = "github:guibou/nixGL";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
       url = "github:danth/stylix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nur = {
       url = "github:nix-community/NUR";
@@ -49,6 +46,7 @@
             acceptLicense = true;
           };
           widevinecdm-aarch64 = callPackage ./packages/widevinecdm-aarch64 { };
+          fex = callPackage ./packages/fex { };
         };
 
     in
@@ -81,7 +79,6 @@
       packages = forAllSystems packages;
 
       overlays.default =
-        final: super: removeAttrs (packages final) [ "default" ] // {
-        };
+        final: super: removeAttrs (packages final) [ "default" ] // { };
     };
 }

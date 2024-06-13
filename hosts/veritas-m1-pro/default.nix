@@ -48,6 +48,14 @@
       packages = with pkgs; [
         qbittorrent
         vlc
+        distrobox
+        (box64.overrideAttrs (old: {
+          version = "0.2.8";
+          src = old.src.override {
+            hash = "sha256-P+m+JS3THh3LWMZYW6BQ7QyNWlBuL+hMcUtUbpMHzis=";
+          };
+          cmakeFlags = old.cmakeFlags ++ [ "-DM1=ON" ];
+        }))
       ];
 
       stateVersion = "23.11";
