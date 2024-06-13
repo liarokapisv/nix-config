@@ -13,7 +13,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
 
-  boot.binfmt.emulatedSystems = [ ];
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
 
   swapDevices = [{
     device = "/var/lib/swapfile";
@@ -35,6 +35,11 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDHQE3nquLEwnEU5NdU1YZ1LBLCIq4gaLgMF+TvnL9vV veritas@veritas"
     ];
   };
+
+  environment.systemPackages = with pkgs; [
+    sommelier
+    passt
+  ];
 
   home-manager.users.${self.user} = {
     imports = [

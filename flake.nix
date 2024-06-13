@@ -47,6 +47,7 @@
           };
           widevinecdm-aarch64 = callPackage ./packages/widevinecdm-aarch64 { };
           fex = callPackage ./packages/fex { };
+          krun = callPackage ./packages/krun { };
         };
 
     in
