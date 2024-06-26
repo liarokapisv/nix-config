@@ -1,0 +1,20 @@
+diff --git a/crates/krun-guest/src/mount.rs b/crates/krun-guest/src/mount.rs
+index 13d1e9b..97badad 100644
+--- a/crates/krun-guest/src/mount.rs
++++ b/crates/krun-guest/src/mount.rs
+@@ -7,6 +7,15 @@ use rustix::{
+ };
+ 
+ pub fn mount_filesystems() -> Result<()> {
++    mount2(
++        Some("tmpfs"),
++        "/run",
++        Some("tmpfs"),
++        MountFlags::NOEXEC | MountFlags::NOSUID | MountFlags::RELATIME,
++        None,
++    )
++    .context("Failed to mount `/run`")?;
++
+     mount2(
+         Some("tmpfs"),
+         "/var/run",

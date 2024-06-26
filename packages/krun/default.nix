@@ -1,70 +1,107 @@
-{ lib, fetchFromGitHub, rustPlatform, llvmPackages, libkrun, libkrunfw, perl, openssl, fetchurl, glibc, cargo, pkg-config, epoxy, libdrm, virglrenderer }:
+{ stdenv, fetchFromGitHub, rustPlatform, llvmPackages, perl, openssl, fetchurl, pkg-config, libdrm, libepoxy, pkgs, cpio, pipewire }:
 
-rustPlatform.buildRustPackage {
+let
+  libkrunfw = pkgs.libkrunfw.overrideAttrs (f: p: {
+    version = "git+bb1506b92ed78da880fc1a2f0e1180040f1a7a36";
+
+    src = fetchFromGitHub {
+      owner = "containers";
+      repo = f.pname;
+      rev = "bb1506b92ed78da880fc1a2f0e1180040f1a7a36";
+      hash = "sha256-BN6v33iKgs+7n3ITaeERVg3S06xdQMH7PIAYtRpQ7UU=";
+    };
+
+    kernelSrc = fetchurl {
+      url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.22.tar.xz";
+      hash = "sha256-I+PntWQHJQ9UEb2rlXY9C8TjoZ36Qx2VHffqyr1hovQ=";
+    };
+
+    NIX_CFLAGS_COMPILE = "-march=${stdenv.hostPlatform.gcc.arch}+crypto";
+
+    nativeBuildInputs = p.nativeBuildInputs ++ ([ cpio perl openssl ]);
+
+    meta.platforms = p.meta.platforms ++ [ "aarch64-linux" ];
+  });
+
+  virglrenderer = pkgs.virglrenderer.overrideAttrs (f: p: {
+    version = "git+84efb186c1dacc0838770027f73a09d065a5bbdf";
+
+    src = fetchurl {
+      url = "https://gitlab.freedesktop.org/slp/virglrenderer/-/archive/84efb186c1dacc0838770027f73a09d065a5bbdf/virglrenderer-84efb186c1dacc0838770027f73a09d065a5bbdf.tar.bz2";
+      hash = "sha256-fskcDk5agQhc1GI0f8m920gBoQPfh3rXb/5ZxwKSLaA=";
+    };
+
+    mesonFlags = [
+      "-Ddrm-msm-experimental=true"
+      "-Ddrm-asahi-experimental=true"
+    ];
+  });
+
+  libkrun = (pkgs.libkrun.override { libkrunfw = libkrunfw; }).overrideAttrs (f: p: {
+    version = "git+0bea04816f4dc414a947aa7675e169cbbfbd45dc";
+
+    src = fetchFromGitHub {
+      owner = "containers";
+      repo = f.pname;
+      rev = "0bea04816f4dc414a947aa7675e169cbbfbd45dc";
+      hash = "sha256-eo48jhc6L92+ycSMwBtFO0qhbtanx+SXm1eJgYlsass=";
+    };
+
+    nativeBuildInputs = p.nativeBuildInputs ++ [
+      pkg-config
+      llvmPackages.clang
+    ];
+
+    buildInputs = p.buildInputs ++ [
+      libepoxy
+      libdrm
+      pipewire
+      virglrenderer
+    ];
+
+    env.LIBCLANG_PATH = "${llvmPackages.clang-unwrapped.lib}/lib/libclang.so";
+
+    cargoDeps = rustPlatform.fetchCargoTarball {
+      inherit (f) src;
+      hash = "sha256-Mj0GceQBiGCt0KPXp3StjnuzWhvBNxdSUCoroM2awIY=";
+    };
+
+    makeFlags = p.makeFlags ++ [
+      "GPU=1"
+      "SND=1"
+      "NET=1"
+    ];
+  });
+
+in
+rustPlatform.buildRustPackage rec {
   pname = "krun";
-  version = "d0179f3";
+  version = "git+${src.rev}";
 
   src = fetchFromGitHub {
     owner = "slp";
     repo = "krun";
-    rev = "d0179f3c4ab0eaa07a8813a772db805bf5be9965";
-    hash = "sha256-oA/RRzZHji3d+Od1tCNkzj4jNJ1/qwj+pFRnmzT2d4Y=";
+    rev = "5a8542a5066bd1a4d8bad99236f05ea3ac687ef7";
+    hash = "sha256-3w1JHqzpkF11+3yHN3yPu2dKdi4qXdO8HY+7ICugAZA=";
   };
+
+  patches = [
+    ./mount-root-run-directory.patch
+  ];
+
+  postPatch = ''
+    sed -i "s|/sbin/dhclient|${pkgs.dhclient}/bin/dhclient|" crates/krun-guest/src/net.rs
+  '';
+
+  cargoHash = "sha256-dtj3TiszBBsMtlJaaIyTmCNAGZy/zuSGSK8OOTb5Xmg=";
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
-    llvmPackages.llvm
   ];
 
-  buildInputs =
-    [
-      ((libkrun.override {
-        libkrunfw = libkrunfw.overrideAttrs
-          (old: {
-            nativeBuildInputs = old.nativeBuildInputs ++ [ perl openssl ];
-            buildInputs = old.buildInputs ++ [ cargo glibc glibc.static ];
-            src = old.src.override {
-              rev = "bb1506b92ed78da880fc1a2f0e1180040f1a7a3";
-              hash = "sha256-BN6v33iKgs+7n3ITaeERVg3S06xdQMH7PIAYtRpQ7UU=";
-            };
-            version = "4.1.0";
-            kernelSrc = fetchurl {
-              url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.22.tar.xz";
-              hash = "sha256-I+PntWQHJQ9UEb2rlXY9C8TjoZ36Qx2VHffqyr1hovQ=";
-            };
-            postPatch = old.postPatch + ''
-              zcat /proc/config.gz > config-libkrunfw_aarch64
-            '';
-            meta.platforms = old.meta.platforms ++ [ "aarch64-linux" ];
-          });
-      }).overrideAttrs (old: rec {
-        src = old.src.override {
-          rev = "95b8a18950bd5452dd7e3a36f8dc99fd4d45b714";
-          hash = "sha256-9ww22H5cDuomqzeSY0eARDumwLX6WMrzSZOikOl+70M=";
-        };
-        cargoDeps = rustPlatform.fetchCargoTarball {
-          inherit (old) pname version;
-          inherit src;
-          hash = "sha256-KKcu97ZPBc1V2Yxl6X3eBjz94QC9ZI/F8mh6jc25eIg=";
-        };
-        NET = 1;
-        BLK = 1;
-        GPU = 1;
-        nativeBuildInputs = old.nativeBuildInputs ++ [
-          pkg-config
-        ];
-        buildInputs = old.buildInputs ++ [
-          epoxy
-          libdrm
-          virglrenderer
-        ];
-      }))
-    ];
+  buildInputs = [
+    libkrun
+  ];
 
-  cargoHash = "sha256-Qh6YmDQaXxbXpLcxFsz0zVtT3JcSZYQ9oOBacbTqLwo=";
-
-  meta = {
-    homepage = "https://github.com/slp/krun";
-    license = lib.licenses.unlicense;
-  };
+  cargoLock.lockFile = "${src}/Cargo.lock";
 }

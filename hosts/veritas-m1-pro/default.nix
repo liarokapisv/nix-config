@@ -10,6 +10,16 @@
     ../profiles/usb-automount.nix
   ];
 
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        user = "greeter";
+      };
+    };
+  };
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
 
@@ -36,10 +46,8 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    sommelier
-    passt
-  ];
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   home-manager.users.${self.user} = {
     imports = [
@@ -61,6 +69,9 @@
           };
           cmakeFlags = old.cmakeFlags ++ [ "-DM1=ON" ];
         }))
+        sommelier
+        passt
+        krun
       ];
 
       stateVersion = "23.11";
@@ -73,3 +84,4 @@
 
   system.stateVersion = "23.11";
 }
+
