@@ -38,7 +38,6 @@ nnoremap <c-p> :FzfLua files<cr>
 set exrc
 set secure
 set nomodeline
-
 set mouse=
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab

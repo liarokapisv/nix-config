@@ -18,15 +18,23 @@
         vim-textobj-user
         vim-textobj-variable-segment
         indentLine
-        cmp-nvim-lsp
-        cmp-buffer
-        cmp-path
-        cmp-cmdline
         {
-          plugin = nvim-cmp;
+          plugin = nvim-compe;
           type = "lua";
-          config = builtins.readFile ./cmp.lua;
+          config = builtins.readFile ./compe.lua;
         }
+
+        # TODO: update when cmp plays better with nightly rust-analyzer
+
+        # cmp-nvim-lsp
+        # cmp-buffer
+        # cmp-path
+        # cmp-cmdline
+        # {
+        #   plugin = nvim-cmp;
+        #   type = "lua";
+        #   config = builtins.readFile ./cmp.lua;
+        # }
         {
           plugin = nvim-treesitter.withAllGrammars;
           type = "lua";

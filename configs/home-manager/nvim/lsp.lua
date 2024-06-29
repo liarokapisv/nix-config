@@ -2,14 +2,14 @@ require 'lsp_key_mappings'
 require 'cursor_hint'
 require 'table_merge'
 
-capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- capabilities = require('cmp_nvim_lsp').default_capabilities()
 nvim_lsp = require('lspconfig')
 
 function add_lsp(server, options)
     options = options or {}
 
     default_options = {
-        capabilities = capabilities,
+        -- capabilities = capabilities,
         autostart = true,
         on_attach = function(_, bufnr)
             set_lsp_key_mappings(bufnr)
