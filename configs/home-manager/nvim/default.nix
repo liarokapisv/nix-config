@@ -17,6 +17,13 @@
         vim-easymotion
         vim-textobj-user
         vim-textobj-variable-segment
+        {
+          plugin = text-case-nvim;
+          type = "lua";
+          config = ''
+            require('textcase').setup {}
+          '';
+        }
         indentLine
         {
           plugin = nvim-compe;
@@ -35,6 +42,7 @@
         #   type = "lua";
         #   config = builtins.readFile ./cmp.lua;
         # }
+
         {
           plugin = nvim-treesitter.withAllGrammars;
           type = "lua";
