@@ -56,7 +56,6 @@
 
   services = {
     openssh.enable = true;
-    flatpak.enable = true;
     udev.packages = with pkgs; [
       segger-jlink
       openocd

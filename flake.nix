@@ -1,11 +1,11 @@
 {
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      # url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      follows = "apple-silicon/nixpkgs";
     };
     apple-silicon = {
       url = "github:tpwrules/nixos-apple-silicon";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixgl = {
       url = "github:guibou/nixGL";

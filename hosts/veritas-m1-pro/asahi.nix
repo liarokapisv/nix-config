@@ -1,21 +1,7 @@
-{ self, ... }:
+{ self, lib, config, ... }:
 {
   imports = [
     self.inputs.apple-silicon.nixosModules.default
-  ];
-
-  nixpkgs.overlays = [
-    # overriding some apple-silicon packages since the modules do
-    # not provide package options
-
-    (final: super: {
-      asahi-audio = super.asahi-audio.overrideAttrs (old: {
-        src = old.src.override {
-          rev = "839c671e256256ecc194198c134ec4f026595ecd";
-          hash = "sha256-PKfyG0WKZN0KrhKNzye1gEcKMvfkNjOBMhvvHjs8BLI=";
-        };
-      });
-    })
   ];
 
   # These do not work on asahi yet:
@@ -47,12 +33,14 @@
     asahi = {
       peripheralFirmwareDirectory = ./firmware;
       useExperimentalGPUDriver = true;
-      experimentalGPUInstallMode = "overlay";
+      experimentalGPUInstallMode = "replace";
     };
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport = true;
+      # Force this until it is updated upstream
+      package = lib.mkForce config.hardware.asahi.pkgs.mesa-asahi-edge.drivers;
     };
+
   };
 
   services.udev.extraRules =
