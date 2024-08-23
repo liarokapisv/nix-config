@@ -16,6 +16,7 @@
         fzf-lua
         vim-easymotion
         vim-textobj-user
+        vim-easy-align
         vim-textobj-variable-segment
         {
           plugin = text-case-nvim;

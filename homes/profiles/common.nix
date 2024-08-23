@@ -21,10 +21,17 @@
     kitty.enable = true;
     git.enable = true;
     zathura.enable = true;
+    thunderbird = {
+      enable = true;
+      profiles.default = {
+        isDefault = true;
+      };
+    };
   };
 
   home = {
     packages = with pkgs; [
+      devenv
       ripgrep
       tree
       stremio
@@ -34,6 +41,7 @@
       xarchiver
       p7zip
       file
+      bitwarden-cli
     ];
   };
 }

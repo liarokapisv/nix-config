@@ -66,8 +66,9 @@ add_lsp("rust_analyzer", {
 })
 
 add_lsp("clangd", {
-    root_dir = nvim_lsp.util.root_pattern(".git"),
+    -- cmd = { "clangd", "--query-driver=/**/*" },
 })
+
 add_lsp("pyright")
 add_lsp("jdtls")
 add_lsp("terraformls", {
