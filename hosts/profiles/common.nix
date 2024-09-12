@@ -84,5 +84,6 @@
     wget
     plocate
     ltrace
+    usbutils
   ];
 }

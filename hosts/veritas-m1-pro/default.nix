@@ -10,12 +10,14 @@
     ../profiles/usb-automount.nix
   ];
 
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
-        user = "greeter";
+  services = {
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+          user = "greeter";
+        };
       };
     };
   };
@@ -61,17 +63,6 @@
       packages = with pkgs; [
         qbittorrent
         vlc
-        distrobox
-        (box64.overrideAttrs (old: {
-          version = "0.2.8";
-          src = old.src.override {
-            hash = "sha256-P+m+JS3THh3LWMZYW6BQ7QyNWlBuL+hMcUtUbpMHzis=";
-          };
-          cmakeFlags = old.cmakeFlags ++ [ "-DM1=ON" ];
-        }))
-        sommelier
-        passt
-        krun
       ];
 
       stateVersion = "23.11";
