@@ -70,7 +70,9 @@ add_lsp("clangd", {
 })
 
 add_lsp("pyright")
+
 add_lsp("jdtls")
+
 add_lsp("terraformls", {
     executable = "terraform-ls",
     filetypes = { "tf", "terraform", }
@@ -78,4 +80,22 @@ add_lsp("terraformls", {
 
 add_lsp("standardrb", {
     filetypes = { "ruby", "eruby" }
+})
+
+add_lsp("ts_ls", {
+    executable = "typescript-language-server";
+})
+
+add_lsp("astro", {
+    executable = "astro-ls";
+})
+
+-- Setup through the tailwindcss-tools plugin
+--
+-- add_lsp("tailwindcss", {
+--     executable = "tailwindcss-language-server";
+-- })
+
+add_lsp("markdown_oxide", {
+    executable = "markdown-oxide";
 })

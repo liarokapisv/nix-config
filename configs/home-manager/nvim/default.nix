@@ -31,9 +31,7 @@
           type = "lua";
           config = builtins.readFile ./compe.lua;
         }
-
         # TODO: update when cmp plays better with nightly rust-analyzer
-
         # cmp-nvim-lsp
         # cmp-buffer
         # cmp-path
@@ -43,7 +41,6 @@
         #   type = "lua";
         #   config = builtins.readFile ./cmp.lua;
         # }
-
         {
           plugin = nvim-treesitter.withAllGrammars;
           type = "lua";
@@ -59,6 +56,29 @@
             "lua/table_merge.lua".source = ./lua/table_merge.lua;
           };
         }
+        # used for tailwind-css-inline hints: no need to setup on nvim-lspconfig
+        {
+          # TODO: use upstream version after nixpkgs version update
+          plugin = (pkgs.vimUtils.buildVimPlugin
+            {
+              pname = "tailwind-tools.nvim";
+              version = "2024-09-26";
+              src = pkgs.fetchFromGitHub {
+                owner = "luckasRanarison";
+                repo = "tailwind-tools.nvim";
+                rev = "4b2d88cc7d49a92f28b9942712f1a53d2c3d5b27";
+                sha256 = "05mnbrzfsrkxnv9fz3f0bzwrw833rgcvj0wxgf8pvjjvdjnpl1ax";
+              };
+              meta.homepage = "https://github.com/luckasRanarison/tailwind-tools.nvim/";
+            });
+          type = "lua";
+          config = ''
+            require("tailwind-tools").setup({
+              -- your configuration
+            })
+          '';
+        }
+
       ];
 
     # Used for aesthetic purposes - adds newline after automatic import of viml config"
