@@ -37,8 +37,6 @@
     };
     graphics = {
       enable = true;
-      # Force this until it is updated upstream
-      package = lib.mkForce config.hardware.asahi.pkgs.mesa-asahi-edge.drivers;
     };
 
   };
