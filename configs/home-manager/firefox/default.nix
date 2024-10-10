@@ -151,10 +151,13 @@
           settings = {
             # Disable annoying pocket plugin
             "extensions.pocket.enabled" = false;
-            # We use bitwarden, disable embedded password manager
-            "signon.rememberSignons" = true;
             # Enable toolbar by default
             "browser.toolbars.bookmarks.visibility" = "always";
+            # We use bitwarden, disable embedded password manager
+            "signon.rememberSignons" = false;
+            "signon.autofillForms" = false;
+            "signon.passwordEditCapture.enabled" = false;
+            "services.sync.engine.passwords" = false;
           };
         };
     })
