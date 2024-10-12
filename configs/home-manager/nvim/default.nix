@@ -67,7 +67,7 @@
                 owner = "luckasRanarison";
                 repo = "tailwind-tools.nvim";
                 rev = "4b2d88cc7d49a92f28b9942712f1a53d2c3d5b27";
-                sha256 = "05mnbrzfsrkxnv9fz3f0bzwrw833rgcvj0wxgf8pvjjvdjnpl1ax";
+                hash = "sha256-XQV6rWxbyn2Re50DudnLYyCe+V/Aje/Stn1m7X5ethY=";
               };
               meta.homepage = "https://github.com/luckasRanarison/tailwind-tools.nvim/";
             });
@@ -76,6 +76,37 @@
             require("tailwind-tools").setup({
               -- your configuration
             })
+          '';
+        }
+
+        {
+          plugin = (pkgs.vimUtils.buildVimPlugin
+            {
+              pname = "nvim-tmux-navigation";
+              version = "4898c98";
+              src = pkgs.fetchFromGitHub {
+                owner = "alexghergh";
+                repo = "nvim-tmux-navigation";
+                rev = "4898c98702954439233fdaf764c39636681e2861";
+                hash = "sha256-CxAgQSbOrg/SsQXupwCv8cyZXIB7tkWO+Y6FDtoR8xk=";
+              };
+              meta.homepage = "https://github.com/alexghergh/nvim-tmux-navigation";
+            });
+          type = "lua";
+          config = ''
+            local nvim_tmux_nav = require('nvim-tmux-navigation')
+
+            nvim_tmux_nav.setup {
+                disable_when_zoomed = true,
+                keybindings = {
+                    left = "<C-h>",
+                    down = "<C-j>",
+                    up = "<C-k>",
+                    right = "<C-l>",
+                    last_active = "<C-\\>",
+                    next = "<C-Space>",
+                }
+            }
           '';
         }
 

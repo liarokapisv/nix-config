@@ -1,4 +1,4 @@
-{ self, config, lib, modulesPath, ... }:
+{ self, pkgs, config, lib, modulesPath, ... }:
 
 {
   imports =
@@ -17,6 +17,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   fileSystems."/" =
     {

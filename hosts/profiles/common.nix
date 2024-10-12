@@ -52,20 +52,12 @@
 
   time.timeZone = "Europe/Athens";
 
-  virtualisation.docker.enable = true;
-
   services = {
     openssh.enable = true;
     udev.packages = with pkgs; [
       segger-jlink
       openocd
     ];
-    zerotierone = {
-      enable = true;
-      joinNetworks = [
-        "db64858fed5b04bb"
-      ];
-    };
   };
 
   fonts = {
@@ -81,5 +73,6 @@
     plocate
     ltrace
     usbutils
+    powertop
   ];
 }

@@ -11,6 +11,7 @@
   systemd.user.startServices = true;
 
   programs = {
+    tmux.enable = true;
     home-manager.enable = true;
     neovim.enable = true;
     zsh.enable = true;

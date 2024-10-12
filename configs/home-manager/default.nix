@@ -11,5 +11,6 @@
     ./direnv
     ./kitty
     ./zathura
+    ./tmux
   ];
 }

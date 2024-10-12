@@ -8,6 +8,7 @@
     ../profiles/hyprland.nix
     ../profiles/iwd.nix
     ../profiles/usb-automount.nix
+    ../profiles/virtualization.nix
   ];
 
   services = {
