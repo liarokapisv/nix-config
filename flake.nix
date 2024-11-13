@@ -57,13 +57,13 @@
     in
     {
       homeConfigurations = {
-        "veritas@manjaro" = home-manager.lib.homeManagerConfiguration {
+        "alexandros-liarokapis@acumino" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           modules = [
-            ./homes/veritas-manjaro
+            ./homes/alexandros-liarokapis-acumino
           ];
           extraSpecialArgs = args // {
-            self = self // { user = "veritas"; };
+            self = self // { user = "alexandros-liarokapis"; };
           };
         };
       };

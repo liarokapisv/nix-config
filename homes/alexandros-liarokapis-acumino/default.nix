@@ -2,17 +2,18 @@
 {
   imports = [
     ../profiles/common.nix
-    ../profiles/styling.nix
   ];
 
   nixpkgs.overlays = [
     self.overlays.default
-    (import ./nixGL.nix { inherit self; })
   ];
 
   targets.genericLinux.enable = true;
 
-  stylix.image = ../../images/asian-neon-night.jpg;
+  stylix = {
+    image = ../../images/mountain-music.gif;
+    targets.kde.enable = false;
+  };
 
   home = {
     packages = with pkgs; [
@@ -25,6 +26,6 @@
     username = self.user;
     homeDirectory = "/home/${self.user}";
 
-    stateVersion = "23.05";
+    stateVersion = "24.11";
   };
 }
