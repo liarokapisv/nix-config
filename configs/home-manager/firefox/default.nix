@@ -1,9 +1,5 @@
 { self, config, lib, pkgs, ... }: {
 
-  imports = [
-    self.inputs.nur.hmModules.nur
-  ];
-
   config = lib.mkMerge [
     ({
       programs.firefox.profiles.default =
@@ -66,14 +62,19 @@
             force = true;
           };
 
-          extensions = with config.nur.repos.rycee.firefox-addons; [
-            ublock-origin
-            bitwarden
-            i-dont-care-about-cookies
-            vimium
-            languagetool
-            user-agent-string-switcher
-          ];
+          extensions =
+            let
+              addons = self.inputs.firefox-addons.packages.${pkgs.hostPlatform.system};
+              sameStdenv = addon: addon.override { inherit (pkgs) stdenv; };
+            in
+            builtins.map sameStdenv (with addons; [
+              ublock-origin
+              bitwarden
+              i-dont-care-about-cookies
+              vimium
+              languagetool
+              user-agent-string-switcher
+            ]);
 
           bookmarks = [
             {
@@ -148,17 +149,19 @@
             }
           ];
 
-          settings = {
-            # Disable annoying pocket plugin
-            "extensions.pocket.enabled" = false;
-            # Enable toolbar by default
-            "browser.toolbars.bookmarks.visibility" = "always";
-            # We use bitwarden, disable embedded password manager
-            "signon.rememberSignons" = false;
-            "signon.autofillForms" = false;
-            "signon.passwordEditCapture.enabled" = false;
-            "services.sync.engine.passwords" = false;
-          };
+          settings =
+            {
+              # Disable annoying pocket plugin
+              "extensions.pocket.enabled" = false;
+              # Enable toolbar by default
+              "browser.toolbars.bookmarks.visibility" = "always";
+              # We use bitwarden, disable embedded password manager
+              "signon.rememberSignons" = false;
+              "signon.autofillForms" = false;
+              "signon.passwordEditCapture.enabled" = false;
+              "services.sync.engine.passwords" = false;
+              "browser.urlbar.showSearchSuggestionsFirst" = false;
+            };
         };
     })
 

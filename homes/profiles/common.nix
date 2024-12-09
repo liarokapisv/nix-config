@@ -25,12 +25,6 @@
     kitty.enable = true;
     git.enable = true;
     zathura.enable = true;
-    thunderbird = {
-      enable = true;
-      profiles.default = {
-        isDefault = true;
-      };
-    };
   };
 
   home = {
@@ -40,12 +34,17 @@
       tree
       stremio
       reaper
+      vlc
       cachix
       pcmanfm
       xarchiver
       p7zip
       file
       bitwarden-cli
+      ventoy
+      jq
+      xxd
+      tldr
     ];
   };
 }

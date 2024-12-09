@@ -34,10 +34,14 @@
         };
       };
     };
+    udev.packages = [
+      pkgs.segger-jlink
+    ];
   };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
+  boot.tmp.useTmpfs = true;
 
   networking = {
     hostName = "veritas-framework-13-amd-7840u";
@@ -55,6 +59,8 @@
     ];
   };
 
+  programs.steam.enable = true;
+
   home-manager.users.${self.user} = {
     imports = [
       ../../homes/profiles/common.nix
@@ -68,6 +74,8 @@
         qbittorrent
         vlc
         bitwarden
+        digikam
+        anydesk
       ];
 
       stateVersion = "24.05";

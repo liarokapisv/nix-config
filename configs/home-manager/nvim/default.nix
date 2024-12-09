@@ -26,26 +26,24 @@
           '';
         }
         indentLine
+
         {
-          plugin = nvim-compe;
+          plugin = nvim-cmp;
           type = "lua";
-          config = builtins.readFile ./compe.lua;
+          config = builtins.readFile ./cmp.lua;
         }
-        # TODO: update when cmp plays better with nightly rust-analyzer
-        # cmp-nvim-lsp
-        # cmp-buffer
-        # cmp-path
-        # cmp-cmdline
-        # {
-        #   plugin = nvim-cmp;
-        #   type = "lua";
-        #   config = builtins.readFile ./cmp.lua;
-        # }
+
+        cmp-nvim-lsp
+        cmp-buffer
+        cmp-path
+        cmp-cmdline
+
         {
           plugin = nvim-treesitter.withAllGrammars;
           type = "lua";
           config = builtins.readFile ./treesitter.lua;
         }
+
         {
           plugin = nvim-lspconfig;
           type = "lua";

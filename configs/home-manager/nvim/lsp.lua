@@ -65,9 +65,17 @@ add_lsp("rust_analyzer", {
     }
 })
 
-add_lsp("clangd", {
-    -- cmd = { "clangd", "--query-driver=/**/*" },
-})
+add_lsp("clangd", 
+    (vim.fn.executable("clang-format") == 1) and 
+    {
+        on_attach = function(_, bufnr)
+            set_lsp_key_mappings(bufnr)
+            set_cursor_hint()
+            -- use environment clang-format instead of embedded one.
+            vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>write | silent !clang-format -i %<cr>', { noremap=true, silent=true })
+        end,
+    } or {}
+)
 
 add_lsp("pyright")
 

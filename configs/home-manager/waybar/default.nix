@@ -115,7 +115,7 @@
       };
 
       home.packages = with pkgs; [
-        fira-code-nerdfont
+        nerd-fonts.fira-code
         font-awesome
       ];
     };

@@ -3,23 +3,16 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
-    apple-silicon = {
-      url = "github:tpwrules/nixos-apple-silicon";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
-    };
-    nixgl = {
-      url = "github:guibou/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nur = {
-      url = "github:nix-community/NUR";
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -69,14 +62,6 @@
       };
 
       nixosConfigurations = {
-        "veritas@m1-pro" = nixpkgs.lib.nixosSystem {
-          modules = [
-            ./hosts/veritas-m1-pro
-          ];
-          specialArgs = args // {
-            self = self // { user = "veritas"; };
-          };
-        };
         "veritas@framework-13-amd-7840u" = nixpkgs.lib.nixosSystem {
           modules = [
             ./hosts/veritas-framework-13-amd-7840u
