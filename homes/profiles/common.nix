@@ -48,6 +48,7 @@
       jq
       xxd
       tldr
+      nix-tree
     ];
   };
 }
