@@ -1,10 +1,21 @@
-{ config, lib, pkgs, ... }: {
+{ pkgs, ... }: {
   programs.zsh = {
     autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
 
     autocd = true;
+
+    plugins = [
+      {
+        name = "zsh-completion-sync";
+        src = "${pkgs.zsh-completion-sync}/share/zsh-completion-sync";
+      }
+      {
+        name = "zsh-history-substring-search";
+        src = "${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search";
+      }
+    ];
 
     oh-my-zsh = {
       enable = true;
@@ -25,17 +36,8 @@
       bindkey '^F' autosuggest-accept
       bindkey -M viins "\e." insert-last-word
 
-      source ${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
       bindkey -M vicmd "k" history-substring-search-up
       bindkey -M vicmd "j" history-substring-search-down
-    '' +
-    lib.optionalString (config.programs.direnv.enable) ''
-      # helper to change direnv devShells
-      direnv-set () {
-          local CONFIG_NAME="$1";
-          local TARGET_ENVRC="''${2:-.envrc}";
-          sed -i "s/\(use[[:space:]]\+flake[[:space:]]\+[^#]*\)\(#[[:space:]]*[^[:space:]]*\)\?/\1#$CONFIG_NAME/g" "$TARGET_ENVRC"
-      }
     '';
   };
 }

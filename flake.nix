@@ -45,6 +45,7 @@
           fex = callPackage ./packages/fex { };
           krun = callPackage ./packages/krun { };
           dhclient = callPackage ./packages/dhclient { };
+          zsh-completion-sync = callPackage ./packages/zsh-completion-sync.nix { };
         };
 
     in

@@ -20,6 +20,9 @@
     direnv = {
       enable = true;
       nix-direnv.enable = true;
+      package = pkgs.direnv.overrideAttrs {
+        BASH_PATH = "${pkgs.bashInteractive}/bin/bash";
+      };
     };
     fzf.enable = true;
     kitty.enable = true;
