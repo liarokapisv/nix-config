@@ -24,6 +24,7 @@
   };
 
   services = {
+    upower.enable = true;
     fwupd.enable = true;
     greetd = {
       enable = true;
@@ -37,6 +38,12 @@
     udev.packages = [
       pkgs.segger-jlink
     ];
+    zerotierone = {
+      enable = true;
+      joinNetworks = [
+        "db64858fed5b04bb"
+      ];
+    };
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -76,6 +83,7 @@
         bitwarden
         digikam
         anydesk
+        slack
       ];
 
       stateVersion = "24.05";
