@@ -3,11 +3,13 @@
   imports = [
     ./hardware.nix
     ../profiles/common.nix
+    ../profiles/power.nix
     ../profiles/pipewire.nix
     ../profiles/bluetooth.nix
     ../profiles/hyprland.nix
     ../profiles/iwd.nix
     ../profiles/usb-automount.nix
+    ../profiles/tailscale.nix
   ];
 
   nix = {
@@ -24,7 +26,6 @@
   };
 
   services = {
-    upower.enable = true;
     fwupd.enable = true;
     greetd = {
       enable = true;
@@ -84,6 +85,9 @@
         digikam
         anydesk
         slack
+        discord
+        teams-for-linux
+        zoom-us
       ];
 
       stateVersion = "24.05";

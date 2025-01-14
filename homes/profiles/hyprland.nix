@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
 
   wayland.windowManager.hyprland.enable = true;
 
@@ -14,7 +14,10 @@
     };
   };
 
-  services.dunst.enable = true;
+  services = {
+    hyprpaper.enable = lib.mkForce false;
+    dunst.enable = true;
+  };
 
   home.packages = with pkgs; [
     wl-clipboard

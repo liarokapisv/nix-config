@@ -28,6 +28,7 @@
     kitty.enable = true;
     git.enable = true;
     zathura.enable = true;
+    feh.enable = true;
   };
 
   home = {

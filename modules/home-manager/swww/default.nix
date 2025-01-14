@@ -59,7 +59,7 @@
               };
 
               Service = {
-                ExecStart = "-${pkgs.swww}/bin/swww init --no-daemon";
+                ExecStart = "-${pkgs.swww}/bin/swww-daemon -q";
                 ExecStop = "${pkgs.swww}/bin/swww kill";
                 Restart = "on-failure";
                 RestartSec = 3;

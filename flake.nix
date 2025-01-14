@@ -18,6 +18,9 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # important: no input follows.
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }:
