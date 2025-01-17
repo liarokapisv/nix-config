@@ -6,8 +6,6 @@
     ../profiles/styling.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
-
   systemd.user.startServices = true;
 
   programs = {

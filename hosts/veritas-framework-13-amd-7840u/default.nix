@@ -67,7 +67,9 @@
     ];
   };
 
-  programs.steam.enable = true;
+  programs = {
+    steam.enable = true;
+  };
 
   home-manager.users.${self.user} = {
     imports = [

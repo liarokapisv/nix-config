@@ -59,7 +59,7 @@
               };
 
               Service = {
-                ExecStart = "-${pkgs.swww}/bin/swww-daemon -q";
+                ExecStart = "-${pkgs.swww}/bin/swww-daemon";
                 ExecStop = "${pkgs.swww}/bin/swww kill";
                 Restart = "on-failure";
                 RestartSec = 3;
@@ -86,6 +86,7 @@
                 Service = {
                   Type = "oneshot";
                   Restart = "on-failure";
+                  ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
                   ExecStart = "${cfg.package}/bin/swww img ${cfg.systemd.exec-img}";
                 };
 
