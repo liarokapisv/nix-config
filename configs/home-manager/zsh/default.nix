@@ -13,17 +13,14 @@
       }
       {
         name = "zsh-history-substring-search";
-        src = "${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search";
+        src =
+          "${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search";
       }
     ];
 
     oh-my-zsh = {
       enable = true;
-      plugins = [
-        "git"
-        "fzf"
-        "vi-mode"
-      ];
+      plugins = [ "git" "fzf" "vi-mode" ];
 
       theme = "robbyrussell";
     };

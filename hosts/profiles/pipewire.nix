@@ -11,26 +11,23 @@
 
       # TODO: Fix when fixed upstream.
       wireplumber.configPackages = [
-        (pkgs.writeTextDir "share/wireplumber/wireplumber.conf.d/10-disable-webcam.conf" ''
-          wireplumber.profiles = {
-            main = {
-              monitor.libcamera = disabled
+        (pkgs.writeTextDir
+          "share/wireplumber/wireplumber.conf.d/10-disable-webcam.conf" ''
+            wireplumber.profiles = {
+              main = {
+                monitor.libcamera = disabled
+              }
             }
-          }
-        '')
+          '')
       ];
     };
 
   };
 
-  users.users.${self.user} = {
-    extraGroups = [ "pipewire" ];
-  };
+  users.users.${self.user} = { extraGroups = [ "pipewire" ]; };
 
   home-manager.users.${self.user} = {
-    imports = [
-      ../../homes/profiles/pipewire.nix
-    ];
+    imports = [ ../../homes/profiles/pipewire.nix ];
   };
 }
 

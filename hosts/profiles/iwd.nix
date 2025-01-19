@@ -14,8 +14,6 @@
   };
 
   home-manager.users.${self.user} = {
-    imports = [
-      ../../homes/profiles/iwd.nix
-    ];
+    imports = [ ../../homes/profiles/iwd.nix ];
   };
 }

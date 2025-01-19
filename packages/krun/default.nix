@@ -1,4 +1,5 @@
-{ stdenv, fetchFromGitHub, rustPlatform, llvmPackages, perl, openssl, fetchurl, pkg-config, libdrm, libepoxy, pkgs, cpio, pipewire }:
+{ stdenv, fetchFromGitHub, rustPlatform, llvmPackages, perl, openssl, fetchurl
+, pkg-config, libdrm, libepoxy, pkgs, cpio, pipewire }:
 
 let
   libkrunfw = pkgs.libkrunfw.overrideAttrs (f: p: {
@@ -27,54 +28,42 @@ let
     version = "git+84efb186c1dacc0838770027f73a09d065a5bbdf";
 
     src = fetchurl {
-      url = "https://gitlab.freedesktop.org/slp/virglrenderer/-/archive/84efb186c1dacc0838770027f73a09d065a5bbdf/virglrenderer-84efb186c1dacc0838770027f73a09d065a5bbdf.tar.bz2";
+      url =
+        "https://gitlab.freedesktop.org/slp/virglrenderer/-/archive/84efb186c1dacc0838770027f73a09d065a5bbdf/virglrenderer-84efb186c1dacc0838770027f73a09d065a5bbdf.tar.bz2";
       hash = "sha256-fskcDk5agQhc1GI0f8m920gBoQPfh3rXb/5ZxwKSLaA=";
     };
 
-    mesonFlags = [
-      "-Ddrm-msm-experimental=true"
-      "-Ddrm-asahi-experimental=true"
-    ];
+    mesonFlags =
+      [ "-Ddrm-msm-experimental=true" "-Ddrm-asahi-experimental=true" ];
   });
 
-  libkrun = (pkgs.libkrun.override { libkrunfw = libkrunfw; }).overrideAttrs (f: p: {
-    version = "git+0bea04816f4dc414a947aa7675e169cbbfbd45dc";
+  libkrun = (pkgs.libkrun.override { libkrunfw = libkrunfw; }).overrideAttrs
+    (f: p: {
+      version = "git+0bea04816f4dc414a947aa7675e169cbbfbd45dc";
 
-    src = fetchFromGitHub {
-      owner = "containers";
-      repo = f.pname;
-      rev = "0bea04816f4dc414a947aa7675e169cbbfbd45dc";
-      hash = "sha256-eo48jhc6L92+ycSMwBtFO0qhbtanx+SXm1eJgYlsass=";
-    };
+      src = fetchFromGitHub {
+        owner = "containers";
+        repo = f.pname;
+        rev = "0bea04816f4dc414a947aa7675e169cbbfbd45dc";
+        hash = "sha256-eo48jhc6L92+ycSMwBtFO0qhbtanx+SXm1eJgYlsass=";
+      };
 
-    nativeBuildInputs = p.nativeBuildInputs ++ [
-      pkg-config
-      llvmPackages.clang
-    ];
+      nativeBuildInputs = p.nativeBuildInputs
+        ++ [ pkg-config llvmPackages.clang ];
 
-    buildInputs = p.buildInputs ++ [
-      libepoxy
-      libdrm
-      pipewire
-      virglrenderer
-    ];
+      buildInputs = p.buildInputs ++ [ libepoxy libdrm pipewire virglrenderer ];
 
-    env.LIBCLANG_PATH = "${llvmPackages.clang-unwrapped.lib}/lib/libclang.so";
+      env.LIBCLANG_PATH = "${llvmPackages.clang-unwrapped.lib}/lib/libclang.so";
 
-    cargoDeps = rustPlatform.fetchCargoTarball {
-      inherit (f) src;
-      hash = "sha256-Mj0GceQBiGCt0KPXp3StjnuzWhvBNxdSUCoroM2awIY=";
-    };
+      cargoDeps = rustPlatform.fetchCargoTarball {
+        inherit (f) src;
+        hash = "sha256-Mj0GceQBiGCt0KPXp3StjnuzWhvBNxdSUCoroM2awIY=";
+      };
 
-    makeFlags = p.makeFlags ++ [
-      "GPU=1"
-      "SND=1"
-      "NET=1"
-    ];
-  });
+      makeFlags = p.makeFlags ++ [ "GPU=1" "SND=1" "NET=1" ];
+    });
 
-in
-rustPlatform.buildRustPackage rec {
+in rustPlatform.buildRustPackage rec {
   pname = "krun";
   version = "git+${src.rev}";
 
@@ -85,9 +74,7 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-3w1JHqzpkF11+3yHN3yPu2dKdi4qXdO8HY+7ICugAZA=";
   };
 
-  patches = [
-    ./mount-root-run-directory.patch
-  ];
+  patches = [ ./mount-root-run-directory.patch ];
 
   postPatch = ''
     sed -i "s|/sbin/dhclient|${pkgs.dhclient}/bin/dhclient|" crates/krun-guest/src/net.rs
@@ -95,13 +82,9 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-dtj3TiszBBsMtlJaaIyTmCNAGZy/zuSGSK8OOTb5Xmg=";
 
-  nativeBuildInputs = [
-    rustPlatform.bindgenHook
-  ];
+  nativeBuildInputs = [ rustPlatform.bindgenHook ];
 
-  buildInputs = [
-    libkrun
-  ];
+  buildInputs = [ libkrun ];
 
   cargoLock.lockFile = "${src}/Cargo.lock";
 }

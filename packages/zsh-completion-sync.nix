@@ -1,7 +1,4 @@
-{ lib
-, stdenvNoCC
-, fetchFromGitHub
-}:
+{ lib, stdenvNoCC, fetchFromGitHub }:
 
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "zsh-completion-sync";
@@ -23,7 +20,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   '';
 
   meta = with lib; {
-    description = "A zsh plugin that automatically loads completions added dynamically to FPATH or XDG_DATA_DIRS";
+    description =
+      "A zsh plugin that automatically loads completions added dynamically to FPATH or XDG_DATA_DIRS";
     homepage = "https://github.com/BronzeDeer/zsh-completion-sync";
     license = licenses.asl20;
     platforms = platforms.unix;

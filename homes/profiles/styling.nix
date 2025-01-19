@@ -1,8 +1,6 @@
 { self, config, pkgs, ... }: {
 
-  imports = [
-    self.inputs.stylix.homeManagerModules.stylix
-  ];
+  imports = [ self.inputs.stylix.homeManagerModules.stylix ];
 
   stylix = {
     enable = true;
@@ -14,31 +12,23 @@
       emoji = config.stylix.fonts.monospace;
     };
     opacity = {
-      applications = 0.90;
+      applications = 0.9;
       terminal = 0.85;
     };
-    targets = {
-      vim.enable = false;
-    };
+    targets = { vim.enable = false; };
   };
 
   programs = {
-    swww = {
-      systemd = {
-        exec-img = "${config.stylix.image}";
-      };
-    };
+    swww = { systemd = { exec-img = "${config.stylix.image}"; }; };
 
     neovim = {
-      plugins = with pkgs.vimPlugins; [
-        {
-          plugin = kanagawa-nvim;
-          type = "lua";
-          config = ''
-            vim.cmd.colorscheme "kanagawa"
-          '';
-        }
-      ];
+      plugins = with pkgs.vimPlugins; [{
+        plugin = kanagawa-nvim;
+        type = "lua";
+        config = ''
+          vim.cmd.colorscheme "kanagawa"
+        '';
+      }];
     };
   };
 

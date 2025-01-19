@@ -1,5 +1,1 @@
-{
-    imports = [
-        ./swww
-    ];
-}
+{ imports = [ ./swww ]; }

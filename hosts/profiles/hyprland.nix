@@ -1,14 +1,10 @@
 { self, pkgs, ... }: {
 
-  programs = {
-    hyprland.enable = true;
-  };
+  programs = { hyprland.enable = true; };
 
   # xdg-desktop-portal-hyprland does not provide a FileChooser
 
-  xdg.portal.extraPortals = with pkgs; [
-    xdg-desktop-portal-gtk
-  ];
+  xdg.portal.extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
 
   # polkit is required by various programs like gparted
 
@@ -22,7 +18,8 @@
       after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        ExecStart =
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
@@ -31,9 +28,7 @@
   };
 
   home-manager.users.${self.user} = {
-    imports = [
-      ../../homes/profiles/hyprland.nix
-    ];
+    imports = [ ../../homes/profiles/hyprland.nix ];
   };
 
 }

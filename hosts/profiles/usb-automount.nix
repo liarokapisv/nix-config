@@ -1,7 +1,1 @@
-{
-  services = {
-    devmon = {
-      enable = true;
-    };
-  };
-}
+{ services = { devmon = { enable = true; }; }; }

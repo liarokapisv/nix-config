@@ -1,4 +1,5 @@
-{ pkgs, }: pkgs.mkShell {
+{ pkgs, }:
+pkgs.mkShell {
   packages = with pkgs; [
     gccStdenv.cc
     gccStdenv.cc.libc

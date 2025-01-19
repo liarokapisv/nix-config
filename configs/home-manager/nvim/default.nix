@@ -1,114 +1,109 @@
 { pkgs, ... }: {
 
+  home.packages = with pkgs; [ nil nixfmt-classic ];
+
   programs.neovim = {
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
     withPython3 = true;
 
-    extraPackages = with pkgs; [
-      nil
-      nixpkgs-fmt
-    ];
+    plugins = with pkgs.vimPlugins; [
+      fzf-lua
+      vim-easymotion
+      vim-textobj-user
+      vim-easy-align
+      vim-textobj-variable-segment
+      {
+        plugin = text-case-nvim;
+        type = "lua";
+        config = ''
+          require('textcase').setup {}
+        '';
+      }
+      indentLine
 
-    plugins = with pkgs.vimPlugins;
-      [
-        fzf-lua
-        vim-easymotion
-        vim-textobj-user
-        vim-easy-align
-        vim-textobj-variable-segment
-        {
-          plugin = text-case-nvim;
-          type = "lua";
-          config = ''
-            require('textcase').setup {}
-          '';
-        }
-        indentLine
+      {
+        plugin = nvim-cmp;
+        type = "lua";
+        config = builtins.readFile ./cmp.lua;
+      }
 
-        {
-          plugin = nvim-cmp;
-          type = "lua";
-          config = builtins.readFile ./cmp.lua;
-        }
+      cmp-nvim-lsp
+      cmp-buffer
+      cmp-path
+      cmp-cmdline
 
-        cmp-nvim-lsp
-        cmp-buffer
-        cmp-path
-        cmp-cmdline
+      {
+        plugin = nvim-treesitter.withAllGrammars;
+        type = "lua";
+        config = builtins.readFile ./treesitter.lua;
+      }
 
-        {
-          plugin = nvim-treesitter.withAllGrammars;
-          type = "lua";
-          config = builtins.readFile ./treesitter.lua;
-        }
-
-        {
-          plugin = nvim-lspconfig;
-          type = "lua";
-          config = builtins.readFile ./lsp.lua;
-          runtime = {
-            "lua/lsp_key_mappings.lua".source = ./lua/lsp_key_mappings.lua;
-            "lua/cursor_hint.lua".source = ./lua/cursor_hint.lua;
-            "lua/table_merge.lua".source = ./lua/table_merge.lua;
+      {
+        plugin = nvim-lspconfig;
+        type = "lua";
+        config = builtins.readFile ./lsp.lua;
+        runtime = {
+          "lua/lsp_key_mappings.lua".source = ./lua/lsp_key_mappings.lua;
+          "lua/cursor_hint.lua".source = ./lua/cursor_hint.lua;
+          "lua/table_merge.lua".source = ./lua/table_merge.lua;
+        };
+      }
+      # used for tailwind-css-inline hints: no need to setup on nvim-lspconfig
+      {
+        # TODO: use upstream version after nixpkgs version update
+        plugin = (pkgs.vimUtils.buildVimPlugin {
+          pname = "tailwind-tools.nvim";
+          version = "2024-09-26";
+          src = pkgs.fetchFromGitHub {
+            owner = "luckasRanarison";
+            repo = "tailwind-tools.nvim";
+            rev = "4b2d88cc7d49a92f28b9942712f1a53d2c3d5b27";
+            hash = "sha256-XQV6rWxbyn2Re50DudnLYyCe+V/Aje/Stn1m7X5ethY=";
           };
-        }
-        # used for tailwind-css-inline hints: no need to setup on nvim-lspconfig
-        {
-          # TODO: use upstream version after nixpkgs version update
-          plugin = (pkgs.vimUtils.buildVimPlugin
-            {
-              pname = "tailwind-tools.nvim";
-              version = "2024-09-26";
-              src = pkgs.fetchFromGitHub {
-                owner = "luckasRanarison";
-                repo = "tailwind-tools.nvim";
-                rev = "4b2d88cc7d49a92f28b9942712f1a53d2c3d5b27";
-                hash = "sha256-XQV6rWxbyn2Re50DudnLYyCe+V/Aje/Stn1m7X5ethY=";
-              };
-              meta.homepage = "https://github.com/luckasRanarison/tailwind-tools.nvim/";
-            });
-          type = "lua";
-          config = ''
-            require("tailwind-tools").setup({
-              -- your configuration
-            })
-          '';
-        }
+          meta.homepage =
+            "https://github.com/luckasRanarison/tailwind-tools.nvim/";
+        });
+        type = "lua";
+        config = ''
+          require("tailwind-tools").setup({
+            -- your configuration
+          })
+        '';
+      }
 
-        {
-          plugin = (pkgs.vimUtils.buildVimPlugin
-            {
-              pname = "nvim-tmux-navigation";
-              version = "4898c98";
-              src = pkgs.fetchFromGitHub {
-                owner = "alexghergh";
-                repo = "nvim-tmux-navigation";
-                rev = "4898c98702954439233fdaf764c39636681e2861";
-                hash = "sha256-CxAgQSbOrg/SsQXupwCv8cyZXIB7tkWO+Y6FDtoR8xk=";
-              };
-              meta.homepage = "https://github.com/alexghergh/nvim-tmux-navigation";
-            });
-          type = "lua";
-          config = ''
-            local nvim_tmux_nav = require('nvim-tmux-navigation')
+      {
+        plugin = (pkgs.vimUtils.buildVimPlugin {
+          pname = "nvim-tmux-navigation";
+          version = "4898c98";
+          src = pkgs.fetchFromGitHub {
+            owner = "alexghergh";
+            repo = "nvim-tmux-navigation";
+            rev = "4898c98702954439233fdaf764c39636681e2861";
+            hash = "sha256-CxAgQSbOrg/SsQXupwCv8cyZXIB7tkWO+Y6FDtoR8xk=";
+          };
+          meta.homepage = "https://github.com/alexghergh/nvim-tmux-navigation";
+        });
+        type = "lua";
+        config = ''
+          local nvim_tmux_nav = require('nvim-tmux-navigation')
 
-            nvim_tmux_nav.setup {
-                disable_when_zoomed = true,
-                keybindings = {
-                    left = "<C-h>",
-                    down = "<C-j>",
-                    up = "<C-k>",
-                    right = "<C-l>",
-                    last_active = "<C-\\>",
-                    next = "<C-Space>",
-                }
-            }
-          '';
-        }
+          nvim_tmux_nav.setup {
+              disable_when_zoomed = true,
+              keybindings = {
+                  left = "<C-h>",
+                  down = "<C-j>",
+                  up = "<C-k>",
+                  right = "<C-l>",
+                  last_active = "<C-\\>",
+                  next = "<C-Space>",
+              }
+          }
+        '';
+      }
 
-      ];
+    ];
 
     # Used for aesthetic purposes - adds newline after automatic import of viml config"
     extraLuaConfig = "\n\n";

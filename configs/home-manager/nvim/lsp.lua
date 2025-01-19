@@ -30,11 +30,11 @@ function add_lsp(server, options)
 end
 
 add_lsp("nil_ls", table_merge(
-        (vim.fn.executable("nixpkgs-fmt") == 1) and {
+        (vim.fn.executable("nixfmt") == 1) and {
             settings = {
                 ['nil'] = {
                     formatting = {
-                        command = { "nixpkgs-fmt" },
+                        command = { "nixfmt" },
                     },
                 },
             },
