@@ -15,6 +15,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # important: no input follows.
     determinate.url =
       "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
@@ -49,6 +54,7 @@
           dhclient = callPackage ./packages/dhclient { };
           zsh-completion-sync =
             callPackage ./packages/zsh-completion-sync.nix { };
+          erae-lab = callPackage ./packages/erae-lab { };
         };
 
     in {

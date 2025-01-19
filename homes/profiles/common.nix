@@ -1,9 +1,10 @@
-{ pkgs, ... }: {
+{ self, pkgs, ... }: {
 
   imports = [
     ../../modules/home-manager
     ../../configs/home-manager
     ../profiles/styling.nix
+    self.inputs.nix-index-database.hmModules.nix-index
   ];
 
   systemd.user.startServices = true;
@@ -48,6 +49,7 @@
       xxd
       tldr
       nix-tree
+      erae-lab
     ];
   };
 }
