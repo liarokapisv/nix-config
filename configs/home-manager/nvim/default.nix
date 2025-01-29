@@ -50,21 +50,9 @@
           "lua/table_merge.lua".source = ./lua/table_merge.lua;
         };
       }
-      # used for tailwind-css-inline hints: no need to setup on nvim-lspconfig
+
       {
-        # TODO: use upstream version after nixpkgs version update
-        plugin = (pkgs.vimUtils.buildVimPlugin {
-          pname = "tailwind-tools.nvim";
-          version = "2024-09-26";
-          src = pkgs.fetchFromGitHub {
-            owner = "luckasRanarison";
-            repo = "tailwind-tools.nvim";
-            rev = "4b2d88cc7d49a92f28b9942712f1a53d2c3d5b27";
-            hash = "sha256-XQV6rWxbyn2Re50DudnLYyCe+V/Aje/Stn1m7X5ethY=";
-          };
-          meta.homepage =
-            "https://github.com/luckasRanarison/tailwind-tools.nvim/";
-        });
+        plugin = tailwind-tools-nvim;
         type = "lua";
         config = ''
           require("tailwind-tools").setup({
