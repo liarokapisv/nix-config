@@ -8,6 +8,7 @@
   ];
 
   systemd.user.startServices = true;
+  nixpkgs.config.allowUnfree = true;
 
   programs = {
     tmux.enable = true;
@@ -43,7 +44,10 @@
       xarchiver
       p7zip
       file
-      bitwarden-cli
+      (bitwarden-cli.overrideAttrs (old: {
+        # TODO: Remove when fixed upstream.
+        dontCheckForBrokenSymlinks = true;
+      }))
       ventoy
       jq
       xxd
