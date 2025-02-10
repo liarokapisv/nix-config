@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   programs.waybar.ext.network.on-click = "${pkgs.iwgtk}/bin/iwgtk";
 

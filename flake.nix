@@ -1,7 +1,11 @@
 {
   inputs = {
-    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
-    nixos-hardware = { url = "github:NixOS/nixos-hardware/master"; };
+    nixpkgs = {
+      url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,28 +25,34 @@
     };
 
     # important: no input follows.
-    determinate.url =
-      "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }:
     let
-      forAllSystems = f:
-        nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]
-        (s: f nixpkgs.legacyPackages.${s});
+      forAllSystems =
+        f: nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (s: f nixpkgs.legacyPackages.${s});
 
       args = {
         self = self // {
-          lib = (pkgs:
+          lib = (
+            pkgs:
             import ./lib {
               inherit self;
               inherit pkgs;
-            });
+            }
+          );
         };
       };
 
-      packages = p:
-        with p.extend self.overlays.default; {
+      packages =
+        p: with p.extend self.overlays.default; {
           tslib = callPackage ./packages/tslib.nix { };
           viber = callPackage ./packages/viber { };
           segger-jlink = (callPackage ./packages/segger-jlink { }).override {
@@ -52,35 +62,39 @@
           fex = callPackage ./packages/fex { };
           krun = callPackage ./packages/krun { };
           dhclient = callPackage ./packages/dhclient { };
-          zsh-completion-sync =
-            callPackage ./packages/zsh-completion-sync.nix { };
+          zsh-completion-sync = callPackage ./packages/zsh-completion-sync.nix { };
           erae-lab = callPackage ./packages/erae-lab { };
         };
 
-    in {
+    in
+    {
       homeConfigurations = {
-        "alexandros-liarokapis@acumino" =
-          home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs.legacyPackages.x86_64-linux;
-            modules = [ ./homes/alexandros-liarokapis-acumino ];
-            extraSpecialArgs = args // {
-              self = self // { user = "alexandros-liarokapis"; };
+        "alexandros-liarokapis@acumino" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          modules = [ ./homes/alexandros-liarokapis-acumino ];
+          extraSpecialArgs = args // {
+            self = self // {
+              user = "alexandros-liarokapis";
             };
           };
+        };
       };
 
       nixosConfigurations = {
         "veritas@framework-13-amd-7840u" = nixpkgs.lib.nixosSystem {
           modules = [ ./hosts/veritas-framework-13-amd-7840u ];
-          specialArgs = args // { self = self // { user = "veritas"; }; };
+          specialArgs = args // {
+            self = self // {
+              user = "veritas";
+            };
+          };
         };
       };
 
-      formatter = forAllSystems (pkgs: pkgs.nixpkgs-fmt);
+      formatter = forAllSystems (pkgs: pkgs.nixfmt-rfc-style);
 
       packages = forAllSystems packages;
 
-      overlays.default = final: super:
-        removeAttrs (packages final) [ "default" ] // { };
+      overlays.default = final: super: removeAttrs (packages final) [ "default" ] // { };
     };
 }

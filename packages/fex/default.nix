@@ -1,5 +1,15 @@
-{ fetchFromGitHub, cmake, pkg-config, ninja, python3, libepoxy, SDL2, nasm, git
-, llvmPackages }:
+{
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  ninja,
+  python3,
+  libepoxy,
+  SDL2,
+  nasm,
+  git,
+  llvmPackages,
+}:
 llvmPackages.stdenv.mkDerivation (finalAttrs: {
   version = "2405";
   pname = "FEX";

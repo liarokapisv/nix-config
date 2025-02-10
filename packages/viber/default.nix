@@ -1,10 +1,12 @@
 { callPackage, buildFHSEnv }:
-let unwrapped = callPackage ./unwrapped.nix { };
-in buildFHSEnv {
+let
+  unwrapped = callPackage ./unwrapped.nix { };
+in
+buildFHSEnv {
   inherit (unwrapped) name meta;
 
-  targetPkgs = pkgs:
-    with pkgs; [
+  targetPkgs =
+    pkgs: with pkgs; [
       unwrapped
       # needed because of hard-coded lookup to /usr/share/X11/xkb
       xorg.xkeyboardconfig

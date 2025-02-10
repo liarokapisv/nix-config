@@ -1,7 +1,5 @@
-{ pkgs, ... }: {
-
-  home.packages = with pkgs; [ nil nixfmt-classic ];
-
+{ pkgs, ... }:
+{
   programs.neovim = {
     viAlias = true;
     vimAlias = true;
@@ -62,17 +60,19 @@
       }
 
       {
-        plugin = (pkgs.vimUtils.buildVimPlugin {
-          pname = "nvim-tmux-navigation";
-          version = "4898c98";
-          src = pkgs.fetchFromGitHub {
-            owner = "alexghergh";
-            repo = "nvim-tmux-navigation";
-            rev = "4898c98702954439233fdaf764c39636681e2861";
-            hash = "sha256-CxAgQSbOrg/SsQXupwCv8cyZXIB7tkWO+Y6FDtoR8xk=";
-          };
-          meta.homepage = "https://github.com/alexghergh/nvim-tmux-navigation";
-        });
+        plugin = (
+          pkgs.vimUtils.buildVimPlugin {
+            pname = "nvim-tmux-navigation";
+            version = "4898c98";
+            src = pkgs.fetchFromGitHub {
+              owner = "alexghergh";
+              repo = "nvim-tmux-navigation";
+              rev = "4898c98702954439233fdaf764c39636681e2861";
+              hash = "sha256-CxAgQSbOrg/SsQXupwCv8cyZXIB7tkWO+Y6FDtoR8xk=";
+            };
+            meta.homepage = "https://github.com/alexghergh/nvim-tmux-navigation";
+          }
+        );
         type = "lua";
         config = ''
           local nvim_tmux_nav = require('nvim-tmux-navigation')

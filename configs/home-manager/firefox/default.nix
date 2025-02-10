@@ -1,4 +1,11 @@
-{ self, config, lib, pkgs, ... }: {
+{
+  self,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
 
   config = lib.mkMerge [
     ({
@@ -7,101 +14,109 @@
           default = "Google";
           engines = {
             "Nix Packages" = {
-              urls = [{
-                template = "https://search.nixos.org/packages";
-                params = [
-                  {
-                    name = "channel";
-                    value = "unstable";
-                  }
-                  {
-                    name = "type";
-                    value = "packages";
-                  }
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }];
+              urls = [
+                {
+                  template = "https://search.nixos.org/packages";
+                  params = [
+                    {
+                      name = "channel";
+                      value = "unstable";
+                    }
+                    {
+                      name = "type";
+                      value = "packages";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
 
-              icon =
-                "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nx-snowflake.svg";
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nx-snowflake.svg";
               definedAliases = [ "@np" ];
             };
 
             "Nixos Options" = {
-              urls = [{
-                template = "https://search.nixos.org/options";
-                params = [
-                  {
-                    name = "channel";
-                    value = "unstable";
-                  }
-                  {
-                    name = "type";
-                    value = "packages";
-                  }
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                ];
-              }];
+              urls = [
+                {
+                  template = "https://search.nixos.org/options";
+                  params = [
+                    {
+                      name = "channel";
+                      value = "unstable";
+                    }
+                    {
+                      name = "type";
+                      value = "packages";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
 
-              icon =
-                "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@no" ];
             };
 
             "Home Manager Options" = {
-              urls = [{
-                template = "https://home-manager-options.extranix.com";
-                params = [
-                  {
-                    name = "query";
-                    value = "{searchTerms}";
-                  }
-                  {
-                    name = "release";
-                    value = "master";
-                  }
-                ];
-              }];
+              urls = [
+                {
+                  template = "https://home-manager-options.extranix.com";
+                  params = [
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                    {
+                      name = "release";
+                      value = "master";
+                    }
+                  ];
+                }
+              ];
 
-              icon =
-                "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@hm" ];
             };
 
             "NixOS Wiki" = {
-              urls = [{
-                template = "https://nixos.wiki/index.php?search={searchTerms}";
-              }];
+              urls = [
+                {
+                  template = "https://nixos.wiki/index.php?search={searchTerms}";
+                }
+              ];
               iconUpdateURL = "https://nixos.wiki/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@nw" ];
             };
 
             "Bing".metaData.hidden = true;
-            "Google".metaData.alias =
-              "@g"; # builtin engines only support specifying one additional alias
+            "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
           };
           force = true;
         };
 
-        extensions = let
-          addons =
-            self.inputs.firefox-addons.packages.${pkgs.hostPlatform.system};
-          sameStdenv = addon: addon.override { inherit (pkgs) stdenv; };
-        in builtins.map sameStdenv (with addons; [
-          ublock-origin
-          bitwarden
-          i-dont-care-about-cookies
-          vimium
-          languagetool
-          user-agent-string-switcher
-        ]);
+        extensions =
+          let
+            addons = self.inputs.firefox-addons.packages.${pkgs.hostPlatform.system};
+            sameStdenv = addon: addon.override { inherit (pkgs) stdenv; };
+          in
+          builtins.map sameStdenv (
+            with addons;
+            [
+              ublock-origin
+              bitwarden
+              i-dont-care-about-cookies
+              vimium
+              languagetool
+              user-agent-string-switcher
+            ]
+          );
 
         bookmarks = [
           {
@@ -149,8 +164,7 @@
                 bookmarks = [
                   {
                     name = "home manager search";
-                    url =
-                      "https://mipmip.github.io/home-manager-option-search/";
+                    url = "https://mipmip.github.io/home-manager-option-search/";
                   }
                   {
                     name = "nixos search";
@@ -162,7 +176,10 @@
                   }
                   {
                     name = "wiki";
-                    tags = [ "wiki" "nix" ];
+                    tags = [
+                      "wiki"
+                      "nix"
+                    ];
                     url = "https://nixos.wiki/";
                   }
                 ];

@@ -1,4 +1,10 @@
-{ self, config, pkgs, ... }: {
+{
+  self,
+  config,
+  pkgs,
+  ...
+}:
+{
 
   imports = [ self.inputs.stylix.homeManagerModules.stylix ];
 
@@ -15,20 +21,28 @@
       applications = 0.9;
       terminal = 0.85;
     };
-    targets = { vim.enable = false; };
+    targets = {
+      vim.enable = false;
+    };
   };
 
   programs = {
-    swww = { systemd = { exec-img = "${config.stylix.image}"; }; };
+    swww = {
+      systemd = {
+        exec-img = "${config.stylix.image}";
+      };
+    };
 
     neovim = {
-      plugins = with pkgs.vimPlugins; [{
-        plugin = kanagawa-nvim;
-        type = "lua";
-        config = ''
-          vim.cmd.colorscheme "kanagawa"
-        '';
-      }];
+      plugins = with pkgs.vimPlugins; [
+        {
+          plugin = kanagawa-nvim;
+          type = "lua";
+          config = ''
+            vim.cmd.colorscheme "kanagawa"
+          '';
+        }
+      ];
     };
   };
 

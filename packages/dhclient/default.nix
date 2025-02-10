@@ -7,7 +7,12 @@ pkgs.stdenv.mkDerivation {
     url = "https://downloads.isc.org/isc/dhcp/4.4.3/dhcp-4.4.3.tar.gz";
     sha256 = "0ba23q4szjpilyqzw7h1n8almdib45rdl3wbpa3mgfg8xvf2nbkl";
   };
-  buildInput = [ pkgs.binutils pkgs.bintools-unwrapped pkgs.gnugrep pkgs.file ];
+  buildInput = [
+    pkgs.binutils
+    pkgs.bintools-unwrapped
+    pkgs.gnugrep
+    pkgs.file
+  ];
   configurePhase = ''
     #echo "checking configure"
     #./configure --disable-symtable --prefix $out

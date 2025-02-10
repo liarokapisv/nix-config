@@ -1,4 +1,5 @@
-{ self, ... }: {
+{ self, ... }:
+{
 
   security.rtkit.enable = true;
 
@@ -12,10 +13,11 @@
 
   };
 
-  users.users.${self.user} = { extraGroups = [ "pipewire" ]; };
+  users.users.${self.user} = {
+    extraGroups = [ "pipewire" ];
+  };
 
   home-manager.users.${self.user} = {
     imports = [ ../../homes/profiles/pipewire.nix ];
   };
 }
-

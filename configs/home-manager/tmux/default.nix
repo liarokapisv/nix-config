@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.tmux = {
     mouse = true;
     keyMode = "vi";

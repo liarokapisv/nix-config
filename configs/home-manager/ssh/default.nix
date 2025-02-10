@@ -1,1 +1,7 @@
-{ programs = { ssh = { extraConfig = builtins.readFile ./config; }; }; }
+{
+  programs = {
+    ssh = {
+      extraConfig = builtins.readFile ./config;
+    };
+  };
+}

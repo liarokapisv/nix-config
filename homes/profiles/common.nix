@@ -1,4 +1,5 @@
-{ self, pkgs, ... }: {
+{ self, pkgs, ... }:
+{
 
   imports = [
     ../../modules/home-manager
@@ -44,6 +45,9 @@
       xarchiver
       p7zip
       file
+      nil
+      nixfmt-rfc-style
+      treefmt
       (bitwarden-cli.overrideAttrs (old: {
         # TODO: Remove when fixed upstream.
         dontCheckForBrokenSymlinks = true;

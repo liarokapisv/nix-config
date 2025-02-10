@@ -2,7 +2,8 @@
 
 (pkgs.buildFHSUserEnv {
   name = "buildroot-buildenv";
-  targetPkgs = pkgs:
+  targetPkgs =
+    pkgs:
     (with pkgs; [
       # required packages
       which
@@ -31,7 +32,12 @@
       # optional packages
       ncurses5
       graphviz
-      (python3.withPackages (pypkgs: with pypkgs; [ matplotlib libfdt ]))
+      (python3.withPackages (
+        pypkgs: with pypkgs; [
+          matplotlib
+          libfdt
+        ]
+      ))
 
       ## undocumented extras
       libxcrypt # needed crypt.h

@@ -1,10 +1,14 @@
-{ self, pkgs, ... }: {
+{ self, pkgs, ... }:
+{
 
   imports = [ self.inputs.home-manager.nixosModules.home-manager ];
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
       trusted-users = [ "@wheel" ];
     };
@@ -30,7 +34,9 @@
 
   users = {
     mutableUsers = true;
-    groups = { plocate = { }; };
+    groups = {
+      plocate = { };
+    };
   };
 
   programs = {
@@ -48,12 +54,22 @@
 
   services = {
     openssh.enable = true;
-    udev.packages = with pkgs; [ segger-jlink openocd ];
+    udev.packages = with pkgs; [
+      segger-jlink
+      openocd
+    ];
   };
 
-  fonts = { fontconfig.enable = true; };
+  fonts = {
+    fontconfig.enable = true;
+  };
 
-  users.users.${self.user} = { extraGroups = [ "plocate" "docker" ]; };
+  users.users.${self.user} = {
+    extraGroups = [
+      "plocate"
+      "docker"
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     wget

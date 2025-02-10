@@ -1,4 +1,11 @@
-{ self, pkgs, config, lib, modulesPath, ... }:
+{
+  self,
+  pkgs,
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
@@ -11,8 +18,13 @@
     enableAllFirmware = true;
   };
 
-  boot.initrd.availableKernelModules =
-    [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "thunderbolt"
+    "usb_storage"
+    "sd_mod"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
@@ -26,7 +38,10 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/1C58-6A09";
     fsType = "vfat";
-    options = [ "fmask=0077" "dmask=0077" ];
+    options = [
+      "fmask=0077"
+      "dmask=0077"
+    ];
   };
 
   fileSystems."/nix" = {
@@ -44,12 +59,10 @@
     fsType = "ext4";
   };
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/b44b4bef-d20b-4bb5-8fb6-45fb0cdf186f"; }];
+  swapDevices = [ { device = "/dev/disk/by-uuid/b44b4bef-d20b-4bb5-8fb6-45fb0cdf186f"; } ];
 
   networking.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

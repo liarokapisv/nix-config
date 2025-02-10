@@ -1,4 +1,10 @@
-{ lib, fetchzip, stdenv, pkg-config, ... }:
+{
+  lib,
+  fetchzip,
+  stdenv,
+  pkg-config,
+  ...
+}:
 
 stdenv.mkDerivation {
 
@@ -6,8 +12,7 @@ stdenv.mkDerivation {
   version = "1.22";
 
   src = fetchzip {
-    url =
-      "https://github.com/libts/tslib/releases/download/1.22/tslib-1.22.tar.gz";
+    url = "https://github.com/libts/tslib/releases/download/1.22/tslib-1.22.tar.gz";
     sha256 = "zA3rpE6vH0d2VSL7iDY7JbzOa+SRzsLvk9z/iBzfj1g=";
   };
 
