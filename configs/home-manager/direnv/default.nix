@@ -1,5 +1,6 @@
 {
   programs.direnv = {
+    enableBashIntegration = true;
     enableZshIntegration = true;
     nix-direnv.enable = true;
     config = {

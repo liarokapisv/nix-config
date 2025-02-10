@@ -18,13 +18,7 @@
     zsh.enable = true;
     ssh.enable = true;
     firefox.enable = true;
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-      package = pkgs.direnv.overrideAttrs {
-        BASH_PATH = "${pkgs.bashInteractive}/bin/bash";
-      };
-    };
+    direnv.enable = true;
     fzf.enable = true;
     kitty.enable = true;
     git.enable = true;
