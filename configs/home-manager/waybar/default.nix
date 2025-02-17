@@ -39,7 +39,7 @@
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "hyprland/window" ];
           modules-right = [
-            "network"
+            #"network"
             "tray"
             "temperature"
             "backlight"
@@ -137,9 +137,12 @@
           };
           clock = {
             tooltip-format = ''
-              <big>{: %Y %B}</big>
+              <big>{:%Y %B}</big>
               <tt><small>{calendar}</small></tt>'';
             format-alt = "{:%Y-%m-%d}";
+          };
+          tray = {
+            "spacing" = 10;
           };
         };
       };

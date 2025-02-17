@@ -15,6 +15,7 @@
       {
         name = "zsh-history-substring-search";
         src = "${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search";
+        file = "zsh-history-substring-search.zsh";
       }
     ];
 

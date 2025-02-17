@@ -10,6 +10,7 @@
     ../profiles/iwd.nix
     ../profiles/usb-automount.nix
     ../profiles/tailscale.nix
+    ../profiles/nameservers.nix
   ];
 
   nix = {
