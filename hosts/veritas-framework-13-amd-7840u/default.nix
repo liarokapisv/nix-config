@@ -7,9 +7,9 @@
     ../profiles/pipewire.nix
     ../profiles/bluetooth.nix
     ../profiles/hyprland.nix
-    ../profiles/iwd.nix
     ../profiles/usb-automount.nix
     ../profiles/tailscale.nix
+    ../profiles/networking.nix
     ../profiles/nameservers.nix
   ];
 
@@ -48,9 +48,7 @@
   boot.loader.efi.canTouchEfiVariables = false;
   boot.tmp.useTmpfs = true;
 
-  networking = {
-    hostName = "veritas-framework-13-amd-7840u";
-  };
+  networking.hostName = "veritas-framework-13-amd-7840u";
 
   users.users.${self.user} = {
     isNormalUser = true;
