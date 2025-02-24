@@ -17,6 +17,11 @@
       discord
       viber
       eagle
+      anydesk
+      slack
+      discord
+      teams-for-linux
+      zoom-us
     ];
 
     username = self.user;
