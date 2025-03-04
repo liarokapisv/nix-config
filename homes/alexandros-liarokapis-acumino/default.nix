@@ -22,6 +22,7 @@
       discord
       teams-for-linux
       zoom-us
+      xclip
     ];
 
     username = self.user;

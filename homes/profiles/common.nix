@@ -51,7 +51,6 @@
       xxd
       tldr
       nix-tree
-      erae-lab
     ];
   };
 }

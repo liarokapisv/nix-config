@@ -86,6 +86,7 @@
         discord
         teams-for-linux
         zoom-us
+        erae-lab
       ];
 
       stateVersion = "24.05";
