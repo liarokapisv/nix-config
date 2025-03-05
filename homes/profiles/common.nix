@@ -9,7 +9,6 @@
   ];
 
   systemd.user.startServices = true;
-  nixpkgs.config.allowUnfree = true;
 
   programs = {
     tmux.enable = true;

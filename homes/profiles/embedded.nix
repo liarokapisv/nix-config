@@ -10,7 +10,6 @@
           cargo
           rust-analyzer
           vmpk
-          kicad
         ]
         ++ lib.optionals (stdenv.hostPlatform.system != "x86_64-linux") [ segger-jlink ]
         ++ lib.optionals (stdenv.hostPlatform.system == "x86_64-linux") [

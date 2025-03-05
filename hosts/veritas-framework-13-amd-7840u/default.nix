@@ -8,9 +8,7 @@
     ../profiles/bluetooth.nix
     ../profiles/hyprland.nix
     ../profiles/usb-automount.nix
-    ../profiles/tailscale.nix
     ../profiles/networking.nix
-    ../profiles/nameservers.nix
   ];
 
   nix = {
@@ -39,7 +37,7 @@
     };
     udev.packages = [ pkgs.segger-jlink ];
     zerotierone = {
-      enable = true;
+      enable = false;
       joinNetworks = [ "db64858fed5b04bb" ];
     };
   };
