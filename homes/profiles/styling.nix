@@ -18,7 +18,6 @@
       emoji = config.stylix.fonts.monospace;
     };
     opacity = {
-      applications = 0.9;
       terminal = 0.85;
     };
     targets = {

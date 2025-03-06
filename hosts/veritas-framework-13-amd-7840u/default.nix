@@ -36,10 +36,6 @@
       };
     };
     udev.packages = [ pkgs.segger-jlink ];
-    zerotierone = {
-      enable = false;
-      joinNetworks = [ "db64858fed5b04bb" ];
-    };
   };
 
   boot.loader.systemd-boot.enable = true;
