@@ -4,6 +4,8 @@
   imports = [ self.inputs.home-manager.nixosModules.home-manager ];
 
   nix = {
+    registry.nixpkgs.flake = self.inputs.nixpkgs;
+
     settings = {
       experimental-features = [
         "nix-command"
