@@ -65,17 +65,24 @@
 
     in
     {
-      homeConfigurations = {
-        "alexandros-liarokapis@acumino" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          modules = [ ./homes/alexandros-liarokapis-acumino ];
-          extraSpecialArgs = args // {
-            self = self // {
-              user = "alexandros-liarokapis";
+      homeConfigurations =
+        let
+          mkAcumino =
+            user:
+            home-manager.lib.homeManagerConfiguration {
+              pkgs = nixpkgs.legacyPackages.x86_64-linux;
+              modules = [ ./homes/alexandros-liarokapis-acumino ];
+              extraSpecialArgs = args // {
+                self = self // {
+                  inherit user;
+                };
+              };
             };
-          };
+        in
+        {
+          "alexandros-liarokapis@acumino" = mkAcumino "alexandros-liarokapis";
+          "alex@acumino" = mkAcumino "alex";
         };
-      };
 
       nixosConfigurations = {
         "veritas@framework-13-amd-7840u" = nixpkgs.lib.nixosSystem {

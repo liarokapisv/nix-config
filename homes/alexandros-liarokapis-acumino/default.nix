@@ -1,8 +1,10 @@
 { self, pkgs, ... }:
 {
-  imports = [ ../profiles/common.nix ];
-
-  nixpkgs.overlays = [ self.overlays.default ];
+  imports = [
+    ../profiles/common.nix
+    ../../common/nixpkgs.nix
+    ../../common/registry.nix
+  ];
 
   targets.genericLinux.enable = true;
 

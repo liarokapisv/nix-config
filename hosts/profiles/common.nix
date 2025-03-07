@@ -1,11 +1,13 @@
 { self, pkgs, ... }:
 {
 
-  imports = [ self.inputs.home-manager.nixosModules.home-manager ];
+  imports = [
+    self.inputs.home-manager.nixosModules.home-manager
+    ../../common/nixpkgs.nix
+    ../../common/registry.nix
+  ];
 
   nix = {
-    registry.nixpkgs.flake = self.inputs.nixpkgs;
-
     settings = {
       experimental-features = [
         "nix-command"
@@ -19,11 +21,6 @@
       dates = "daily";
       options = "--delete-older-than 30d";
     };
-  };
-
-  nixpkgs = {
-    config.allowUnfree = true;
-    overlays = [ self.overlays.default ];
   };
 
   boot.tmp.cleanOnBoot = true;
