@@ -66,7 +66,6 @@
   users.users.${self.user} = {
     extraGroups = [
       "plocate"
-      "docker"
     ];
   };
 

@@ -1,4 +1,9 @@
-{ self, pkgs, ... }:
+{
+  self,
+  pkgs,
+  config,
+  ...
+}:
 {
   imports = [
     ./hardware.nix
@@ -9,7 +14,24 @@
     ../profiles/hyprland.nix
     ../profiles/usb-automount.nix
     ../profiles/networking.nix
+    ../profiles/virtualisation.nix
+    self.inputs.agenix.nixosModules.default
   ];
+
+  # Turn off to enable docker swarm.
+  virtualisation.docker.daemon.settings.live-restore = false;
+
+  # Required for docker swarm
+  # networking.firewall = {
+  #     allowedTCPPorts = [
+  #       7946
+  #       2377
+  #     ];
+  #     allowedUDPPorts = [
+  #       7946
+  #       4789
+  #     ];
+  # };
 
   nix = {
     settings = {
@@ -21,6 +43,26 @@
         "ros.cachix.org-1:dSyZxI8geDCJrwgvCOHDoAfOm5sV1wCPjBkKL+38Rvo="
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       ];
+    };
+  };
+
+  # vpn connectivity
+  age.secrets = {
+    "AlexL.ovpn".file = ../../secrets/AlexL.ovpn;
+    "AlexL-password.txt".file = ../../secrets/AlexL-password.txt;
+  };
+
+  environment.systemPackages = [
+    self.inputs.agenix.packages."${pkgs.system}".default
+  ];
+
+  services.openvpn.servers = {
+    acuminoNzOfficeVPN = {
+      config = ''
+        config ${config.age.secrets."AlexL.ovpn".path}
+        askpass ${config.age.secrets."AlexL-password.txt".path}
+      '';
+      autoStart = true;
     };
   };
 
