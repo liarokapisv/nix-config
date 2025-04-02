@@ -18,21 +18,6 @@
     self.inputs.agenix.nixosModules.default
   ];
 
-  # Turn off to enable docker swarm.
-  virtualisation.docker.daemon.settings.live-restore = false;
-
-  # Required for docker swarm
-  # networking.firewall = {
-  #     allowedTCPPorts = [
-  #       7946
-  #       2377
-  #     ];
-  #     allowedUDPPorts = [
-  #       7946
-  #       4789
-  #     ];
-  # };
-
   nix = {
     settings = {
       substituters = [
@@ -126,6 +111,7 @@
 
       stateVersion = "24.05";
     };
+
   };
 
   fonts = {

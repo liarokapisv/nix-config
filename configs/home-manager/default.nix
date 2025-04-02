@@ -5,7 +5,6 @@
     ./hyprland
     ./waybar
     ./fuzzel
-    ./ssh
     ./firefox
     ./git
     ./direnv
