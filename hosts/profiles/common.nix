@@ -2,9 +2,10 @@
 {
 
   imports = [
-    self.inputs.home-manager.nixosModules.home-manager
     ../../common/nixpkgs.nix
     ../../common/registry.nix
+
+    self.inputs.home-manager.nixosModules.home-manager
   ];
 
   nix = {
@@ -26,7 +27,6 @@
   boot.tmp.cleanOnBoot = true;
 
   home-manager = {
-    useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit self; };
   };

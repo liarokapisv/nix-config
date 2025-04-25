@@ -34,7 +34,7 @@
     # not being able to supply -M to bindkey with the stock option.
     # See: https://github.com/nix-community/home-manager/issues/4264
 
-    initExtra = ''
+    initContent = ''
       bindkey '^F' autosuggest-accept
       bindkey -M viins "\e." insert-last-word
 

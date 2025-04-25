@@ -22,6 +22,7 @@
     };
     targets = {
       vim.enable = false;
+      firefox.profileNames = [ "default" ];
     };
   };
 

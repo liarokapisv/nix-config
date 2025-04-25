@@ -2,6 +2,9 @@
 {
 
   imports = [
+    ../../common/nixpkgs.nix
+    ../../common/registry.nix
+
     ../../modules/home-manager
     ../../configs/home-manager
     ../profiles/styling.nix

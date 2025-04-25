@@ -1,6 +1,5 @@
 {
   self,
-  config,
   lib,
   pkgs,
   ...
@@ -11,7 +10,7 @@
     ({
       programs.firefox.profiles.default = {
         search = {
-          default = "Google";
+          default = "google";
           engines = {
             "Nix Packages" = {
               urls = [
@@ -90,18 +89,18 @@
                   template = "https://nixos.wiki/index.php?search={searchTerms}";
                 }
               ];
-              iconUpdateURL = "https://nixos.wiki/favicon.png";
+              icon = "https://nixos.wiki/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@nw" ];
             };
 
-            "Bing".metaData.hidden = true;
-            "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+            "bing".metaData.hidden = true;
+            "google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
           };
           force = true;
         };
 
-        extensions =
+        extensions.packages =
           let
             addons = self.inputs.firefox-addons.packages.${pkgs.hostPlatform.system};
             sameStdenv = addon: addon.override { inherit (pkgs) stdenv; };
@@ -118,81 +117,84 @@
             ]
           );
 
-        bookmarks = [
-          {
-            toolbar = true;
-            bookmarks = [
-              {
-                name = "Ricing";
-                bookmarks = [
-                  {
-                    name = "eww";
-                    url = "https://github.com/elkowar/eww";
-                  }
-                  {
-                    name = "swww";
-                    url = "https://github.com/Horus645/swww";
-                  }
-                  {
-                    name = "Waybar";
-                    url = "https://github.com/Alexays/Waybar";
-                  }
-                  {
-                    name = "Fuzzel";
-                    url = "https://codeberg.org/dnkl/fuzzel";
-                  }
-                  {
-                    name = "Firefox twily-theme";
-                    url = "https://twily.info/firefox/stylish/firefox-css";
-                  }
-                  {
-                    name = "PROxZIMA dotfiles";
-                    url = "https://github.com/PROxZIMA/.dotfiles/";
-                  }
-                  {
-                    name = "i4pg dotfiles";
-                    url = "https://github.com/i4pg/dotfiles/tree/main";
-                  }
-                  {
-                    name = "Stylix";
-                    url = "https://github.com/danth/stylix";
-                  }
-                ];
-              }
-              {
-                name = "Nix sites";
-                bookmarks = [
-                  {
-                    name = "home manager search";
-                    url = "https://mipmip.github.io/home-manager-option-search/";
-                  }
-                  {
-                    name = "nixos search";
-                    url = "https://search.nixos.org/packages";
-                  }
-                  {
-                    name = "homepage";
-                    url = "https://nixos.org/";
-                  }
-                  {
-                    name = "wiki";
-                    tags = [
-                      "wiki"
-                      "nix"
-                    ];
-                    url = "https://nixos.wiki/";
-                  }
-                ];
-              }
-            ];
-          }
-          {
-            # Used to be able to escape to unfocus from url bar due to firefox restriction.
-            name = "Unfocus hack";
-            keyword = "j";
-            url = "javascript:()";
-          }
-        ];
+        bookmarks = {
+          force = true;
+          settings = [
+            {
+              toolbar = true;
+              bookmarks = [
+                {
+                  name = "Ricing";
+                  bookmarks = [
+                    {
+                      name = "eww";
+                      url = "https://github.com/elkowar/eww";
+                    }
+                    {
+                      name = "swww";
+                      url = "https://github.com/Horus645/swww";
+                    }
+                    {
+                      name = "Waybar";
+                      url = "https://github.com/Alexays/Waybar";
+                    }
+                    {
+                      name = "Fuzzel";
+                      url = "https://codeberg.org/dnkl/fuzzel";
+                    }
+                    {
+                      name = "Firefox twily-theme";
+                      url = "https://twily.info/firefox/stylish/firefox-css";
+                    }
+                    {
+                      name = "PROxZIMA dotfiles";
+                      url = "https://github.com/PROxZIMA/.dotfiles/";
+                    }
+                    {
+                      name = "i4pg dotfiles";
+                      url = "https://github.com/i4pg/dotfiles/tree/main";
+                    }
+                    {
+                      name = "Stylix";
+                      url = "https://github.com/danth/stylix";
+                    }
+                  ];
+                }
+                {
+                  name = "Nix sites";
+                  bookmarks = [
+                    {
+                      name = "home manager search";
+                      url = "https://mipmip.github.io/home-manager-option-search/";
+                    }
+                    {
+                      name = "nixos search";
+                      url = "https://search.nixos.org/packages";
+                    }
+                    {
+                      name = "homepage";
+                      url = "https://nixos.org/";
+                    }
+                    {
+                      name = "wiki";
+                      tags = [
+                        "wiki"
+                        "nix"
+                      ];
+                      url = "https://nixos.wiki/";
+                    }
+                  ];
+                }
+              ];
+            }
+            {
+              # Used to be able to escape to unfocus from url bar due to firefox restriction.
+              name = "Unfocus hack";
+              keyword = "j";
+              url = "javascript:()";
+            }
+          ];
+        };
 
         settings = {
           # Disable annoying pocket plugin
