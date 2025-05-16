@@ -5,10 +5,7 @@
     keyMode = "vi";
     plugins = with pkgs; [
       tmuxPlugins.vim-tmux-navigator
-      (tmuxPlugins.resurrect.overrideAttrs (old: {
-        # TODO: Remove when fixed upstream.
-        dontCheckForBrokenSymlinks = true;
-      }))
+      tmuxPlugins.resurrect
       (tmuxPlugins.mkTmuxPlugin {
         pluginName = "named-snapshot";
         rtpFilePath = "named-snapshot.tmux";

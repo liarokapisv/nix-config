@@ -44,11 +44,7 @@
       nil
       nixfmt-rfc-style
       treefmt
-      (bitwarden-cli.overrideAttrs (old: {
-        # TODO: Remove when fixed upstream.
-        dontCheckForBrokenSymlinks = true;
-      }))
-      ventoy
+      bitwarden-cli
       jq
       xxd
       tldr

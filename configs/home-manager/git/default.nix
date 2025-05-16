@@ -8,6 +8,9 @@
         name = "Alexandros Liarokapis";
         email = "liarokapis.v@gmail.com";
       };
+      push = {
+        autoSetupRemote = true;
+      };
       diff = {
         tool = "vimdiff";
       };

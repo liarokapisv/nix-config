@@ -29,6 +29,11 @@
   home-manager = {
     useUserPackages = true;
     extraSpecialArgs = { inherit self; };
+    users.${self.user} = {
+      imports = [
+        ../../homes/profiles/common.nix
+      ];
+    };
   };
 
   users = {
@@ -53,10 +58,6 @@
 
   services = {
     openssh.enable = true;
-    udev.packages = with pkgs; [
-      segger-jlink
-      openocd
-    ];
   };
 
   fonts = {

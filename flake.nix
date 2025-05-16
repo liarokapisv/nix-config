@@ -41,30 +41,14 @@
         f: nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (s: f nixpkgs.legacyPackages.${s});
 
       args = {
-        self = self // {
-          lib = (
-            pkgs:
-            import ./lib {
-              inherit self;
-              inherit pkgs;
-            }
-          );
-        };
+        inherit self;
       };
 
       packages =
         p: with p.extend self.overlays.default; {
-          tslib = callPackage ./packages/tslib.nix { };
-          viber = callPackage ./packages/viber { };
-          segger-jlink = (callPackage ./packages/segger-jlink { }).override {
-            acceptLicense = true;
-          };
-          widevinecdm-aarch64 = callPackage ./packages/widevinecdm-aarch64 { };
-          fex = callPackage ./packages/fex { };
-          krun = callPackage ./packages/krun { };
-          dhclient = callPackage ./packages/dhclient { };
           zsh-completion-sync = callPackage ./packages/zsh-completion-sync.nix { };
           erae-lab = callPackage ./packages/erae-lab { };
+          librealsense-udev-rules = callPackage ./packages/librealsense-udev-rules.nix { };
         };
 
     in
@@ -90,7 +74,9 @@
 
       nixosConfigurations = {
         "veritas@framework-13-amd-7840u" = nixpkgs.lib.nixosSystem {
-          modules = [ ./hosts/veritas-framework-13-amd-7840u ];
+          modules = [
+            ./hosts/veritas-framework-13-amd-7840u
+          ];
           specialArgs = args // {
             self = self // {
               user = "veritas";
@@ -103,6 +89,6 @@
 
       packages = forAllSystems packages;
 
-      overlays.default = final: super: removeAttrs (packages final) [ "default" ] // { };
+      overlays.default = final: super: removeAttrs (packages super) [ "default" ] // { };
     };
 }

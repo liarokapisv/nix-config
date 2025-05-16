@@ -15,9 +15,14 @@
     ../profiles/usb-automount.nix
     ../profiles/networking.nix
     ../profiles/virtualisation.nix
+    ../profiles/realsense.nix
+    ../profiles/embedded.nix
     self.inputs.agenix.nixosModules.default
   ];
 
+  virtualisation.docker.daemon.settings = {
+    "data-root" = "/home/docker-root";
+  };
   nix = {
     settings = {
       substituters = [
@@ -88,11 +93,6 @@
   };
 
   home-manager.users.${self.user} = {
-    imports = [
-      ../../homes/profiles/common.nix
-      ../../homes/profiles/embedded.nix
-    ];
-
     stylix.image = ../../images/mountain-music.gif;
 
     home = {
