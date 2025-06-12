@@ -22,11 +22,6 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
   };
 
   outputs =
@@ -49,6 +44,8 @@
           zsh-completion-sync = callPackage ./packages/zsh-completion-sync.nix { };
           erae-lab = callPackage ./packages/erae-lab { };
           librealsense-udev-rules = callPackage ./packages/librealsense-udev-rules.nix { };
+          dynamixel2-cli = callPackage ./packages/dynamixel2-cli.nix { };
+          dynamixel-wizard-2 = callPackage ./packages/dynamixel-wizard-2 { };
         };
 
     in

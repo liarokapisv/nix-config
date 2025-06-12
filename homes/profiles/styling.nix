@@ -6,7 +6,7 @@
 }:
 {
 
-  imports = [ self.inputs.stylix.homeManagerModules.stylix ];
+  imports = [ self.inputs.stylix.homeModules.stylix ];
 
   stylix = {
     enable = true;

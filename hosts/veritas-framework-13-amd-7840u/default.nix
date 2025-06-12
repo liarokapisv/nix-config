@@ -17,9 +17,11 @@
     ../profiles/virtualisation.nix
     ../profiles/realsense.nix
     ../profiles/embedded.nix
-    self.inputs.agenix.nixosModules.default
   ];
 
+  networking.firewall.trustedInterfaces = [
+    "enp195s0f3u1c2"
+  ];
   virtualisation.docker.daemon.settings = {
     "data-root" = "/home/docker-root";
   };
@@ -33,26 +35,6 @@
         "ros.cachix.org-1:dSyZxI8geDCJrwgvCOHDoAfOm5sV1wCPjBkKL+38Rvo="
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       ];
-    };
-  };
-
-  # vpn connectivity
-  age.secrets = {
-    "AlexL.ovpn".file = ../../secrets/AlexL.ovpn;
-    "AlexL-password.txt".file = ../../secrets/AlexL-password.txt;
-  };
-
-  environment.systemPackages = [
-    self.inputs.agenix.packages."${pkgs.system}".default
-  ];
-
-  services.openvpn.servers = {
-    acuminoNzOfficeVPN = {
-      config = ''
-        config ${config.age.secrets."AlexL.ovpn".path}
-        askpass ${config.age.secrets."AlexL-password.txt".path}
-      '';
-      autoStart = true;
     };
   };
 
@@ -78,7 +60,10 @@
 
   users.users.${self.user} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "dialout"
+    ];
     initialHashedPassword = "$6$JwTimdf683A1QxN.$aorlpRJPWrcsl0pR1nlELJhdy8traiVPBXnwXU5IfEbWBD5PusIrkjRZDA76OJECmJdR9PLiUyxJeQUzjX6Nv0";
 
     shell = pkgs.zsh;
@@ -97,6 +82,7 @@
 
     home = {
       packages = with pkgs; [
+        dynamixel-wizard-2
         qbittorrent
         vlc
         bitwarden
