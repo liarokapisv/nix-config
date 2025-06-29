@@ -93,6 +93,7 @@
         teams-for-linux
         zoom-us
         erae-lab
+        signal-desktop
       ];
 
       stateVersion = "24.05";

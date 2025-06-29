@@ -7,7 +7,13 @@
     withPython3 = true;
 
     plugins = with pkgs.vimPlugins; [
-      fzf-lua
+      {
+        plugin = fzf-lua;
+	type = "lua";
+        config = ''
+          require("fzf-lua").register_ui_select()
+        '';
+      }
       vim-easymotion
       vim-textobj-user
       vim-easy-align
@@ -94,7 +100,7 @@
     ];
 
     # Used for aesthetic purposes - adds newline after automatic import of viml config"
-    extraLuaConfig = "\n\n";
+    extraLuaConfig = builtins.readFile ./init.lua;
 
     extraConfig = builtins.readFile ./init.vim;
   };

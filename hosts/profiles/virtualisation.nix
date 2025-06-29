@@ -8,11 +8,13 @@
 lib.mkMerge [
   {
     virtualisation.libvirtd.enable = true;
+    networking.firewall.trustedInterfaces = [ "virbr0" ];
+    programs.virt-manager.enable = true;
+
     virtualisation.docker = {
       enable = true;
       package = pkgs.docker_28;
     };
-    programs.virt-manager.enable = true;
     environment.systemPackages = [
       pkgs.bottles
       pkgs.distrobox
@@ -24,5 +26,8 @@ lib.mkMerge [
         "docker"
       ];
     };
+    users.groups.libvirtd.members = [
+      self.user
+    ];
   })
 ]

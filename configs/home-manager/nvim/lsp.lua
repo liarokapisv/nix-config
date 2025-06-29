@@ -94,6 +94,10 @@ add_lsp("ts_ls", {
     executable = "typescript-language-server";
 })
 
+add_lsp("svelte", {
+    executable = "svelteserver";
+})
+
 add_lsp("astro", {
     executable = "astro-ls";
 })
