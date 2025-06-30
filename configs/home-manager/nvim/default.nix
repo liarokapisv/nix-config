@@ -9,7 +9,7 @@
     plugins = with pkgs.vimPlugins; [
       {
         plugin = fzf-lua;
-	type = "lua";
+        type = "lua";
         config = ''
           require("fzf-lua").register_ui_select()
         '';
@@ -26,7 +26,6 @@
         '';
       }
       indentLine
-
       {
         plugin = nvim-cmp;
         type = "lua";
@@ -94,6 +93,37 @@
                   next = "<C-Space>",
               }
           }
+        '';
+      }
+
+      {
+        plugin = oil-nvim;
+        type = "lua";
+        config = builtins.readFile ./oil.lua;
+      }
+
+      {
+        plugin = pkgs.vimUtils.buildVimPlugin {
+          pname = "gp.nvim";
+          version = "b32327f";
+          src = pkgs.fetchFromGitHub {
+            owner = "Robitx";
+            repo = "gp.nvim";
+            rev = "b32327fe4ee65d24acbab0f645747c113eb935c0";
+            hash = "sha256-obYQyy1aHQXdf23NRNe8EPleP8KtKSisijgAQ7Ckkzo=";
+          };
+          meta.homepage = "https://github.com/Robitx/gp.nvim";
+        };
+        type = "lua";
+        config = ''
+            require("gp").setup({
+                providers = {
+                    openai = { 
+                        endpoint = "https://api.openai.com/v1/chat/completions", 
+                        secret = { "bw", "get", "notes", "OPENAI_API_KEY" },
+                    },
+                },
+            })
         '';
       }
 
