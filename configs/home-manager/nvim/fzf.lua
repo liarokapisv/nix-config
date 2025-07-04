@@ -1,0 +1,5 @@
+local fzf = require("fzf-lua")
+fzf.register_ui_select()
+vim.keymap.set('n', '<C-\\>', fzf.buffers, { noremap = true, silent = true })
+vim.keymap.set('n', '<C-p>', fzf.files, { noremap = true, silent = true })
+vim.keymap.set('n', '<C-g>', fzf.live_grep, { noremap = true, silent = true })

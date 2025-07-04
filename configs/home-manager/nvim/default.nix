@@ -10,9 +10,7 @@
       {
         plugin = fzf-lua;
         type = "lua";
-        config = ''
-          require("fzf-lua").register_ui_select()
-        '';
+        config = builtins.readFile ./fzf.lua;
       }
       vim-easymotion
       vim-textobj-user
@@ -89,7 +87,6 @@
                   down = "<C-j>",
                   up = "<C-k>",
                   right = "<C-l>",
-                  last_active = "<C-\\>",
                   next = "<C-Space>",
               }
           }
@@ -116,22 +113,19 @@
         };
         type = "lua";
         config = ''
-            require("gp").setup({
-                providers = {
-                    openai = { 
-                        endpoint = "https://api.openai.com/v1/chat/completions", 
-                        secret = { "bw", "get", "notes", "OPENAI_API_KEY" },
-                    },
-                },
-            })
+          require("gp").setup({
+              providers = {
+                  openai = { 
+                      endpoint = "https://api.openai.com/v1/chat/completions", 
+                      secret = { "bw", "get", "notes", "OPENAI_API_KEY" },
+                  },
+              },
+          })
         '';
       }
 
     ];
 
-    # Used for aesthetic purposes - adds newline after automatic import of viml config"
     extraLuaConfig = builtins.readFile ./init.lua;
-
-    extraConfig = builtins.readFile ./init.vim;
   };
 }
