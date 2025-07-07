@@ -124,6 +124,12 @@
         '';
       }
 
+      {
+        plugin = overseer-nvim;
+        type = "lua";
+        config = builtins.readFile ./overseer.lua;
+      }
+
     ];
 
     extraLuaConfig = builtins.readFile ./init.lua;

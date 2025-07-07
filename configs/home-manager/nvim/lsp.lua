@@ -2,19 +2,23 @@ require 'lsp_key_mappings'
 require 'cursor_hint'
 require 'table_merge'
 
--- capabilities = require('cmp_nvim_lsp').default_capabilities()
 nvim_lsp = require('lspconfig')
 
 function add_lsp(server, options)
     options = options or {}
 
+    local user_on_attach = options.on_attach 
+
+    options.on_attach = function(client, bufnr)
+        set_lsp_key_mappings(bufnr)
+        set_cursor_hint()
+        if user_on_attach then
+            user_on_attach(client, bufnr)
+        end
+    end
+
     default_options = {
-        -- capabilities = capabilities,
         autostart = true,
-        on_attach = function(_, bufnr)
-            set_lsp_key_mappings(bufnr)
-            set_cursor_hint()
-        end,
         flags = {
             debounce_text_changes = 150,
         },
@@ -62,16 +66,16 @@ add_lsp("rust_analyzer", {
     executable = "rust-analyzer",
     settings = {
         ['rust-analyzer'] = get_project_rustanalyzer_settings(),
-    }
+    },
+    on_attach = function(_, bufnr)
+        vim.api.nvim_del_augroup_by_name("RustCargoQuickFixHooks")
+    end
 })
 
 add_lsp("clangd", 
     (vim.fn.executable("clang-format") == 1) and 
     {
         on_attach = function(_, bufnr)
-            set_lsp_key_mappings(bufnr)
-            set_cursor_hint()
-            -- use environment clang-format instead of embedded one.
             vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>write | silent !clang-format -i %<cr>', { noremap=true, silent=true })
         end,
     } or {}
