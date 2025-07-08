@@ -127,7 +127,18 @@
       {
         plugin = overseer-nvim;
         type = "lua";
-        config = builtins.readFile ./overseer.lua;
+        config = builtins.readFile ./overseer/config.lua;
+        runtime = {
+          "lua/overseerWindow.lua".source = ./overseer/window.lua;
+        };
+      }
+
+      {
+        plugin = lualine-nvim;
+        type = "lua";
+        config = ''
+          require('lualine').setup()
+        '';
       }
 
     ];
