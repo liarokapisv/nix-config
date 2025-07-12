@@ -2,7 +2,6 @@ local overseer = require("overseer")
 
 overseer.setup({
     task_list = {
-        min_height = 16,
         width = 1.0,
         separator = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------",
         bindings = {
@@ -10,10 +9,13 @@ overseer.setup({
             ["j"] = "NextTask",
             ["h"] = "DecreaseDetail",
             ["l"] = "IncreaseDetail",
+            ["K"] = "TogglePreview",
             ["<C-h>"] = false,
             ["<C-l>"] = false,
             ["<C-k>"] = false,
             ["<C-j>"] = false,
+            ["<C-u>"] = 'ScrollOutputUp',
+            ["<C-d>"] = 'ScrollOutputDown',
         },
     },
     bundles = {

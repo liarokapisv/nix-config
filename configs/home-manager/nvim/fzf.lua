@@ -7,8 +7,10 @@ end
 
 local function with_auto_dir(cmd)
   return function()
+    local dir = vim.fn.expand("%:p:h")
     local root = git_root()
-    cmd(root and { cwd = root } or {})
+    -- fnamemodify ':.' makes path relative. This is to help LSPs.
+    cmd(root and { cwd = vim.fn.fnamemodify(root, ':.') } or {})
   end
 end
 
