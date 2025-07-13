@@ -1,3 +1,18 @@
+function wrap_next()
+  local ok = pcall(vim.cmd, "cnext")
+  if not ok then
+    vim.cmd("cfirst")
+  end
+end
+
+function wrap_prev()
+  local ok = pcall(vim.cmd, "cprevious")
+  if not ok then
+    vim.cmd("clast")
+  end
+end
+
+
 function set_lsp_key_mappings(bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -26,8 +41,8 @@ function set_lsp_key_mappings(bufnr)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '[e', '<cmd>lua vim.diagnostic.goto_prev({ severity = { vim.diagnostic.severity.ERROR }})<CR>', opts)
     buf_set_keymap('n', ']e', '<cmd>lua vim.diagnostic.goto_next({ severity = { vim.diagnostic.severity.ERROR }})<CR>', opts)
-    buf_set_keymap('n', '[x', '<cmd>lua vim.cmd("cprev")<CR>', opts)
-    buf_set_keymap('n', ']x', '<cmd>lua vim.cmd("cnext")<CR>', opts)
+    buf_set_keymap('n', '[x', '<cmd>lua wrap_prev()<CR>', opts)
+    buf_set_keymap('n', ']x', '<cmd>lua wrap_next()<CR>', opts)
     buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', opts)
     buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
 end

@@ -37,7 +37,7 @@ end
 
 fzf.register_ui_select()
 
-vim.keymap.set('n', '<C-\\>',        fzf.buffers,            {
+vim.keymap.set('n', '<C-b>',        fzf.buffers,            {
   noremap = true, silent = true,
   desc    = "fzf-lua: buffers"
 })

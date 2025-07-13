@@ -43,12 +43,11 @@ vim.keymap.set('n', '<C-p>',    '<cmd>FzfLua files<CR>',{ noremap = true, silent
 
 -- Filetype-specific Settings (YAML)
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'yaml',
-  callback = function()
-    vim.opt_local.expandtab      = true  -- spaces, not tabs
-    vim.opt_local.tabstop        = 2     -- 2 spaces per tab
-    vim.opt_local.shiftwidth     = 2     -- 2 spaces per indent
-    vim.opt_local.softtabstop    = 2     -- indent editing uses shiftwidth
-  end
+    pattern = 'yaml',
+    callback = function()
+        vim.opt_local.expandtab      = true  -- spaces, not tabs
+        vim.opt_local.tabstop        = 2     -- 2 spaces per tab
+        vim.opt_local.shiftwidth     = 2     -- 2 spaces per indent
+        vim.opt_local.softtabstop    = 2     -- indent editing uses shiftwidth
+    end
 })
-
