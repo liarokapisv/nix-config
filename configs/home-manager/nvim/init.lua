@@ -39,7 +39,6 @@ vim.opt.backspace    = { 'indent', 'eol', 'start' }  -- backspace behavior
 -- Key Mappings
 vim.keymap.set('n', 'Q',        '<Nop>',              { silent = true })                -- disable Ex mode
 vim.keymap.set('n', '<Leader>w','<cmd>w<CR>',         { noremap = true, silent = true })  -- save buffer
-vim.keymap.set('n', '<C-p>',    '<cmd>FzfLua files<CR>',{ noremap = true, silent = true })  -- fzf-lua file search
 
 -- Filetype-specific Settings (YAML)
 vim.api.nvim_create_autocmd('FileType', {

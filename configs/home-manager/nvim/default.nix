@@ -11,6 +11,9 @@
         plugin = fzf-lua;
         type = "lua";
         config = builtins.readFile ./fzf.lua;
+        runtime = {
+          "lua/utils.lua".source = ./lua/utils.lua;
+        };
       }
       vim-easymotion
       vim-textobj-user
@@ -19,9 +22,7 @@
       {
         plugin = text-case-nvim;
         type = "lua";
-        config = ''
-          require('textcase').setup {}
-        '';
+        config = "require('textcase').setup()";
       }
       indentLine
       {
@@ -55,11 +56,7 @@
       {
         plugin = tailwind-tools-nvim;
         type = "lua";
-        config = ''
-          require("tailwind-tools").setup({
-            -- your configuration
-          })
-        '';
+        config = "require('tailwind-tools').setup()";
       }
 
       {
@@ -100,36 +97,9 @@
       }
 
       {
-        plugin = pkgs.vimUtils.buildVimPlugin {
-          pname = "gp.nvim";
-          version = "b32327f";
-          src = pkgs.fetchFromGitHub {
-            owner = "Robitx";
-            repo = "gp.nvim";
-            rev = "b32327fe4ee65d24acbab0f645747c113eb935c0";
-            hash = "sha256-obYQyy1aHQXdf23NRNe8EPleP8KtKSisijgAQ7Ckkzo=";
-          };
-          meta.homepage = "https://github.com/Robitx/gp.nvim";
-        };
-        type = "lua";
-        config = ''
-          require("gp").setup({
-              providers = {
-                  openai = { 
-                      endpoint = "https://api.openai.com/v1/chat/completions", 
-                      secret = { "bw", "get", "notes", "OPENAI_API_KEY" },
-                  },
-              },
-          })
-        '';
-      }
-
-      {
         plugin = lualine-nvim;
         type = "lua";
-        config = ''
-          require('lualine').setup()
-        '';
+        config = "require('lualine').setup()";
       }
 
       (pkgs.vimUtils.buildVimPlugin {
