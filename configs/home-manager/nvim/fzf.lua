@@ -11,7 +11,6 @@ fzf.setup({
 })
 
 local utils = require("utils")
-local git_root = utils.git_root
 local with_auto_dir = utils.with_auto_dir
 local with_dir_search = utils.with_dir_search
 
@@ -23,25 +22,25 @@ vim.keymap.set('n', '<C-b>',        fzf.buffers,            {
 })
 vim.keymap.set('n', '<C-p>',         with_auto_dir(fzf.files),       {
     noremap = true, silent = true,
-    desc    = "fzf.luafiles: git-root or cwd"
+    desc    = "fzf.lua: files at auto-dir"
 })
 vim.keymap.set('n', '<Leader>p',    with_dir_search(fzf.files),     {
     noremap = true, silent = true,
-    desc    = "fzf-lua: files in prompted dir"
+    desc    = "fzf-lua: files at prompted dir"
 })
 vim.keymap.set('n', '<C-g>',         with_auto_dir(fzf.live_grep),   {
     noremap = true, silent = true,
-    desc    = "fzf-lua: live-grep at git-root or cwd"
+    desc    = "fzf-lua: live-grep at auto-dir"
 })
 vim.keymap.set('n', '<Leader>g',    with_dir_search(fzf.live_grep), {
     noremap = true, silent = true,
-    desc    = "fzf-lua: live-grep in prompted dir"
+    desc    = "fzf-lua: live-grep at prompted dir"
 })
-vim.keymap.set('n', '<C-d>',         with_auto_dir(fzf.diagnostics_workspace),   {
+vim.keymap.set('n', '<C-x>',         with_auto_dir(fzf.diagnostics_workspace),   {
     noremap = true, silent = true,
-    desc    = "fzf-lua: diagnostics at git-root or cwd"
+    desc    = "fzf-lua: diagnostics at auto-dir"
 })
-vim.keymap.set('n', '<Leader>d',    with_dir_search(fzf.diagnostics_workspace), {
+vim.keymap.set('n', '<Leader>x',    with_dir_search(fzf.diagnostics_workspace), {
     noremap = true, silent = true,
-    desc    = "fzf-lua: diagnostics in prompted dir"
+    desc    = "fzf-lua: diagnostics at prompted dir"
 })

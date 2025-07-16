@@ -7,14 +7,18 @@
     withPython3 = true;
 
     plugins = with pkgs.vimPlugins; [
+
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "utils";
+        src = ./utils;
+      })
+
       {
         plugin = fzf-lua;
         type = "lua";
         config = builtins.readFile ./fzf.lua;
-        runtime = {
-          "lua/utils.lua".source = ./lua/utils.lua;
-        };
       }
+
       vim-easymotion
       vim-textobj-user
       vim-easy-align
