@@ -17,6 +17,7 @@
     ../profiles/virtualisation.nix
     ../profiles/realsense.nix
     ../profiles/embedded.nix
+    self.inputs.agenix.nixosModules.default
   ];
 
   networking.firewall.trustedInterfaces = [
@@ -35,6 +36,26 @@
         "ros.cachix.org-1:dSyZxI8geDCJrwgvCOHDoAfOm5sV1wCPjBkKL+38Rvo="
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       ];
+    };
+  };
+
+  # auckland vpn access
+  age.secrets = {
+    "AlexL.ovpn".file = ../../secrets/AlexL.ovpn;
+    "AlexL-password.txt".file = ../../secrets/AlexL-password.txt;
+  };
+
+  environment.systemPackages = [
+    self.inputs.agenix.packages."${pkgs.system}".default
+  ];
+
+  services.openvpn.servers = {
+    acuminoNzOfficeVPN = {
+      config = ''
+        config ${config.age.secrets."AlexL.ovpn".path}
+        askpass ${config.age.secrets."AlexL-password.txt".path}
+      '';
+      autoStart = false;
     };
   };
 

@@ -27,7 +27,6 @@
   boot.tmp.cleanOnBoot = true;
 
   home-manager = {
-    useUserPackages = true;
     extraSpecialArgs = { inherit self; };
     users.${self.user} = {
       imports = [

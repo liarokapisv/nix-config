@@ -22,14 +22,7 @@
       };
     };
     ignores = [
-      "result"
-      "result-bin"
-      "result-debug"
-      "result-dev"
-      "result-devdoc"
-      "result-lib"
-      "result-man"
-      "result-out"
+      "result*"
       ".envrc"
       ".direnv"
     ];
