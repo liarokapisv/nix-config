@@ -22,6 +22,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -86,6 +90,14 @@
 
       packages = forAllSystems packages;
 
-      overlays.default = final: super: removeAttrs (packages super) [ "default" ] // { };
+      overlays.default = nixpkgs.lib.composeManyExtensions [
+        (final: super: removeAttrs (packages super) [ "default" ] // { })
+        (final: super: {
+          pcmanfm = super.pcmanfm.overrideAttrs (old: {
+            env.ACLOCAL = "aclocal -I ${super.gettext}/share/gettext/m4";
+            passthru.updateScript = super.nix-update-script { };
+          });
+        })
+      ];
     };
 }

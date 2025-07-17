@@ -67,9 +67,6 @@ add_lsp("rust_analyzer", {
     settings = {
         ['rust-analyzer'] = get_project_rustanalyzer_settings(),
     },
-    on_attach = function(_, bufnr)
-        vim.api.nvim_del_augroup_by_name("RustCargoQuickFixHooks")
-    end
 })
 
 add_lsp("clangd", 

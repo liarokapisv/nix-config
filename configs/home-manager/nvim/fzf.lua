@@ -36,11 +36,11 @@ vim.keymap.set('n', '<Leader>g',    with_dir_search(fzf.live_grep), {
     noremap = true, silent = true,
     desc    = "fzf-lua: live-grep at prompted dir"
 })
-vim.keymap.set('n', '<C-x>',         with_auto_dir(fzf.diagnostics_workspace),   {
+vim.keymap.set('n', '<C-;>',         with_auto_dir(fzf.diagnostics_workspace),   {
     noremap = true, silent = true,
     desc    = "fzf-lua: diagnostics at auto-dir"
 })
-vim.keymap.set('n', '<Leader>x',    with_dir_search(fzf.diagnostics_workspace), {
+vim.keymap.set('n', '<Leader>;',    with_dir_search(fzf.diagnostics_workspace), {
     noremap = true, silent = true,
     desc    = "fzf-lua: diagnostics at prompted dir"
 })

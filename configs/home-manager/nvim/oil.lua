@@ -15,19 +15,14 @@ oil.setup({
         ['K'] = 'actions.preview',
         ['H'] = 'actions.parent',
         ['L'] = 'actions.select',
+        ['<Esc>'] = 'actions.close',
     },
 })
 
 local utils = require("utils")
-local with_auto_dir = utils.with_auto_dir
-local with_dir_search = utils.with_dir_search
+local buffer_dir = utils.buffer_dir
 
-vim.keymap.set('n', '<C-l>', with_auto_dir(function(opts) oil.open_float(opts.cwd) end), {
+vim.keymap.set('n', '<C-l>', function() oil.open_float(buffer_dir()) end, {
     noremap = true, silent = true,
     desc = 'oil: open at auto-dir',
-})
-
-vim.keymap.set('n', '<Leader>l', with_dir_search(function(opts) oil.open_float(opts.cwd) end), {
-    noremap = true, silent = true,
-    desc = 'oil: open at prompted-dir',
 })
