@@ -17,12 +17,17 @@
     ../profiles/virtualisation.nix
     ../profiles/realsense.nix
     ../profiles/embedded.nix
+    ../profiles/apple.nix
     self.inputs.agenix.nixosModules.default
   ];
 
-  networking.firewall.trustedInterfaces = [
-    "enp195s0f3u1c2"
-  ];
+  networking.firewall = {
+    trustedInterfaces = [
+      "enp195s0f3u1c2"
+    ];
+    logRefusedConnections = true;
+  };
+
   virtualisation.docker.daemon.settings = {
     "data-root" = "/home/docker-root";
   };
@@ -115,6 +120,8 @@
         zoom-us
         erae-lab
         signal-desktop
+        obsidian
+        teamviewer
       ];
 
       stateVersion = "24.05";

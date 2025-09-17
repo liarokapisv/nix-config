@@ -29,6 +29,7 @@
   };
 
   home = {
+
     packages = with pkgs; [
       devenv
       ripgrep

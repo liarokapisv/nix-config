@@ -26,6 +26,12 @@
     };
   };
 
+  home.pointerCursor = {
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Classic";
+    size = 16;
+  };
+
   programs = {
     swww = {
       systemd = {

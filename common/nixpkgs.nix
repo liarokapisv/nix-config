@@ -1,7 +1,13 @@
 { self, ... }:
 {
   nixpkgs = {
-    config.allowUnfree = true;
     overlays = [ self.overlays.default ];
+    config = {
+      allowUnfree = true;
+      segger-jlink.acceptLicense = true;
+      permittedInsecurePackages = [
+        "segger-jlink-qt4-810"
+      ];
+    };
   };
 }

@@ -60,7 +60,7 @@
               "title<.*Spotify.*>" = " ";
             };
             persistent-workspaces = {
-              "*" = 9; # 5 workspaces by default on every monitor
+              "*" = 9;
             };
           };
           wireplumber = {
