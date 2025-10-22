@@ -2,8 +2,6 @@ require 'lsp_key_mappings'
 require 'cursor_hint'
 require 'table_merge'
 
-nvim_lsp = require('lspconfig')
-
 function add_lsp(server, options)
     options = options or {}
 
@@ -29,7 +27,8 @@ function add_lsp(server, options)
     executable = final_options["executable"] or server
 
     if vim.fn.executable(executable) == 1 then 
-        nvim_lsp[server].setup(final_options)
+        vim.lsp.config(server, final_options)
+        vim.lsp.enable(server, final_options)
     end
 end
 
@@ -72,7 +71,6 @@ add_lsp("rust_analyzer", {
 add_lsp("clangd", 
     (vim.fn.executable("clang-format") == 1) and 
     {
-        cmd = { "clangd", "--query-driver=/**/*" },
         on_attach = function(_, bufnr)
             vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>write | silent !clang-format -i %<cr>', { noremap=true, silent=true })
         end,

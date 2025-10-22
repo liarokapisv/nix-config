@@ -5,9 +5,6 @@
 }:
 {
   services = {
-    tailscale = {
-      enable = true;
-    };
     resolved = {
       enable = true;
     };

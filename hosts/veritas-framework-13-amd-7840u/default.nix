@@ -1,6 +1,7 @@
 {
   self,
   pkgs,
+  lib,
   config,
   ...
 }:
@@ -64,13 +65,25 @@
     };
   };
 
+  # netbird
+  networking.firewall.enable = false;
+  services.netbird = {
+    enable = true;
+    clients.default = {
+      hardened = false;
+      config.ServerSSHAllowed = true;
+      environment.NB_LOG_LEVEL = lib.mkForce "trace";
+    };
+  };
+
   services = {
+    teamviewer.enable = true;
     fwupd.enable = true;
     greetd = {
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
           user = "greeter";
         };
       };
@@ -101,6 +114,10 @@
 
   programs = {
     steam.enable = true;
+    wireshark = {
+      enable = true;
+      usbmon.enable = true;
+    };
   };
 
   home-manager.users.${self.user} = {
@@ -122,6 +139,9 @@
         signal-desktop
         obsidian
         teamviewer
+        stremio-linux-shell
+        google-chrome
+        viber
       ];
 
       stateVersion = "24.05";

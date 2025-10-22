@@ -11,5 +11,6 @@
     ./kitty
     ./zathura
     ./tmux
+    ./ssh
   ];
 }

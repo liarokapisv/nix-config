@@ -2,9 +2,9 @@
   services = {
     upower.enable = true;
 
-    logind = {
-      powerKey = "suspend-then-hibernate";
-      lidSwitch = "suspend-then-hibernate";
+    logind.settings = {
+      Login.HandlePowerKey = "suspend-then-hibernate";
+      Login.HandleLidSwitch = "suspend-then-hibernate";
     };
   };
 

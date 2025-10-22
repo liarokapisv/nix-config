@@ -50,6 +50,7 @@
           librealsense-udev-rules = callPackage ./packages/librealsense-udev-rules.nix { };
           dynamixel2-cli = callPackage ./packages/dynamixel2-cli.nix { };
           dynamixel-wizard-2 = callPackage ./packages/dynamixel-wizard-2 { };
+          stremio-linux-shell = callPackage ./packages/stremio-linux-shell.nix { };
         };
 
     in

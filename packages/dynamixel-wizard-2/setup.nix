@@ -10,12 +10,17 @@
   fontconfig,
   autoPatchelfHook,
 }:
+let
+  version = "2.2.3.2";
+in
 stdenvNoCC.mkDerivation {
-  name = "DynamixelWizard2Setup";
+  pname = "DynamixelWizard2Setup";
+  inherit version;
   src = fetchurl {
-    url = "https://uc651ffd76317798f385521dcd7d.dl.dropboxusercontent.com/cd/0/get/CxggYoql7TIkD64w_S95oFx5QcGPK4KcHKuGi5Gv1c2dHjkerPehdVsQ2C6bK4yS6AMnXSjDNG8CQZF0Q0zEpi1np0bkfjKzB8Xak8HJREkTbjY0S2MvRV2nXXkGcSp_M3kJniX8yMFMKz1PEYYwIbjX/file?dl=1";
+    url = "https://archive.org/download/dynamixel-wizard-2-setup-x-64/DynamixelWizard2Setup_x64%286%29";
     hash = "sha256-MMDL18i4Gg1/H6hEZ3REH6Gj/Bz41WNgQ6qWrvdPv3M=";
-    name = "DynamixelWizard";
+    pname = "DynamixelWizard";
+    inherit version;
     downloadToTemp = true;
     executable = true;
     postFetch = ''

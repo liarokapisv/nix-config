@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   programs.zsh = {
     autosuggestion.enable = true;
@@ -35,11 +35,26 @@
     # See: https://github.com/nix-community/home-manager/issues/4264
 
     initContent = ''
-      bindkey '^F' autosuggest-accept
-      bindkey -M viins "\e." insert-last-word
+      ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#${config.stylix.generated.palette.base04},dim"
 
+      # fix highlight issues on autosuggest acceptance
+      ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(accept-line yank kill-whole-line vi-accept-line)
+      autosuggest_accept_and_clear() {
+        zle autosuggest-accept
+        region_highlight=()
+        zle reset-prompt
+      }
+      ZSH_AUTOSUGGEST_ACCEPT_WIDGETS+=(autosuggest_accept_and_clear)
+      zle -N autosuggest_accept_and_clear
+
+      bindkey '^F' autosuggest_accept_and_clear
+
+      bindkey -M viins "\e." insert-last-word
       bindkey -M vicmd "k" history-substring-search-up
       bindkey -M vicmd "j" history-substring-search-down
+
+      alias git-log-oneline="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) -%C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+
     '';
   };
 }

@@ -34,7 +34,6 @@
       devenv
       ripgrep
       tree
-      stremio
       reaper
       vlc
       cachix

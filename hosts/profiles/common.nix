@@ -53,9 +53,8 @@
     htop.enable = true;
   };
 
-  time.timeZone = "Europe/Athens";
-
   services = {
+    automatic-timezoned.enable = true;
     openssh.enable = true;
   };
 

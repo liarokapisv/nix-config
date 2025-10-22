@@ -57,11 +57,11 @@
         };
       }
 
-      {
-        plugin = tailwind-tools-nvim;
-        type = "lua";
-        config = "require('tailwind-tools').setup()";
-      }
+      # {
+      #   plugin = tailwind-tools-nvim;
+      #   type = "lua";
+      #   config = "require('tailwind-tools').setup()";
+      # }
 
       {
         plugin = (
