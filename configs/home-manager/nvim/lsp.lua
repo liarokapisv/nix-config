@@ -83,7 +83,10 @@ add_lsp("jdtls")
 
 add_lsp("terraformls", {
     executable = "terraform-ls",
-    filetypes = { "tf", "terraform", }
+    filetypes = { "tf", "terraform", },
+    init_options = {
+        ignoreSingleFileWarning = true
+    }
 })
 
 add_lsp("standardrb", {
@@ -101,6 +104,8 @@ add_lsp("svelte", {
 add_lsp("astro", {
     executable = "astro-ls";
 })
+
+add_lsp("gopls")
 
 -- Setup through the tailwindcss-tools plugin
 --

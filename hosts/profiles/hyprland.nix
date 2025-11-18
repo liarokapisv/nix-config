@@ -6,12 +6,18 @@
   };
 
   # xdg-desktop-portal-hyprland does not provide a FileChooser
-
-  xdg.portal.extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    config.hyprland.default = [ "hyprland" "gtk" ];
+  };
 
   # polkit is required by various programs like gparted
-
   security.polkit.enable = true;
+
+  # Enable gnome-keyring for secret service (needed for bitwarden biometrics)
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {

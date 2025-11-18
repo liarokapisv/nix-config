@@ -35,12 +35,10 @@
   nix = {
     settings = {
       substituters = [
-        "https://devenv.cachix.org/"
         "https://ros.cachix.org/"
       ];
       trusted-public-keys = [
         "ros.cachix.org-1:dSyZxI8geDCJrwgvCOHDoAfOm5sV1wCPjBkKL+38Rvo="
-        "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       ];
     };
   };
@@ -53,6 +51,8 @@
 
   environment.systemPackages = [
     self.inputs.agenix.packages."${pkgs.system}".default
+    # this needs to be installed system-wide for polkit integration..
+    pkgs.bitwarden-desktop
   ];
 
   services.openvpn.servers = {
@@ -99,6 +99,7 @@
 
   users.users.${self.user} = {
     isNormalUser = true;
+    uid = 1000;
     extraGroups = [
       "wheel"
       "dialout"
@@ -128,7 +129,6 @@
         dynamixel-wizard-2
         qbittorrent
         vlc
-        bitwarden
         digikam
         anydesk
         slack

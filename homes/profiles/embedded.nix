@@ -14,6 +14,7 @@
             ];
           })
           stm32cubemx
+          saleae-logic-2
         ]
       );
   };

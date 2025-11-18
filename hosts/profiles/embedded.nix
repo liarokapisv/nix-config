@@ -4,6 +4,7 @@
     udev.packages = with pkgs; [
       segger-jlink-headless
       openocd
+      saleae-logic-2
     ];
   };
 
