@@ -1,104 +1,41 @@
+# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# Use `nix run .#write-flake` to regenerate it.
 {
+
+  outputs = inputs: import ./outputs.nix inputs;
+
   inputs = {
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-unstable";
-    };
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware/master";
-    };
-    stylix = {
-      url = "github:danth/stylix";
+    agenix = {
       inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:ryantm/agenix";
     };
     firefox-addons = {
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
+    flake-file.url = "github:vic/flake-file";
+    flake-parts.url = "github:liarokapisv/flake-parts/add-key-to-modules-extra";
     home-manager = {
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
+    import-tree.url = "github:vic/import-tree";
+    make-shell.url = "github:nicknovitski/make-shell";
     nix-index-database = {
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
-    agenix = {
-      url = "github:ryantm/agenix";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-libcef.url = "github:NixOS/nixpkgs/de69d2ba6c70e747320df9c096523b623d3a4c35";
+    pre-commit-hooks = {
       inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:cachix/pre-commit-hooks.nix";
+    };
+    stylix = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:danth/stylix";
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      ...
-    }:
-    let
-      forAllSystems =
-        f: nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (s: f nixpkgs.legacyPackages.${s});
-
-      args = {
-        inherit self;
-      };
-
-      packages =
-        p: with p.extend self.overlays.default; {
-          zsh-completion-sync = callPackage ./packages/zsh-completion-sync.nix { };
-          erae-lab = callPackage ./packages/erae-lab { };
-          librealsense-udev-rules = callPackage ./packages/librealsense-udev-rules.nix { };
-          dynamixel2-cli = callPackage ./packages/dynamixel2-cli.nix { };
-          dynamixel-wizard-2 = callPackage ./packages/dynamixel-wizard-2 { };
-          stremio-linux-shell = callPackage ./packages/stremio-linux-shell.nix { };
-        };
-
-    in
-    {
-      homeConfigurations =
-        let
-          mkAcumino =
-            user:
-            home-manager.lib.homeManagerConfiguration {
-              pkgs = nixpkgs.legacyPackages.x86_64-linux;
-              modules = [ ./homes/alexandros-liarokapis-acumino ];
-              extraSpecialArgs = args // {
-                self = self // {
-                  inherit user;
-                };
-              };
-            };
-        in
-        {
-          "alexandros-liarokapis@acumino" = mkAcumino "alexandros-liarokapis";
-          "alex@acumino" = mkAcumino "alex";
-        };
-
-      nixosConfigurations = {
-        "veritas@framework-13-amd-7840u" = nixpkgs.lib.nixosSystem {
-          modules = [
-            ./hosts/veritas-framework-13-amd-7840u
-          ];
-          specialArgs = args // {
-            self = self // {
-              user = "veritas";
-            };
-          };
-        };
-      };
-
-      formatter = forAllSystems (pkgs: pkgs.nixfmt-rfc-style);
-
-      packages = forAllSystems packages;
-
-      overlays.default = nixpkgs.lib.composeManyExtensions [
-        (final: super: removeAttrs (packages super) [ "default" ] // { })
-        (final: super: {
-          pcmanfm = super.pcmanfm.overrideAttrs (old: {
-            env.ACLOCAL = "aclocal -I ${super.gettext}/share/gettext/m4";
-            passthru.updateScript = super.nix-update-script { };
-          });
-        })
-      ];
-    };
 }

@@ -1,0 +1,17 @@
+diff --git a/common/ux-window.cpp b/common/ux-window.cpp
+index dc5767f07..5480abac9 100644
+--- a/common/ux-window.cpp
++++ b/common/ux-window.cpp
+@@ -227,6 +227,12 @@ namespace rs2
+             glfwDestroyCursor(_cross_cursor);
+             glfwTerminate();
+         }
++
++        // Wayland is not fully supported in GLFW
++        // this will force using X11 on wayland (XWayland)
++#if defined(__linux__)
++        glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
++#endif
+
+         if (!glfwInit())
+             exit(1);
