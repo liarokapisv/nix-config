@@ -1,5 +1,10 @@
 { self, ... }:
 {
+  flake-file.inputs.stylix = {
+    url = "github:danth/stylix";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   flake.modules.homeManager.styling =
     {
       config,
@@ -38,6 +43,12 @@
           systemd = {
             exec-img = "${config.stylix.image}";
           };
+        };
+
+        zsh = {
+          initContent = ''
+            ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#${config.stylix.generated.palette.base04},dim"
+          '';
         };
 
         neovim = {

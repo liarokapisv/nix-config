@@ -37,8 +37,6 @@
         # See: https://github.com/nix-community/home-manager/issues/4264
 
         initContent = ''
-          ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#${config.stylix.generated.palette.base04},dim"
-
           # fix highlight issues on autosuggest acceptance
           ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(accept-line yank kill-whole-line vi-accept-line)
           autosuggest_accept_and_clear() {
