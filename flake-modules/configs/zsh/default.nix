@@ -1,5 +1,7 @@
+{ moduleWithSystem, ... }:
 {
-  flake.modules.homeManager.config-zsh =
+  flake.modules.homeManager.config-zsh = moduleWithSystem (
+    { self', ... }:
     { config, pkgs, ... }:
     {
       programs.zsh = {
@@ -12,7 +14,7 @@
         plugins = [
           {
             name = "zsh-completion-sync";
-            src = "${pkgs.zsh-completion-sync}/share/zsh-completion-sync";
+            src = "${self'.packages.zsh-completion-sync}/share/zsh-completion-sync";
           }
           {
             name = "zsh-history-substring-search";
@@ -57,5 +59,6 @@
 
         '';
       };
-    };
+    }
+  );
 }

@@ -1,16 +1,18 @@
-{ self, ... }:
+{ self, moduleWithSystem, ... }:
 {
-  flake.modules.nixos.realsense =
+  flake.modules.nixos.realsense = moduleWithSystem (
+    { self', ... }:
     { config, pkgs, ... }:
     {
       services.udev.packages = [
-        pkgs.librealsense-udev-rules
+        self'.packages.librealsense-udev-rules
       ];
 
       home-manager.users.${config.user} = {
         imports = [ self.modules.homeManager.realsense ];
       };
-    };
+    }
+  );
 
   flake.modules.homeManager.realsense =
     { pkgs, ... }:

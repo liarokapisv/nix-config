@@ -1,9 +1,10 @@
-{ self, ... }:
+{ self, moduleWithSystem, ... }:
 {
   configurations.framework-13-7840u-amd = {
     system = "x86_64-linux";
     modules = [
-      (
+      (moduleWithSystem (
+        { self', ... }:
         {
           pkgs,
           lib,
@@ -116,7 +117,7 @@
 
             home = {
               packages = with pkgs; [
-                dynamixel-wizard-2
+                self'.packages.dynamixel-wizard-2
                 qbittorrent
                 vlc
                 digikam
@@ -125,11 +126,11 @@
                 discord
                 teams-for-linux
                 zoom-us
-                erae-lab
+                self'.packages.erae-lab
                 signal-desktop
                 obsidian
                 teamviewer
-                stremio-linux-shell
+                self'.packages.stremio-linux-shell
                 google-chrome
                 viber
               ];
@@ -145,7 +146,7 @@
 
           system.stateVersion = "24.05";
         }
-      )
+      ))
     ];
   };
 }
