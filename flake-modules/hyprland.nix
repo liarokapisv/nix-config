@@ -1,7 +1,7 @@
 { self, ... }:
 {
   flake.modules.nixos.hyprland =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     {
 
       programs = {
@@ -39,12 +39,6 @@
             TimeoutStopSec = 10;
           };
         };
-      };
-
-      home-manager.users.${config.user} = {
-        imports = [
-          self.modules.homeManager.hyprland
-        ];
       };
 
     };

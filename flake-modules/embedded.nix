@@ -1,19 +1,13 @@
 { self, ... }:
 {
   flake.modules.nixos.embedded =
-    { config, pkgs, ... }:
+    { pkgs, ... }:
     {
       services = {
         udev.packages = with pkgs; [
           segger-jlink-headless
           openocd
           saleae-logic-2
-        ];
-      };
-
-      home-manager.users.${config.user} = {
-        imports = [
-          self.modules.homeManager.embedded
         ];
       };
     };

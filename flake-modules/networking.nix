@@ -1,11 +1,7 @@
 { self, ... }:
 {
   flake.modules.nixos.networking =
-    {
-      config,
-      pkgs,
-      ...
-    }:
+    { pkgs, ... }:
     {
       services = {
         resolved = {
@@ -22,12 +18,6 @@
       };
 
       environment.systemPackages = [ pkgs.tailscale ];
-
-      home-manager.users.${config.user} = {
-        imports = [
-          self.modules.homeManager.networking
-        ];
-      };
     };
 
   flake.modules.homeManager.networking =

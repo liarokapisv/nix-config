@@ -1,7 +1,12 @@
 { self, ... }:
 {
   flake.modules.nixos.base =
-    { config, pkgs, ... }:
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
     {
 
       imports = [
@@ -29,18 +34,10 @@
       home-manager = {
         useGlobalPkgs = true;
         extraSpecialArgs = { inherit self; };
-        users.${config.user} = {
-          imports = [
-            self.modules.homeManager.base
-          ];
-        };
       };
 
       users = {
         mutableUsers = true;
-        groups = {
-          plocate = { };
-        };
       };
 
       programs = {
@@ -63,15 +60,8 @@
         fontconfig.enable = true;
       };
 
-      users.users.${config.user} = {
-        extraGroups = [
-          "plocate"
-        ];
-      };
-
       environment.systemPackages = with pkgs; [
         wget
-        plocate
         ltrace
         usbutils
         powertop

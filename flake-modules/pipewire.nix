@@ -1,27 +1,25 @@
 { self, ... }:
 {
   flake.modules.nixos.pipewire =
-    { config, ... }:
+    { lib, ... }:
     {
+      options.services.pipewire.requiredGroups = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        description = "Groups required for pipewire access";
+      };
 
-      security.rtkit.enable = true;
+      config = {
+        services.pipewire.requiredGroups = [ "pipewire" ];
 
-      services = {
-        pipewire = {
+        security.rtkit.enable = true;
+
+        services.pipewire = {
           enable = true;
           alsa.enable = true;
           jack.enable = true;
           pulse.enable = true;
         };
-
-      };
-
-      users.users.${config.user} = {
-        extraGroups = [ "pipewire" ];
-      };
-
-      home-manager.users.${config.user} = {
-        imports = [ self.modules.homeManager.pipewire ];
       };
     };
 

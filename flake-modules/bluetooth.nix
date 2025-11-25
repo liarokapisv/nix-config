@@ -1,19 +1,13 @@
 { self, ... }:
 {
-  flake.modules.nixos.bluetooth =
-    { config, ... }:
-    {
-      hardware.bluetooth = {
-        enable = true;
-        powerOnBoot = false;
-      };
-
-      services.blueman.enable = true;
-
-      home-manager.users.${config.user} = {
-        imports = [ self.modules.homeManager.bluetooth ];
-      };
+  flake.modules.nixos.bluetooth = {
+    hardware.bluetooth = {
+      enable = true;
+      powerOnBoot = false;
     };
+
+    services.blueman.enable = true;
+  };
 
   flake.modules.homeManager.bluetooth =
     { pkgs, ... }:

@@ -27,9 +27,9 @@
             self.modules.nixos.realsense
             self.modules.nixos.embedded
             self.modules.nixos.bws
+            self.modules.nixos.plocate
+            self.modules.nixos.styling
           ];
-
-          inherit user;
 
           services.bws = {
             enable = true;
@@ -100,7 +100,10 @@
             extraGroups = [
               "wheel"
               "dialout"
-            ];
+            ]
+            ++ config.services.plocate.requiredGroups
+            ++ config.services.pipewire.requiredGroups
+            ++ config.virtualisation.requiredGroups;
             initialHashedPassword = "$6$JwTimdf683A1QxN.$aorlpRJPWrcsl0pR1nlELJhdy8traiVPBXnwXU5IfEbWBD5PusIrkjRZDA76OJECmJdR9PLiUyxJeQUzjX6Nv0";
 
             shell = pkgs.zsh;
@@ -118,8 +121,20 @@
             };
           };
 
+          stylix.image = "${self.outPath}/images/mountain-music.gif";
+
           home-manager.users.${user} = {
-            stylix.image = "${self.outPath}/images/mountain-music.gif";
+            imports = [
+              self.modules.homeManager.base
+              self.modules.homeManager.realsense
+              self.modules.homeManager.networking
+              self.modules.homeManager.bluetooth
+              self.modules.homeManager.embedded
+              self.modules.homeManager.pipewire
+              self.modules.homeManager.hyprland
+              self.modules.homeManager.configs
+              self.modules.homeManager.styling
+            ];
 
             home = {
               packages = with pkgs; [

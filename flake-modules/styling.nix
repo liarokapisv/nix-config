@@ -1,36 +1,56 @@
 { self, ... }:
+let
+  commonStylixConfig =
+    { config, pkgs }:
+    {
+      enable = true;
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa.yaml";
+      polarity = "dark";
+      fonts = {
+        serif = config.stylix.fonts.monospace;
+        sansSerif = config.stylix.fonts.monospace;
+        emoji = config.stylix.fonts.monospace;
+      };
+      opacity = {
+        terminal = 0.85;
+      };
+    };
+in
 {
   flake-file.inputs.stylix = {
     url = "github:danth/stylix";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  flake.modules.nixos.styling =
+    { config, pkgs, ... }:
+    {
+      imports = [ self.inputs.stylix.nixosModules.stylix ];
+      stylix = commonStylixConfig { inherit config pkgs; };
+    };
+
   flake.modules.homeManager.styling =
     {
+      osConfig,
       config,
       pkgs,
+      lib,
       ...
     }:
     {
-      imports = [ self.inputs.stylix.homeModules.stylix ];
+      imports = lib.optionals (!osConfig ? stylix) [ self.inputs.stylix.homeModules.stylix ];
 
-      stylix = {
-        enable = true;
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa.yaml";
-        polarity = "dark";
-        fonts = {
-          serif = config.stylix.fonts.monospace;
-          sansSerif = config.stylix.fonts.monospace;
-          emoji = config.stylix.fonts.monospace;
-        };
-        opacity = {
-          terminal = 0.85;
-        };
-        targets = {
-          vim.enable = false;
-          firefox.profileNames = [ "default" ];
-        };
-      };
+      stylix = lib.mkMerge [
+        (lib.mkIf (!osConfig ? stylix) (commonStylixConfig {
+          inherit config pkgs;
+        }))
+        {
+          targets = {
+            vim.enable = false;
+            firefox.profileNames = [ "default" ];
+          };
+        }
+      ];
 
       home.pointerCursor = {
         package = pkgs.bibata-cursors;

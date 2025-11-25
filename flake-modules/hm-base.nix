@@ -11,14 +11,6 @@
 
       imports = [
         self.inputs.nix-index-database.homeModules.nix-index
-        self.modules.homeManager.realsense
-        self.modules.homeManager.networking
-        self.modules.homeManager.bluetooth
-        self.modules.homeManager.embedded
-        self.modules.homeManager.pipewire
-        self.modules.homeManager.hyprland
-        self.modules.homeManager.configs
-        self.modules.homeManager.styling
       ];
 
       systemd.user.startServices = true;
