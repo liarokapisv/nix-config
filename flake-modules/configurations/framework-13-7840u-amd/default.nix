@@ -26,9 +26,15 @@
             self.modules.nixos.virtualisation
             self.modules.nixos.realsense
             self.modules.nixos.embedded
+            self.modules.nixos.bws
           ];
 
           inherit user;
+
+          services.bws = {
+            enable = true;
+            secrets.test.id = "8ba4f067-d3f4-4431-b316-b39d01361b04";
+          };
 
           networking.firewall = {
             trustedInterfaces = [
