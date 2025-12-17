@@ -144,6 +144,26 @@
             description = lib.mdDoc "Path to environment file containing BWS_ACCESS_TOKEN.";
           };
         };
+
+        refresh = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          example = "30m";
+          description = lib.mdDoc "If set to a systemd time span (e.g. '30m'), enables periodic refresh at that interval. When null, runs oneshot at boot.";
+        };
+
+        retry = {
+          maxAttempts = lib.mkOption {
+            type = lib.types.ints.positive;
+            default = 5;
+            description = lib.mdDoc "Maximum restart attempts when fetch fails (mapped to systemd StartLimitBurst).";
+          };
+          delay = lib.mkOption {
+            type = lib.types.str;
+            default = "10s";
+            description = lib.mdDoc "Delay between retry attempts (RestartSec).";
+          };
+        };
       };
 
       config = lib.mkIf cfg.enable {
@@ -171,20 +191,63 @@
         systemd.services.bws = {
           description = "Fetch Bitwarden Secrets";
           wantedBy = [ "multi-user.target" ];
-          after = [ "network-online.target" ];
+          after = [
+            "network-online.target"
+            "nss-lookup.target"
+          ];
           wants = [ "network-online.target" ];
+
+          unitConfig = {
+            StartLimitIntervalSec = 0;
+          };
 
           serviceConfig = {
             Type = "oneshot";
             RemainAfterExit = true;
+            ExecStartPre = pkgs.writeShellScript "bws-pre.sh" ''
+              set -euo pipefail
+              mkdir -p "${secretsDir}" "${baseDir}/auth" "${stateDir}"
+              chmod 0750 "${baseDir}" "${secretsDir}" "${baseDir}/auth" "${stateDir}" || true
+            '';
             ExecStart = fetchScript;
             EnvironmentFile = "-${cfg.auth.envFile}";
             StateDirectory = "bws bws/secrets bws/auth bws/state";
-            StateDirectoryMode = "0700";
+            StateDirectoryMode = "0750";
             WorkingDirectory = baseDir;
+            Environment = [ "HOME=${stateDir}" ];
             PrivateTmp = true;
             ProtectSystem = "strict";
             ProtectHome = true;
+            ReadWritePaths = [
+              baseDir
+              secretsDir
+              "${baseDir}/auth"
+              stateDir
+            ];
+            NoNewPrivileges = true;
+            UMask = "0077";
+            PrivateDevices = true;
+            ProtectKernelTunables = true;
+            ProtectKernelModules = true;
+            ProtectControlGroups = true;
+            RestrictSUIDSGID = true;
+            RestrictRealtime = true;
+            LockPersonality = true;
+            MemoryDenyWriteExecute = true;
+            Restart = "on-failure";
+            RestartSec = cfg.retry.delay;
+          };
+        };
+
+        systemd.timers.bws-refresh = lib.mkIf (cfg.refresh != null) {
+          description = "Periodic Bitwarden secrets refresh";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            Unit = "bws.service";
+            OnBootSec = "0s";
+            OnUnitActiveSec = cfg.refresh;
+            OnUnitInactiveSec = cfg.refresh;
+            RandomizedDelaySec = "2m";
           };
         };
       };

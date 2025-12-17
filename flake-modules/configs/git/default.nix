@@ -9,6 +9,9 @@
           name = "Alexandros Liarokapis";
           email = "liarokapis.v@gmail.com";
         };
+        fetch = {
+          prune = true;
+        };
         push = {
           autoSetupRemote = true;
         };

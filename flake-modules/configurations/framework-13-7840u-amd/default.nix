@@ -32,6 +32,7 @@
           ];
 
           services.bws = {
+            refresh = "10s";
             enable = true;
             secrets.test.id = "8ba4f067-d3f4-4431-b316-b39d01361b04";
           };
@@ -85,7 +86,6 @@
                 };
               };
             };
-            udev.packages = [ pkgs.segger-jlink ];
           };
 
           boot.loader.systemd-boot.enable = true;

@@ -51,6 +51,8 @@
           xxd
           tldr
           nix-tree
+          lsof
+          duf
         ];
       };
     };

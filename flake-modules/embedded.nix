@@ -1,4 +1,3 @@
-{ self, ... }:
 {
   flake.modules.nixos.embedded =
     { pkgs, ... }:
@@ -8,6 +7,7 @@
           segger-jlink-headless
           openocd
           saleae-logic-2
+          stlink
         ];
       };
     };
