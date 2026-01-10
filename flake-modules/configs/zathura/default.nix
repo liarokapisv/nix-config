@@ -1,12 +1,15 @@
 {
   flake.modules.homeManager.config-zathura = {
     programs.zathura = {
-      extraConfig = ''
-        map u scroll half-up
-        map d scroll half-down
-        map <Space> navigate next
-        map <S-Space> navigate previous
-      '';
+      mappings = {
+        "u" = "scroll half-up";
+        "d" = "scroll half-down";
+        "<Space>" = "navigate next";
+        "<S-Space>" = "navigate previous";
+      };
+      options = {
+        "selection-clipboard" = "clipboard";
+      };
     };
   };
 }

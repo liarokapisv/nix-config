@@ -4,7 +4,7 @@
     system = "x86_64-linux";
     modules = [
       (moduleWithSystem (
-        { self', ... }:
+        { self', system, ... }:
         {
           pkgs,
           lib,
@@ -64,7 +64,6 @@
           ];
 
           # netbird
-          networking.firewall.enable = false;
           services.netbird = {
             enable = true;
             clients.default = {

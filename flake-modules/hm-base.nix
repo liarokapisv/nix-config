@@ -53,6 +53,7 @@
           nix-tree
           lsof
           duf
+          pinta
         ];
       };
     };
