@@ -22,7 +22,7 @@
 
         hooks = {
           # Nix formatting
-          nixfmt-rfc-style.enable = true;
+          nixfmt.enable = true;
 
           # File hygiene
           trim-trailing-whitespace.enable = true;

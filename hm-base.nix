@@ -44,7 +44,7 @@
           p7zip
           file
           nil
-          nixfmt-rfc-style
+          nixfmt
           treefmt
           bitwarden-cli
           jq
@@ -54,6 +54,7 @@
           lsof
           duf
           pinta
+          opencode
         ];
       };
     };
