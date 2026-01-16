@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   flake.modules.nixos.embedded =
     { pkgs, ... }:
@@ -10,7 +11,10 @@
           stlink
         ];
       };
+
     };
+
+  flake-file.inputs.nixpkgs-eagle.url = "github:nixos/nixpkgs/e6f23dc08d3624daab7094b701aa3954923c6bbb";
 
   flake.modules.homeManager.embedded =
     { pkgs, ... }:
@@ -30,6 +34,13 @@
               })
               stm32cubemx
               saleae-logic-2
+
+              ((import self.inputs.nixpkgs-eagle {
+                inherit (pkgs.stdenv.hostPlatform) system;
+                config.allowUnfree = true;
+              }).eagle
+
+              )
             ]
           );
       };

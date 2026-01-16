@@ -51,9 +51,11 @@
             settings = {
               substituters = [
                 "https://ros.cachix.org/"
+                "https://cache.nixos-cuda.org"
               ];
               trusted-public-keys = [
                 "ros.cachix.org-1:dSyZxI8geDCJrwgvCOHDoAfOm5sV1wCPjBkKL+38Rvo="
+                "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
               ];
             };
           };
@@ -80,7 +82,7 @@
               enable = true;
               settings = {
                 default_session = {
-                  command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+                  command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd start-hyprland";
                   user = "greeter";
                 };
               };
@@ -138,9 +140,7 @@
             home = {
               packages = with pkgs; [
                 self'.packages.dynamixel-wizard-2
-                qbittorrent
                 vlc
-                digikam
                 anydesk
                 slack
                 discord
@@ -151,7 +151,6 @@
                 obsidian
                 teamviewer
                 self'.packages.stremio-linux-shell
-                google-chrome
                 viber
               ];
 
