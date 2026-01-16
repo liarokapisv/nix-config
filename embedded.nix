@@ -1,5 +1,17 @@
 { self, ... }:
 {
+  perSystem =
+    { pkgs, lib, ... }:
+    {
+      nixpkgs = {
+        config.segger-jlink.acceptLicense = true;
+
+        permittedInsecurePackages = [
+          "segger-jlink-qt4-874"
+        ];
+      };
+    };
+
   flake.modules.nixos.embedded =
     { pkgs, ... }:
     {
