@@ -141,14 +141,6 @@
                           url = "https://github.com/Horus645/swww";
                         }
                         {
-                          name = "Waybar";
-                          url = "https://github.com/Alexays/Waybar";
-                        }
-                        {
-                          name = "Fuzzel";
-                          url = "https://codeberg.org/dnkl/fuzzel";
-                        }
-                        {
                           name = "Firefox twily-theme";
                           url = "https://twily.info/firefox/stylish/firefox-css";
                         }

@@ -5,6 +5,14 @@
   outputs = inputs: import ./outputs.nix inputs;
 
   inputs = {
+    dms = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+    };
+    dms-plugin-registry = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:AvengeMedia/dms-plugin-registry";
+    };
     firefox-addons = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -17,6 +25,7 @@
     };
     import-tree.url = "github:vic/import-tree";
     make-shell.url = "github:nicknovitski/make-shell";
+    niri-flake.url = "github:sodiboo/niri-flake";
     nix-index-database = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/nix-index-database";

@@ -1,20 +1,14 @@
 { self, ... }:
 {
-  flake.modules.nixos.hyprland =
+  flake.modules.nixos.wayland =
     { pkgs, ... }:
     {
-
-      programs = {
-        hyprland.enable = true;
-      };
-
-      # xdg-desktop-portal-hyprland does not provide a FileChooser
       xdg.portal = {
         enable = true;
-        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-        config.hyprland.default = [
-          "hyprland"
-          "gtk"
+        # Install both gtk (default fallback) and gnome (for screencasting) portals
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-gtk
+          xdg-desktop-portal-gnome
         ];
       };
 
@@ -23,6 +17,7 @@
 
       # Enable gnome-keyring for secret service (needed for bitwarden biometrics)
       services.gnome.gnome-keyring.enable = true;
+      # Enable gnome-keyring in greetd PAM config
       security.pam.services.greetd.enableGnomeKeyring = true;
 
       systemd = {
@@ -43,42 +38,20 @@
 
     };
 
-  flake.modules.homeManager.hyprland =
+  flake.modules.homeManager.wayland =
     { pkgs, lib, ... }:
     {
       imports = [
         self.modules.homeManager.swww
       ];
 
-      wayland.windowManager.hyprland.enable = true;
-
-      xdg.portal = {
-        enable = true;
-        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-        config.hyprland.default = [
-          "hyprland"
-          "gtk"
-        ];
-      };
-
       programs = {
-        fuzzel.enable = true;
         swww = {
-          enable = true;
+          enable = true; # Re-enabled - managing wallpapers with swww
           systemd.enable = true;
         };
-        waybar = {
-          enable = true;
-          systemd.enable = true;
-        };
-      };
-
-      services = {
-        hyprpaper.enable = lib.mkForce false;
-        dunst.enable = true;
       };
 
       home.packages = with pkgs; [ wl-clipboard ];
-
     };
 }

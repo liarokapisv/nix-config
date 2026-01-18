@@ -20,7 +20,7 @@
             self.modules.nixos.power
             self.modules.nixos.pipewire
             self.modules.nixos.bluetooth
-            self.modules.nixos.hyprland
+            self.modules.nixos.niri
             self.modules.nixos.usb-automount
             self.modules.nixos.networking
             self.modules.nixos.virtualisation
@@ -78,15 +78,7 @@
           services = {
             teamviewer.enable = true;
             fwupd.enable = true;
-            greetd = {
-              enable = true;
-              settings = {
-                default_session = {
-                  command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd start-hyprland";
-                  user = "greeter";
-                };
-              };
-            };
+            displayManager.dms-greeter.configHome = "/home/${user}";
           };
 
           boot.loader.systemd-boot.enable = true;
@@ -132,7 +124,8 @@
               self.modules.homeManager.bluetooth
               self.modules.homeManager.embedded
               self.modules.homeManager.pipewire
-              self.modules.homeManager.hyprland
+              self.modules.homeManager.niri
+              self.modules.homeManager.dms
               self.modules.homeManager.configs
               self.modules.homeManager.styling
             ];

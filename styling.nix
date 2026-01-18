@@ -89,5 +89,16 @@ in
         fontconfig.enable = true;
       };
 
+      gtk = {
+        iconTheme = {
+          package = pkgs.adwaita-icon-theme;
+          name = "Adwaita";
+        };
+      };
+
+      home.file."Pictures/Wallpapers" = {
+        source = "${self.outPath}/images";
+      };
+
     };
 }
