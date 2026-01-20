@@ -14,6 +14,25 @@
         # Wallpaper disabled - using swww module instead
         # home.file.".config/dms/wallpaper.gif".source = "${self.outPath}/images/mountain-music.gif";
 
+        home.packages = [
+          (pkgs.writeShellScriptBin "dms-diff" ''
+            set -euo pipefail
+            cfg="''${XDG_CONFIG_HOME:-$HOME/.config}/DankMaterialShell/settings.json"
+            cp "$cfg" "$cfg".bak
+            trap 'mv "$cfg".bak "$cfg" || true' EXIT
+            rm -f "$cfg"
+            cp -L "$cfg".bak "$cfg"
+            chmod +w "$cfg"
+            echo "Toggle one setting once in DMS, then press Enter…"
+            read -r
+            cp "$cfg" "$cfg".toggled
+            trap 'rm -f "$cfg".toggled || true' EXIT
+            echo "Toggle the same setting again in DMS, then press Enter…"
+            read -r
+            diff -u "$cfg".toggled "$cfg" || true
+          '')
+        ];
+
         programs.dank-material-shell = {
           enable = true;
 
@@ -94,6 +113,8 @@
             clockDateFormat = "";
             lockDateFormat = "";
             mediaSize = 0; # 0=minimal/small, 1=medium, 2=large, 3=largest
+
+            soundPluggedIn = false;
           };
 
           # Clipboard configuration
