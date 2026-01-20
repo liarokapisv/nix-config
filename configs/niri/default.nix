@@ -38,6 +38,8 @@
               dwt = true; # disable-while-typing
               natural-scroll = false;
             };
+            # Disable power key handling so logind can handle lid/power button
+            power-key-handling.enable = false;
           };
 
           # Output configuration
@@ -413,6 +415,19 @@
                 "set-mute"
                 "@DEFAULT_AUDIO_SOURCE@"
                 "toggle"
+              ];
+            };
+          };
+
+          # Switch events - Handle lid close/open
+          switch-events = {
+            # Lock screen when laptop lid closes
+            # Using loginctl lock-session triggers the org.freedesktop.login1.Session Lock() D-Bus call
+            # This is the standard way that works across different lock screens
+            lid-close = {
+              action.spawn = [
+                "loginctl"
+                "lock-session"
               ];
             };
           };
