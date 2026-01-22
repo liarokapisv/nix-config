@@ -28,10 +28,10 @@
       };
 
       xdg.portal = {
-        config.niri.default = [
-          "gnome"
-          "gtk"
-        ];
+        config.niri = {
+          default = "gtk";
+          "org.freedesktop.impl.portal.ScreenCast" = "gnome";
+        };
       };
     };
 
@@ -41,10 +41,10 @@
     ];
 
     xdg.portal = {
-      config.niri.default = [
-        "gnome"
-        "gtk"
-      ];
+      config.niri = {
+        default = "gtk";
+        "org.freedesktop.impl.portal.ScreenCast" = "gnome";
+      };
     };
   };
 }

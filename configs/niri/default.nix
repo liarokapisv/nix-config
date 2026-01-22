@@ -54,7 +54,8 @@
             };
 
             focus-ring = {
-              enable = false;
+              enable = true;
+              width = 1;
             };
           };
 
@@ -94,6 +95,7 @@
                 "spotlight"
                 "toggle"
               ];
+              hotkey-overlay.title = "Application Launcher";
             };
 
             # DMS Control Center (network, bluetooth, audio)
@@ -105,6 +107,7 @@
                 "control-center"
                 "toggle"
               ];
+              hotkey-overlay.title = "Control Center";
             };
 
             # DMS Notifications
@@ -116,6 +119,7 @@
                 "notifications"
                 "toggle"
               ];
+              hotkey-overlay.title = "Notifications";
             };
 
             # DMS Lock Screen (changed from Mod+L to avoid conflicts)
@@ -127,6 +131,7 @@
                 "lock"
                 "lock"
               ];
+              hotkey-overlay.title = "Lock Screen";
             };
 
             # DMS System Monitor
@@ -138,6 +143,7 @@
                 "processlist"
                 "toggle"
               ];
+              hotkey-overlay.title = "System Monitor";
             };
 
             # DMS Settings
@@ -149,17 +155,7 @@
                 "settings"
                 "toggle"
               ];
-            };
-
-            # DMS Dashboard
-            "Mod+Shift+D" = {
-              action.spawn = [
-                "dms"
-                "ipc"
-                "call"
-                "dash"
-                "toggle"
-              ];
+              hotkey-overlay.title = "Settings";
             };
 
             # Window management
@@ -298,12 +294,22 @@
               action.switch-preset-window-height = { };
             };
 
-            # Consume/expel windows - Directional (comma/period as in niri default)
+            # Monitor switching
             "Mod+Comma" = {
-              action.consume-window-into-column = { };
+              action.focus-monitor-previous = { };
+              hotkey-overlay.title = "Focus Previous Monitor";
             };
             "Mod+Period" = {
-              action.expel-window-from-column = { };
+              action.focus-monitor-next = { };
+              hotkey-overlay.title = "Focus Next Monitor";
+            };
+            "Mod+Shift+Comma" = {
+              action.move-column-to-monitor-previous = { };
+              hotkey-overlay.title = "Move Column to Previous Monitor";
+            };
+            "Mod+Shift+Period" = {
+              action.move-column-to-monitor-next = { };
+              hotkey-overlay.title = "Move Column to Next Monitor";
             };
 
             # Consume-or-expel - Bidirectional (brackets as in niri default)
@@ -431,14 +437,6 @@
               ];
             };
           };
-
-          # Window rules
-          window-rules = [
-            {
-              # Make all windows open maximized
-              open-maximized = true;
-            }
-          ];
         };
       };
     };
