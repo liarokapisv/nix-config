@@ -39,12 +39,5 @@
     imports = [
       self.modules.homeManager.wayland
     ];
-
-    xdg.portal = {
-      config.niri = {
-        default = "gtk";
-        "org.freedesktop.impl.portal.ScreenCast" = "gnome";
-      };
-    };
   };
 }
