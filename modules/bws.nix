@@ -145,24 +145,17 @@
           };
         };
 
-        refresh = lib.mkOption {
+        refreshIntervalSec = lib.mkOption {
           type = lib.types.nullOr lib.types.str;
           default = null;
           example = "30m";
-          description = lib.mdDoc "If set to a systemd time span (e.g. '30m'), enables periodic refresh at that interval. When null, runs oneshot at boot.";
+          description = lib.mdDoc "Periodic secrets refresh interval. When null, runs oneshot at boot.";
         };
 
-        retry = {
-          maxAttempts = lib.mkOption {
-            type = lib.types.ints.positive;
-            default = 5;
-            description = lib.mdDoc "Maximum restart attempts when fetch fails (mapped to systemd StartLimitBurst).";
-          };
-          delay = lib.mkOption {
-            type = lib.types.str;
-            default = "10s";
-            description = lib.mdDoc "Delay between retry attempts (RestartSec).";
-          };
+        retryDelaySec = lib.mkOption {
+          type = lib.types.str;
+          default = "30";
+          description = lib.mdDoc "Retry delay in seconds (purely numeric, e.g., '30'); used both as the cap for the blocking DNS backoff and as RestartSec for genuine failures.";
         };
       };
 
@@ -184,6 +177,10 @@
             ) (builtins.attrNames cfg.secrets);
             message = "services.bws.secrets: secret names cannot contain shell glob characters: * ? [ ]";
           }
+          {
+            assertion = builtins.match "^([0-9]+)$" (toString cfg.retryDelaySec) != null;
+            message = "services.bws.retryDelaySec must be a purely numeric seconds value, e.g. '30'";
+          }
         ];
 
         environment.systemPackages = [ cfg.package ];
@@ -198,7 +195,7 @@
           wants = [ "network-online.target" ];
 
           unitConfig = {
-            StartLimitIntervalSec = 0;
+            # Keep defaults; blocking ExecCondition avoids connectivity failures.
           };
 
           serviceConfig = {
@@ -209,6 +206,37 @@
               mkdir -p "${secretsDir}" "${baseDir}/auth" "${stateDir}"
               chmod 0750 "${baseDir}" "${secretsDir}" "${baseDir}/auth" "${stateDir}" || true
             '';
+            # Provider-agnostic DNS readiness gate: quiet, capped exponential backoff.
+            ExecCondition = pkgs.writeShellScript "bws-dns-gate.sh" ''
+              set -euo pipefail
+
+              # Determine host: prefer BWS_SERVER_URL env if set, else default
+              host="vault.bitwarden.com"
+              if [ -n "''${BWS_SERVER_URL-}" ]; then
+                # Extract hostname from URL
+                host=$(printf "%s" "''${BWS_SERVER_URL}" | sed -E 's~^[a-zA-Z]+://([^/:]+).*$~\1~')
+                [ -z "$host" ] && host="vault.bitwarden.com"
+              fi
+
+              # Exponential backoff capped by retryDelaySec (numeric seconds)
+              cap_secs="${cfg.retryDelaySec}"
+              [ -z "$cap_secs" ] && cap_secs=30
+              case "$cap_secs" in
+                *[^0-9]*) cap_secs=30 ;;
+              esac
+              [ "$cap_secs" -lt 1 ] && cap_secs=1
+
+              delay=2
+              while ! getent hosts "$host" >/dev/null 2>&1; do
+                sleep "$delay"
+                delay=$(( delay * 2 ))
+                if [ "$delay" -gt "$cap_secs" ]; then
+                  delay="$cap_secs"
+                fi
+              done
+              exit 0
+            '';
+
             ExecStart = fetchScript;
             EnvironmentFile = "-${cfg.auth.envFile}";
             StateDirectory = "bws bws/secrets bws/auth bws/state";
@@ -235,19 +263,18 @@
             LockPersonality = true;
             MemoryDenyWriteExecute = true;
             Restart = "on-failure";
-            RestartSec = cfg.retry.delay;
+            RestartSec = "${cfg.retryDelaySec}s";
           };
         };
 
-        systemd.timers.bws-refresh = lib.mkIf (cfg.refresh != null) {
+        systemd.timers.bws-refresh = lib.mkIf (cfg.refreshIntervalSec != null) {
           description = "Periodic Bitwarden secrets refresh";
           wantedBy = [ "timers.target" ];
           timerConfig = {
             Unit = "bws.service";
             OnBootSec = "0s";
-            OnUnitActiveSec = cfg.refresh;
-            OnUnitInactiveSec = cfg.refresh;
-            RandomizedDelaySec = "2m";
+            OnUnitActiveSec = "${cfg.refreshIntervalSec}s";
+            OnUnitInactiveSec = "${cfg.refreshIntervalSec}s";
           };
         };
       };

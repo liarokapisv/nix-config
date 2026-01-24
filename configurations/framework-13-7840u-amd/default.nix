@@ -32,7 +32,7 @@
           ];
 
           services.bws = {
-            refresh = "10s";
+            refreshIntervalSec = "10";
             enable = true;
             secrets.test.id = "8ba4f067-d3f4-4431-b316-b39d01361b04";
           };
