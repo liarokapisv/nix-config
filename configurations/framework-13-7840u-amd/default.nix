@@ -137,7 +137,6 @@
                 anydesk
                 slack
                 discord
-                teams-for-linux
                 zoom-us
                 self'.packages.erae-lab
                 signal-desktop
