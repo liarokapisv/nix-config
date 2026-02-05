@@ -22,11 +22,6 @@
           auto-optimise-store = true;
           trusted-users = [ "@wheel" ];
         };
-        gc = {
-          automatic = true;
-          dates = "daily";
-          options = "--delete-older-than 30d";
-        };
       };
 
       boot.tmp.cleanOnBoot = true;
