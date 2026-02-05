@@ -15,6 +15,9 @@
       ];
       niri-flake.cache.enable = false;
 
+      # Disable broken polkit-kde-agent, use polkit-gnome instead
+      systemd.user.services.niri-flake-polkit.enable = false;
+
       programs.niri = {
         enable = true;
         package = pkgs.niri-unstable;
