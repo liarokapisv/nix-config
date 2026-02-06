@@ -19,7 +19,10 @@
         programs.niri.settings = {
 
           # Disable initial shortcut overview screen on startup
-          hotkey-overlay.skip-at-startup = true;
+          hotkey-overlay = {
+            skip-at-startup = true;
+            hide-not-bound = true;
+          };
 
           # Xwayland support via xwayland-satellite
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
@@ -349,6 +352,12 @@
             # Floating window toggle
             "Mod+V" = {
               action.toggle-window-floating = { };
+            };
+
+            # Toggle column tabbed display
+            "Mod+T" = {
+              action.toggle-column-tabbed-display = { };
+              hotkey-overlay.title = "Toggle Column Tabbed Display";
             };
 
             # Workspace switching - Tab for previous workspace
