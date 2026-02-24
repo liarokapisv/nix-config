@@ -115,7 +115,7 @@
 
         ];
 
-        extraLuaConfig = builtins.readFile ./_impl/init.lua;
+        initLua = builtins.readFile ./_impl/init.lua;
       };
     };
 }
