@@ -5,6 +5,7 @@
   outputs = inputs: import ./outputs.nix inputs;
 
   inputs = {
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     dms = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:AvengeMedia/DankMaterialShell/stable";
