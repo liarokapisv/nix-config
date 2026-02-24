@@ -360,9 +360,9 @@
               hotkey-overlay.title = "Toggle Column Tabbed Display";
             };
 
-            # Workspace switching - Tab for previous workspace
+            # Window cycling - Tab to cycle within current column
             "Mod+Tab" = {
-              action.focus-workspace-previous = { };
+              action.focus-window-down-or-top = { };
             };
 
             # Overview - Grave/backtick key
