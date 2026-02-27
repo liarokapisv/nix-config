@@ -117,6 +117,7 @@
           pinta
           opencode
           mdcat
+          serie
         ];
       };
     };
