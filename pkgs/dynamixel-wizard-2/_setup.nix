@@ -4,11 +4,14 @@
   fetchurl,
   libgcc,
   libxkbcommon,
-  xorg,
   dbus,
   freetype,
   fontconfig,
   autoPatchelfHook,
+  libX11,
+  libXext,
+  libXrender,
+  libxcb,
 }:
 let
   version = "2.2.3.2";
@@ -33,11 +36,10 @@ stdenvNoCC.mkDerivation {
   nativeBuildInputs = [
     libgcc.lib
     libxkbcommon
-    xorg.libX11
-    xorg.libXext
-    xorg.libXrender
-    xorg.libxcb
-    xorg.libX11
+    libX11
+    libXext
+    libXrender
+    libxcb
     dbus.lib
     freetype
     fontconfig.lib

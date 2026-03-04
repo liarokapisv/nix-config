@@ -4,6 +4,13 @@
     url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     inputs.nixpkgs.follows = "nixpkgs";
   };
+
+  perSystem = {
+    nixpkgs.overlays = [
+      self.inputs.firefox-addons.overlays.default
+    ];
+  };
+
   flake.modules.homeManager.config-firefox =
     {
       lib,
@@ -106,22 +113,14 @@
               force = true;
             };
 
-            extensions.packages =
-              let
-                addons = self.inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system};
-                sameStdenv = addon: addon.override { inherit (pkgs) stdenv; };
-              in
-              builtins.map sameStdenv (
-                with addons;
-                [
-                  ublock-origin
-                  bitwarden
-                  i-dont-care-about-cookies
-                  vimium
-                  languagetool
-                  user-agent-string-switcher
-                ]
-              );
+            extensions.packages = with pkgs.firefox-addons; [
+              ublock-origin
+              bitwarden
+              i-dont-care-about-cookies
+              vimium
+              languagetool
+              user-agent-string-switcher
+            ];
 
             bookmarks = {
               force = true;

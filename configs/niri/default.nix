@@ -13,6 +13,7 @@
         # Install required packages
         home.packages = with pkgs; [
           brightnessctl
+          satty
         ];
 
         # Main niri configuration
@@ -86,7 +87,12 @@
               action.spawn = "kitty";
             };
             "Mod+E" = {
-              action.spawn = "firefox";
+              action.spawn = [
+                "sh"
+                "-c"
+                "wl-paste | satty --filename - --copy-command wl-copy --early-exit --actions-on-enter save-to-clipboard --actions-on-enter exit"
+              ];
+              hotkey-overlay.title = "Edit Clipboard in Satty";
             };
 
             # DMS Launcher (replaces fuzzel)
