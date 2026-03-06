@@ -5,9 +5,7 @@
   outputs = inputs: import ./outputs.nix inputs;
 
   inputs = {
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
-    };
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     dms = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:AvengeMedia/DankMaterialShell/stable";
@@ -34,9 +32,7 @@
       url = "github:nix-community/nix-index-database";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs = {
-      follows = "determinate/nixpkgs";
-    };
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
     nixpkgs-eagle.url = "github:nixos/nixpkgs/e6f23dc08d3624daab7094b701aa3954923c6bbb";
     nixpkgs-libcef.url = "github:NixOS/nixpkgs/de69d2ba6c70e747320df9c096523b623d3a4c35";
     pre-commit-hooks = {

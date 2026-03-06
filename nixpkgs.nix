@@ -1,33 +1,56 @@
 { inputs, ... }:
 {
-  flake-file.inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
   perSystem =
     {
+      pkgs,
       config,
       system,
       lib,
       ...
     }:
     {
-      imports = [
-        "${inputs.nixpkgs}/nixos/modules/misc/nixpkgs.nix"
-      ];
-
       options.nixpkgs = {
+        overlays =
+          with lib;
+          mkOption {
+            type = with types; listOf (functionTo (functionTo attrs));
+            default = [ ];
+          };
+
         permittedInsecurePackages =
           with lib;
           mkOption {
             type = with types; listOf str;
             default = [ ];
           };
+        config = lib.mkOption {
+          type = lib.types.attrs;
+          default = { };
+        };
       };
 
-      config.nixpkgs = {
-        hostPlatform = system;
-        config = {
-          allowUnfree = true;
-          permittedInsecurePackages = config.nixpkgs.permittedInsecurePackages;
+      config = {
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
+          config = config.nixpkgs.config;
+          overlays = config.nixpkgs.overlays;
+        };
+
+        legacyPackages = {
+          pkgsBroken = pkgs;
+          pkgsWorking = import inputs.nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
+            };
+          };
+        };
+
+        nixpkgs = {
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = config.nixpkgs.permittedInsecurePackages;
+          };
         };
       };
     };
