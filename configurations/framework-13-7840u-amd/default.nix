@@ -29,6 +29,7 @@
             self.modules.nixos.bws
             self.modules.nixos.plocate
             self.modules.nixos.styling
+            self.modules.nixos.rt
           ];
 
           services.bws = {
@@ -51,10 +52,8 @@
             settings = {
               substituters = [
                 "https://ros.cachix.org/"
-                "https://cache.nixos-cuda.org"
               ];
               trusted-public-keys = [
-                "ros.cachix.org-1:dSyZxI8geDCJrwgvCOHDoAfOm5sV1wCPjBkKL+38Rvo="
                 "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
               ];
             };
@@ -93,6 +92,7 @@
             extraGroups = [
               "wheel"
               "dialout"
+              "plugdev"
             ]
             ++ config.services.plocate.requiredGroups
             ++ config.services.pipewire.requiredGroups
@@ -144,6 +144,8 @@
                 teamviewer
                 self'.packages.stremio-linux-shell
                 viber
+                freecad
+                self'.packages.creality-print
               ];
 
               stateVersion = "24.05";

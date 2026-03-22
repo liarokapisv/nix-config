@@ -118,6 +118,7 @@
           opencode
           mdcat
           serie
+          caligula
         ];
       };
     };

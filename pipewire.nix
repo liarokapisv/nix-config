@@ -29,7 +29,6 @@
       home.packages = with pkgs; [
         alsa-utils
         pavucontrol
-        helvum
       ];
 
     };

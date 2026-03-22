@@ -3,6 +3,7 @@
     { pkgs, ... }:
     {
       programs.git = {
+        signing.format = null;
 
         settings = {
           init = {
@@ -27,6 +28,11 @@
           http = {
             postBuffer = 52428800;
           };
+          url = {
+            "ssh://git@github.com/" = {
+              insteadOf = "https://github.com/";
+            };
+          };
           alias = {
             prune-gone =
               let
@@ -46,6 +52,13 @@
           ".envrc"
           ".direnv"
         ];
+      };
+
+      programs.gh = {
+        enable = true;
+        gitCredentialHelper = {
+          enable = true;
+        };
       };
     };
 }
