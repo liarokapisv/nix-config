@@ -11,7 +11,7 @@
       # Only enable DMS when niri is enabled
       config = lib.mkIf (osConfig.programs.niri.enable or false) {
 
-        # Wallpaper disabled - using swww module instead
+        # Wallpaper disabled - using awww module instead
         # home.file.".config/dms/wallpaper.gif".source = "${self.outPath}/images/mountain-music.gif";
 
         home.packages = [
@@ -45,7 +45,7 @@
           # Feature toggles
           enableSystemMonitoring = true; # dgop for CPU/RAM/GPU metrics
           enableVPN = false; # Enable if you use VPNs
-          enableDynamicTheming = false; # Disabled - using swww for wallpaper management
+          enableDynamicTheming = false; # Disabled - using awww for wallpaper management
           enableAudioWavelength = false; # Audio visualizer (cava)
           enableCalendarEvents = false; # Calendar integration (khal)
           enableClipboardPaste = true; # Clipboard pasting with wtype
@@ -63,7 +63,7 @@
           # Default settings (can also be configured via GUI)
           settings = {
             theme = "dark";
-            dynamicTheming = false; # Disabled - using swww instead
+            dynamicTheming = false; # Disabled - using awww instead
             showSeconds = true;
             blurWallpaperOnOverview = false;
             showLauncherButton = false;
@@ -74,7 +74,7 @@
             niriOverviewOverlayEnabled = true;
             useAutoLocation = true;
 
-            # External wallpaper management (swww)
+            # External wallpaper management (awww)
             screenPreferences = {
               wallpaper = [ ]; # Empty array enables external wallpaper management
             };

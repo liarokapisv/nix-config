@@ -136,8 +136,8 @@
                           url = "https://github.com/elkowar/eww";
                         }
                         {
-                          name = "swww";
-                          url = "https://github.com/Horus645/swww";
+                          name = "awww";
+                          url = "https://github.com/Horus645/awww";
                         }
                         {
                           name = "Firefox twily-theme";

@@ -29,7 +29,7 @@
             self.modules.nixos.bws
             self.modules.nixos.plocate
             self.modules.nixos.styling
-            self.modules.nixos.rt
+            # self.modules.nixos.rt
           ];
 
           services.bws = {
@@ -133,19 +133,20 @@
             home = {
               packages = with pkgs; [
                 self'.packages.dynamixel-wizard-2
+                self'.packages.erae-lab
+                self'.packages.stremio-linux-shell
+                self'.packages.creality-print
                 vlc
                 anydesk
                 slack
                 discord
                 zoom-us
-                self'.packages.erae-lab
                 signal-desktop
                 obsidian
                 teamviewer
-                self'.packages.stremio-linux-shell
                 viber
                 freecad
-                self'.packages.creality-print
+                teams-for-linux
               ];
 
               stateVersion = "24.05";

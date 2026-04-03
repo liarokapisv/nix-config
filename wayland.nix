@@ -62,12 +62,12 @@
     { pkgs, lib, ... }:
     {
       imports = [
-        self.modules.homeManager.swww
+        self.modules.homeManager.awww
       ];
 
       programs = {
-        swww = {
-          enable = true; # Re-enabled - managing wallpapers with swww
+        awww = {
+          enable = true; # Re-enabled - managing wallpapers with awww
           systemd.enable = true;
         };
       };

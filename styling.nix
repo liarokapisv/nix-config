@@ -59,7 +59,7 @@ in
       };
 
       programs = {
-        swww = {
+        awww = {
           systemd = {
             exec-img = "${config.stylix.image}";
           };
