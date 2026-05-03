@@ -90,6 +90,11 @@
         git.enable = true;
         zathura.enable = true;
         feh.enable = true;
+        zoxide = {
+          enable = true;
+          enableZshIntegration = true;
+          enableBashIntegration = true;
+        };
       };
 
       home = {
@@ -116,6 +121,7 @@
           duf
           pinta
           opencode
+          claude-code
           mdcat
           serie
           caligula

@@ -7,11 +7,13 @@
         vimAlias = true;
         vimdiffAlias = true;
         withPython3 = true;
+        withRuby = false;
 
         plugins = with pkgs.vimPlugins; [
 
           (pkgs.vimUtils.buildVimPlugin {
-            name = "utils";
+            pname = "utils";
+            version = "0";
             src = ./_impl/utils;
           })
 
@@ -109,7 +111,8 @@
           }
 
           (pkgs.vimUtils.buildVimPlugin {
-            name = "cwatchfile";
+            pname = "cwatchfile";
+            version = "0";
             src = ./_impl/cwatchfile;
           })
 

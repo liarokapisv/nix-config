@@ -3,6 +3,8 @@
     { pkgs, ... }:
     {
       programs.git = {
+        lfs.enable = true;
+
         signing.format = null;
 
         settings = {

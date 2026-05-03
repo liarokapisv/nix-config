@@ -23,7 +23,6 @@
           package = pkgs.docker_28;
         };
         environment.systemPackages = [
-          pkgs.bottles
           pkgs.distrobox
         ];
       };
