@@ -128,13 +128,20 @@
               self.modules.homeManager.dms
               self.modules.homeManager.configs
               self.modules.homeManager.styling
+              self.modules.homeManager.litellm
             ];
+
+            programs.claude-code.enable = true;
+
+            services.litellm = {
+              enable = true;
+              port = 4000;
+            };
 
             home = {
               packages = with pkgs; [
                 self'.packages.dynamixel-wizard-2
                 self'.packages.erae-lab
-                self'.packages.stremio-linux-shell
                 self'.packages.creality-print
                 vlc
                 anydesk
@@ -143,6 +150,7 @@
                 zoom-us
                 signal-desktop
                 obsidian
+                stremio-linux-shell
                 teamviewer
                 viber
                 freecad
