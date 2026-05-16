@@ -121,7 +121,6 @@
           duf
           pinta
           opencode
-          claude-code
           mdcat
           serie
           caligula

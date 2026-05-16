@@ -13,6 +13,7 @@
       self.modules.homeManager.config-firefox
       self.modules.homeManager.config-zsh
       self.modules.homeManager.config-dms
+      self.modules.homeManager.config-claude-code
     ];
   };
 }
