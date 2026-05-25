@@ -44,7 +44,9 @@
 
               ## When using worktrees
 
-              - Copy any git-ignored .envrc files in their appropriate folders
+              - Copy any git-ignored .envrc files in their appropriate folders.
+                Projects may have multiple .envrc files in different folders, ensure
+                all are properly copied and re-allowed if previously allowed.
 
               ## Do not
 

@@ -14,6 +14,7 @@
       self.modules.homeManager.config-zsh
       self.modules.homeManager.config-dms
       self.modules.homeManager.config-claude-code
+      self.modules.homeManager.config-zoxide
     ];
   };
 }

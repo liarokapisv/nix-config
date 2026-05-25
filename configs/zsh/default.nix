@@ -61,6 +61,7 @@
           bindkey -M vicmd "j" history-substring-search-down
 
           alias git-log-oneline="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) -%C(auto)%d%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+          alias ls="${pkgs.lsd}/bin/lsd"
         '';
       };
     }

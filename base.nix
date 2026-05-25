@@ -90,11 +90,6 @@
         git.enable = true;
         zathura.enable = true;
         feh.enable = true;
-        zoxide = {
-          enable = true;
-          enableZshIntegration = true;
-          enableBashIntegration = true;
-        };
       };
 
       home = {
