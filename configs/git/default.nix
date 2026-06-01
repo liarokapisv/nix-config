@@ -30,11 +30,11 @@
           http = {
             postBuffer = 52428800;
           };
-          url = {
-            "ssh://git@github.com/" = {
-              insteadOf = "https://github.com/";
-            };
-          };
+          # url = {
+          #   "ssh://git@github.com/" = {
+          #     insteadOf = "https://github.com/";
+          #   };
+          # };
           alias = {
             prune-gone =
               let
