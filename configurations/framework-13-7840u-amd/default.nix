@@ -32,12 +32,6 @@
             # self.modules.nixos.rt
           ];
 
-          services.bws = {
-            refreshIntervalSec = "10";
-            enable = true;
-            secrets.test.id = "8ba4f067-d3f4-4431-b316-b39d01361b04";
-          };
-
           networking.firewall = {
             trustedInterfaces = [
               "enp195s0f3u1c2"
@@ -59,10 +53,9 @@
             };
           };
 
-          environment.systemPackages = [
-            # this needs to be installed system-wide for polkit integration..
-            pkgs.bitwarden-desktop
-          ];
+          # TODO: re-enable pkgs.bitwarden-desktop (system-wide for polkit integration)
+          # once https://github.com/NixOS/nixpkgs/issues/526914 is closed.
+          environment.systemPackages = [ ];
 
           # netbird
           services.netbird = {

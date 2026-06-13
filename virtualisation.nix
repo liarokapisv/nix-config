@@ -20,7 +20,7 @@
 
         virtualisation.docker = {
           enable = true;
-          package = pkgs.docker_28;
+          package = pkgs.docker_29;
         };
         environment.systemPackages = [
           pkgs.distrobox

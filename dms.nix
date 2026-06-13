@@ -17,7 +17,7 @@
     imports = [
       self.inputs.dms.homeModules.dank-material-shell
       self.inputs.dms.homeModules.niri
-      self.inputs.dms-plugin-registry.modules.default
+      self.inputs.dms-plugin-registry.homeModules.default
     ];
   };
 }
