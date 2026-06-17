@@ -130,8 +130,9 @@
 
           # Community plugins from registry
           plugins = {
-            # Battery notifications
-            dankBatteryAlerts.enable = true;
+            # Battery notifications (dankBatteryAlerts) are enabled in the
+            # unified power module (power.nix), alongside the libnotify
+            # dependency and UPower thresholds.
 
             # Media player enhancements
             mediaPlayer = {

@@ -119,6 +119,7 @@
               self.modules.homeManager.pipewire
               self.modules.homeManager.niri
               self.modules.homeManager.dms
+              self.modules.homeManager.power
               self.modules.homeManager.configs
               self.modules.homeManager.styling
               self.modules.homeManager.litellm
