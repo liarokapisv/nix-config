@@ -13,6 +13,33 @@
         rev = "f2cbfbefebbfef77321e4c9abc9e949826bea9d7"; # v5.1.0
         hash = "sha256-3E3rO6hR87JUfS3XV1Eaoz6SDWOftleWvN9UPNFEMjw=";
       };
+
+      # TODO(playwright-mcp): remove this wrapper once the fix is upstreamed in nixpkgs.
+      #   Track: https://github.com/NixOS/nixpkgs/issues/443704
+      #   When the nixpkgs playwright-mcp wrapper itself works out-of-the-box (sets a
+      #   writable user-data dir, or forces browserName=chromium + executablePath), delete
+      #   `playwright-mcp-nix` and set `playwright.command = lib.getExe pkgs.playwright-mcp;`.
+      #
+      #   Bug: playwright-mcp defaults to the Chrome channel and tries to `mkdir` a
+      #   profile/install dir inside the read-only $PLAYWRIGHT_BROWSERS_PATH (the Nix
+      #   store), so every tool call fails with EACCES. PR #460313 fixed it for 0.0.41
+      #   (writable mktemp user-data dir) but a later version bump dropped that line;
+      #   master (0.0.76) is broken again, so bumping nixpkgs alone does NOT help. The
+      #   wrapper's PLAYWRIGHT_MCP_BROWSER=chromium is ignored by this version.
+      # NOTE: workaround = force the bundled chromium via --executable-path and keep the
+      #   browser profile in memory with --isolated, so nothing is written to the store.
+      #   Trade-off: --isolated means no persistent profile (cookies/logins) between runs.
+      # Tripwire: warn when playwright-mcp moves off the version validated as broken, so
+      # this workaround doesn't silently outlive the upstream fix. Re-test #443704 then.
+      playwright-mcp-nix =
+        lib.warnIf (pkgs.playwright-mcp.version != "0.0.69")
+          "claude-code: playwright-mcp moved off 0.0.69 — re-test NixOS/nixpkgs#443704; the --isolated/--executable-path wrapper may no longer be needed"
+          (
+            pkgs.writeShellScriptBin "playwright-mcp-nix" ''
+              exe=$(echo ${pkgs.playwright-driver.browsers}/chromium_headless_shell-*/chrome-headless-shell-linux64/chrome-headless-shell)
+              exec ${lib.getExe pkgs.playwright-mcp} --headless --isolated --executable-path "$exe" "$@"
+            ''
+          );
     in
     {
       config = lib.mkMerge [
@@ -24,6 +51,18 @@
               attribution = {
                 commit = "";
                 pr = "";
+              };
+            };
+
+            mcpServers = {
+              nixos = {
+                command = lib.getExe pkgs.mcp-nixos;
+              };
+              context7 = {
+                command = lib.getExe pkgs.context7-mcp;
+              };
+              playwright = {
+                command = lib.getExe playwright-mcp-nix;
               };
             };
 
