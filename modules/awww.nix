@@ -82,12 +82,22 @@
                     Unit = {
                       PartOf = [ "awww.service" ];
                       After = [ "awww.service" ];
+                      # Back off instead of hammering: a transient failure must not
+                      # burn the start limit and leave the wallpaper unset.
+                      StartLimitIntervalSec = 60;
+                      StartLimitBurst = 5;
                     };
 
                     Service = {
                       Type = "oneshot";
                       Restart = "on-failure";
-                      ExecStartPre = "${pkgs.coreutils}/bin/sleep 1";
+                      RestartSec = 2;
+                      # Wait until the daemon actually answers before running
+                      # `awww img`. The old bare `sleep 1` could race a not-yet-ready
+                      # daemon; `awww img` would then abort mid-write and leave a
+                      # truncated 0-byte cache file, which makes every later run
+                      # mmap(len=0) -> EINVAL panic (common/src/mmap.rs) permanently.
+                      ExecStartPre = "${pkgs.bash}/bin/bash -c 'for i in $(${pkgs.coreutils}/bin/seq 1 30); do ${cfg.package}/bin/awww query >/dev/null 2>&1 && exit 0; ${pkgs.coreutils}/bin/sleep 1; done; exit 1'";
                       ExecStart = "${cfg.package}/bin/awww img ${cfg.systemd.exec-img}";
                     };
 

@@ -29,6 +29,7 @@
             self.modules.nixos.bws
             self.modules.nixos.plocate
             self.modules.nixos.styling
+            self.modules.nixos.printing
             # self.modules.nixos.rt
           ];
 
@@ -37,6 +38,7 @@
               "enp195s0f3u1c2"
             ];
             logRefusedConnections = true;
+            enable = false;
           };
 
           virtualisation.docker.daemon.settings = {
