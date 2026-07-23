@@ -2,4 +2,6 @@ secrets.nix
 .pre-commit-config.yaml
 result
 result-*
-.claude
+.claude/*
+!.claude/agents
+!.claude/skills
