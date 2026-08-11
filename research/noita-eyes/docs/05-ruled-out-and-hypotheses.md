@@ -28,6 +28,38 @@
    hidden in game assets (music, art, world-gen constants, the Cauldron).
    Weakly explored compared to pure cryptanalysis.
 
+## What the plaintext is (payload hypotheses)
+
+Distinct from *how* it's enciphered is *what* is encoded. Community
+discussion (Discord `silmä-huone`, 2026) frames it as:
+
+- **Natural language** (leading view). The isomorphs (F6) are the strong
+  evidence: long segments with identical repeated-symbol gap patterns
+  recurring **across different messages and at different positions** are the
+  statistical fingerprint of **repeated words/phrases** — exactly what
+  language produces and what high-entropy payloads (coordinates, telemetry)
+  essentially never produce. The enumerated 83-symbol alphabet (contiguous
+  0–82, ~the size of a letters+digits+punctuation character set) points the
+  same way.
+- **Non-language data as plaintext** (camera directions, map chunk
+  positions, etc.). Not strictly excluded by ciphertext statistics alone,
+  but it must still sit *behind* the cipher: it doesn't escape any of F1–F7,
+  and it fails to explain the cross-message shared segments unless the data
+  itself repeats phrase-like — at which point the hypothesis collapses into
+  "structured text" anyway.
+- **Direct translation** (glyph orientations *are* movement/camera
+  directions, no cipher). Ruled out: raw directional telemetry would show
+  strong autocorrelation, repeats (doubles), and skewed frequencies — the
+  corpus shows flat frequencies (F1), zero doubles (F4), and a deliberate
+  36→1 reading-order/alphabet enumeration (see docs/02). The messages are
+  enciphered, not raw data.
+- **Compatible middle ground**: the decrypted *language* may well instruct
+  an in-game action (the "hint for another interaction mechanism" idea).
+  Note the Ghidra result only rules out the *engine reading the eyes*; it
+  does not rule out the plaintext directing the *player* to do something
+  elsewhere. This keeps steganographic/asset searches (hypothesis 4)
+  relevant even under the language-payload view.
+
 ## The finish line: constraint checklist
 
 A proposed solution (mechanism + key + plaintexts) is credible only if:
