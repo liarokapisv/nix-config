@@ -14,36 +14,53 @@
         hash = "sha256-3E3rO6hR87JUfS3XV1Eaoz6SDWOftleWvN9UPNFEMjw=";
       };
 
-      # TODO(playwright-mcp): remove this wrapper once the fix is upstreamed in nixpkgs.
-      #   Track: https://github.com/NixOS/nixpkgs/issues/443704
-      #   When the nixpkgs playwright-mcp wrapper itself works out-of-the-box (sets a
-      #   writable user-data dir, or forces browserName=chromium + executablePath), delete
-      #   `playwright-mcp-nix` and set `playwright.command = lib.getExe pkgs.playwright-mcp;`.
-      #
-      #   Bug: playwright-mcp defaults to the Chrome channel and tries to `mkdir` a
-      #   profile/install dir inside the read-only $PLAYWRIGHT_BROWSERS_PATH (the Nix
-      #   store), so every tool call fails with EACCES. PR #460313 fixed it for 0.0.41
-      #   (writable mktemp user-data dir) but a later version bump dropped that line;
-      #   master (0.0.76) is broken again, so bumping nixpkgs alone does NOT help. The
-      #   wrapper's PLAYWRIGHT_MCP_BROWSER=chromium is ignored by this version.
-      # NOTE: workaround = force the bundled chromium via --executable-path and keep the
-      #   browser profile in memory with --isolated, so nothing is written to the store.
-      #   Trade-off: --isolated means no persistent profile (cookies/logins) between runs.
-      # Tripwire: warn when playwright-mcp moves off the version validated as broken, so
-      # this workaround doesn't silently outlive the upstream fix. Re-test #443704 then.
-      playwright-mcp-nix =
-        lib.warnIf (pkgs.playwright-mcp.version != "0.0.69")
-          "claude-code: playwright-mcp moved off 0.0.69 — re-test NixOS/nixpkgs#443704; the --isolated/--executable-path wrapper may no longer be needed"
-          (
-            pkgs.writeShellScriptBin "playwright-mcp-nix" ''
-              exe=$(echo ${pkgs.playwright-driver.browsers}/chromium_headless_shell-*/chrome-headless-shell-linux64/chrome-headless-shell)
-              exec ${lib.getExe pkgs.playwright-mcp} --headless --isolated --executable-path "$exe" "$@"
-            ''
-          );
+      # Playwright browser automation via the CLI + Skill (replaces the old
+      #   playwright-mcp server: the CLI is more token-efficient — no tool schemas
+      #   or accessibility trees loaded into context). @playwright/cli is not in
+      #   nixpkgs, so build it from the tagged source (it bundles playwright +
+      #   playwright-core; all JS, no build).
+      # Browser: playwright-core normally resolves a browser by a pinned Chromium
+      #   *revision*, but nixpkgs' playwright-driver ships a different revision
+      #   (core 1.63-alpha wants chromium-1209; the driver has 1217). Rather than
+      #   match revisions, playwright-core's mcp/browser config honours
+      #   $PLAYWRIGHT_MCP_EXECUTABLE_PATH, so we point the CLI straight at the
+      #   bundled chrome-headless-shell and the revision never has to line up.
+      #   Verified driving 1217 with core 1.63-alpha. This is version-tolerant, so
+      #   no driver tripwire is needed (unlike the old --executable-path MCP hack).
+      # Bump recipe: change version + tag, set both hashes to lib.fakeHash, build
+      #   (first error gives the src hash, second the npmDepsHash).
+      playwright-cli = pkgs.buildNpmPackage {
+        pname = "playwright-cli";
+        version = "0.1.18";
+        src = pkgs.fetchFromGitHub {
+          owner = "microsoft";
+          repo = "playwright-cli";
+          tag = "v0.1.18";
+          hash = "sha256-E/AzDJhD12PWSaA3iRY+hloPsSWnAw18gTa/ItVhr3E=";
+        };
+        npmDepsHash = "sha256-3kqiQvGtZfsmLHVWeCSM1yOYb+ws2x1vMPC1OuvrKAI=";
+        dontNpmBuild = true;
+        # The playwright dep's postinstall would try to download browsers into the
+        # build sandbox (no network, and we supply them via the driver anyway).
+        env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+      };
+
+      # The skill's front-matter is `allowed-tools: Bash(playwright-cli:*)`, so the
+      # binary must be named `playwright-cli` on PATH. This wrapper supplies that
+      # name and forces the bundled nixpkgs chromium (see note above).
+      playwright-cli-nix = pkgs.writeShellScriptBin "playwright-cli" ''
+        exe=$(echo ${pkgs.playwright-driver.browsers}/chromium_headless_shell-*/chrome-headless-shell-linux64/chrome-headless-shell)
+        exec env PLAYWRIGHT_MCP_BROWSER=chromium PLAYWRIGHT_MCP_EXECUTABLE_PATH="$exe" \
+          ${playwright-cli}/bin/playwright-cli "$@"
+      '';
     in
     {
       config = lib.mkMerge [
         {
+          # Put the `playwright-cli` wrapper on PATH so the skill's
+          # Bash(playwright-cli:*) calls resolve to the browser-wired bin.
+          home.packages = [ playwright-cli-nix ];
+
           programs.claude-code = {
             settings = {
               permissions.defaultMode = "plan";
@@ -61,8 +78,9 @@
               context7 = {
                 command = lib.getExe pkgs.context7-mcp;
               };
-              playwright = {
-                command = lib.getExe playwright-mcp-nix;
+              trello = {
+                type = "http";
+                url = "https://mcp.trello.com/v1";
               };
             };
 
@@ -100,6 +118,11 @@
             '';
 
             plugins = [ superpowers ];
+
+            # Install the CLI's Skill declaratively instead of the imperative
+            # `playwright-cli install --skills`. Symlinks SKILL.md + references/
+            # into ~/.claude/skills/playwright-cli/.
+            skills.playwright-cli = "${playwright-cli}/lib/node_modules/@playwright/cli/skills/playwright-cli";
           };
         }
         (lib.mkIf (config.services.litellm.enable or false) {
