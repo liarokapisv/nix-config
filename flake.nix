@@ -4,6 +4,7 @@
   outputs = inputs: import ./outputs.nix inputs;
 
   inputs = {
+    acubrain-dev-env.url = "git+file:///home/veritas/development/acumino/dev-env";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     dms = {
       url = "github:AvengeMedia/DankMaterialShell";

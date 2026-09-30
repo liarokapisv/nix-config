@@ -10,6 +10,10 @@ vim.o.mouse          = ''    -- disable mouse across all modes
 vim.o.modeline       = false -- disable modelines for security
 vim.o.updatetime     = 500   -- faster CursorHold events (default 4000)
 
+-- Folding (indent-based, defined everywhere; files open unfolded)
+vim.o.foldmethod     = 'indent'  -- folds follow indentation, always available
+vim.o.foldlevelstart = 99        -- open every buffer fully unfolded
+
 -- Indentation and Tabs
 vim.o.expandtab      = true  -- use spaces instead of tabs
 vim.o.tabstop        = 4     -- spaces per Tab

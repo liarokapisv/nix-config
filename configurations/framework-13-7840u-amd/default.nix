@@ -30,6 +30,7 @@
             self.modules.nixos.plocate
             self.modules.nixos.styling
             self.modules.nixos.printing
+            self.modules.nixos.acubrain-dev
             # self.modules.nixos.rt
           ];
 

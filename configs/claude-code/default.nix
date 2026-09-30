@@ -99,6 +99,22 @@
               - If a project provides a dev shell, use `nix develop` from the
                 project root rather than ad-hoc installs.
 
+              ## Containers as a fallback
+
+              - Some projects target ecosystems that nixpkgs doesn't
+                reasonably cover (e.g. ROS2) and ship a Dockerfile or a
+                Compose project as the intended way to run. When the
+                toolchain genuinely can't be reproduced with
+                `nix shell` / `nix develop`, check whether the project is
+                *meant* to be run through its containers.
+              - If it is, run it via the project's containers rather than
+                rebuilding the environment in Nix. This machine has Docker
+                enabled: use `docker compose ...` for Compose projects, or
+                build/run the Dockerfile directly.
+              - Nix first — reach for containers only when a large missing
+                ecosystem makes Nix impractical, not as a shortcut around
+                packaging something nixpkgs already provides.
+
               ## When using worktrees
 
               - Copy any git-ignored .envrc files in their appropriate folders.
