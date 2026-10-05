@@ -125,15 +125,9 @@
               self.modules.homeManager.power
               self.modules.homeManager.configs
               self.modules.homeManager.styling
-              self.modules.homeManager.litellm
             ];
 
             programs.claude-code.enable = true;
-
-            services.litellm = {
-              enable = true;
-              port = 4000;
-            };
 
             home = {
               packages = with pkgs; [

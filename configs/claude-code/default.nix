@@ -205,7 +205,9 @@
                 use `nix shell` for the duration you need it.
             '';
 
-            plugins = [ superpowers ];
+            plugins = [
+              # superpowers
+            ];
 
             # Install the CLI's Skill declaratively instead of the imperative
             # `playwright-cli install --skills`. Symlinks SKILL.md + references/
@@ -216,24 +218,6 @@
             skills.playwright-cli = "${playwright-cli}/lib/node_modules/@playwright/cli/skills/playwright-cli";
           };
         }
-        (lib.mkIf (config.services.litellm.enable or false) {
-          home.packages = [
-            (pkgs.writeShellScriptBin "claude-litellm" ''
-              exec env \
-                ANTHROPIC_BASE_URL=http://localhost:${toString config.services.litellm.port} \
-                ANTHROPIC_MODEL=claude-opus-4-6 \
-                ANTHROPIC_SMALL_FAST_MODEL=claude-haiku-4-5-20251001 \
-                ANTHROPIC_DEFAULT_OPUS_MODEL=claude-opus-4-6 \
-                ANTHROPIC_DEFAULT_OPUS_MODEL_NAME="Opus 4.6 (Copilot)" \
-                ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-4-6 \
-                ANTHROPIC_DEFAULT_SONNET_MODEL_NAME="Sonnet 4.6 (Copilot)" \
-                ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-haiku-4-5-20251001 \
-                ANTHROPIC_DEFAULT_HAIKU_MODEL_NAME="Haiku 4.5 (Copilot)" \
-                CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1 \
-                claude "$@"
-            '')
-          ];
-        })
       ];
     };
 }
