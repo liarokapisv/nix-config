@@ -14,6 +14,56 @@
         hash = "sha256-3E3rO6hR87JUfS3XV1Eaoz6SDWOftleWvN9UPNFEMjw=";
       };
 
+      # BMAD method (v6) — agile AI-driven development skills. Installed
+      # declaratively instead of the imperative
+      #   `npx skills add bmad-code-org/BMAD-METHOD`.
+      # The consumable top-level `skills/` dir lives on the default branch
+      #   (release tags keep skills under src/ pre-assembly), so we pin a main
+      #   commit by rev, same as the superpowers plugin above.
+      # Bump recipe: set rev to the new main commit, set hash to lib.fakeHash,
+      #   build once, replace hash with the value Nix reports. If BMAD
+      #   adds/removes skill directories, update the `bmadSkills` list to match.
+      bmadSrc = pkgs.fetchFromGitHub {
+        owner = "bmad-code-org";
+        repo = "BMAD-METHOD";
+        rev = "8f2c13dd0e0073cad84168a679e5c553b2fb30b6"; # main @ v6.12.1
+        hash = "sha256-iBQT2wKVqjxbZT1dL4+tVmTP3xRp3VmESkjYkFHshrQ=";
+      };
+
+      # The full v6 skill set (method + core/toolbox + module records).
+      bmadSkills = [
+        "bmad"
+        "bmad-advanced-elicitation"
+        "bmad-agent-analyst"
+        "bmad-agent-architect"
+        "bmad-agent-dev"
+        "bmad-agent-pm"
+        "bmad-agent-ux-designer"
+        "bmad-architecture"
+        "bmad-brainstorming"
+        "bmad-build"
+        "bmad-build-auto"
+        "bmad-code-review"
+        "bmad-correct-course"
+        "bmad-customize"
+        "bmad-deep-recon"
+        "bmad-forge-idea"
+        "bmad-party-mode"
+        "bmad-prd"
+        "bmad-prfaq"
+        "bmad-product-brief"
+        "bmad-project-context"
+        "bmad-qa-generate-e2e-tests"
+        "bmad-retrospective"
+        "bmad-review"
+        "bmad-spec"
+        "bmad-ticket"
+        "bmad-ux"
+        "bmad-walkthrough"
+        "bmod-core-tools"
+        "bmod-method"
+      ];
+
       # Playwright browser automation via the CLI + Skill (replaces the old
       #   playwright-mcp server: the CLI is more token-efficient — no tool schemas
       #   or accessibility trees loaded into context). @playwright/cli is not in
@@ -59,7 +109,29 @@
         {
           # Put the `playwright-cli` wrapper on PATH so the skill's
           # Bash(playwright-cli:*) calls resolve to the browser-wired bin.
-          home.packages = [ playwright-cli-nix ];
+          # uv backs BMAD v6's per-project `bmad setup`
+          #   (`uv run …/_bmad/scripts/*.py`).
+          home.packages = [
+            playwright-cli-nix
+            pkgs.uv
+          ];
+
+          # BMAD skills are installed as whole-directory symlinks here instead
+          # of via programs.claude-code.skills. That option uses
+          # recursive = true, which makes every file its own store symlink;
+          # `bmad setup` (setup.py read_plain_tree) then rejects the symlinked
+          # payload scripts under scripts/. A single dir-symlink per skill keeps
+          # those payload files real when reached through the parent, so
+          # `bmad setup` works with its native invocation. Claude Code discovers
+          # skills by scanning ~/.claude/skills/*/SKILL.md, so a dir symlink is
+          # equivalent for discovery. Do NOT move these back onto
+          # programs.claude-code.skills or the setup breakage returns.
+          home.file = builtins.listToAttrs (
+            map (name: {
+              name = ".claude/skills/${name}";
+              value.source = "${bmadSrc}/skills/${name}";
+            }) bmadSkills
+          );
 
           programs.claude-code = {
             settings = {
@@ -138,6 +210,9 @@
             # Install the CLI's Skill declaratively instead of the imperative
             # `playwright-cli install --skills`. Symlinks SKILL.md + references/
             # into ~/.claude/skills/playwright-cli/.
+            # (BMAD skills are installed via home.file above, not here — see the
+            #  note on that block for why the recursive symlinks this option
+            #  produces break `bmad setup`.)
             skills.playwright-cli = "${playwright-cli}/lib/node_modules/@playwright/cli/skills/playwright-cli";
           };
         }
